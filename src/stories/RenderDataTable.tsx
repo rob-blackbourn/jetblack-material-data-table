@@ -43,21 +43,21 @@ class App extends React.Component<
         title: "Band",
         disablePadding: false,
         align: "left",
-        getter: (row: Row, _column: Column) => row["band"],
+        getValue: (row: Row, _column: Column) => row["band"],
       },
       {
         id: "founded",
         title: "Founded",
         disablePadding: false,
         align: "right",
-        formatter: (value, row, _column) => `${row.band} founded in ${value}`,
+        formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
       },
       {
         id: "living",
         title:"Alive",
         disablePadding: false,
         align: "left",
-        renderer: (value, row, _column) => (value ? <CheckIcon /> : <ClearIcon />),
+        renderValue: (value, row, _column) => (value ? <CheckIcon /> : <ClearIcon />),
       }
     ],
     rows: [

@@ -7,9 +7,9 @@ export interface Column {
   title?: string
   align?: 'left' | 'right'
   disablePadding?: boolean
-  getter?: (row: Row, column: Column) => any
-  formatter?: (value: any, row: Row, column: Column) => string
-  renderer?: (value: any, row: Row, column: Column) => React.ReactNode | string
+  getValue?: (row: Row, column: Column) => any
+  formatValue?: (value: any, row: Row, column: Column) => string
+  renderValue?: (value: any, row: Row, column: Column) => React.ReactNode | string
 }
 
 export interface ColumnSortMap {

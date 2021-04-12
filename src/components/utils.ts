@@ -14,8 +14,8 @@ export function getFieldValue(
 }
 
 export function getColumnValue(row: Row, column: Column): any {
-  if (column.getter) {
-    return column.getter(row, column)
+  if (column.getValue) {
+    return column.getValue(row, column)
   } else {
     return row[column.id]
   }
@@ -23,8 +23,8 @@ export function getColumnValue(row: Row, column: Column): any {
 
 export function getFormattedValue(row: Row, column: Column): string {
   const value = getColumnValue(row, column)
-  if (column.formatter) {
-    return column.formatter(value, row, column)
+  if (column.formatValue) {
+    return column.formatValue(value, row, column)
   } else if (value == null) {
     return ""
   } else {
@@ -34,8 +34,8 @@ export function getFormattedValue(row: Row, column: Column): string {
 }
 
 export function getRenderedValue(row: Row, column: Column): React.ReactNode | string {
-  if (column.renderer) {
-    return column.renderer(getColumnValue(row, column), row, column)
+  if (column.renderValue) {
+    return column.renderValue(getColumnValue(row, column), row, column)
   } else {
     return getFormattedValue(row, column)
   }
