@@ -2,8 +2,6 @@ export interface Row {
   [key: string]: any
 }
 
-export type Getter = (row: Row, key: string | ((row: Row) => any)) => any
-
 export interface Column {
   id: string
   title?: string
