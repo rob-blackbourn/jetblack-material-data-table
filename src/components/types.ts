@@ -10,6 +10,7 @@ export interface Column {
   getValue?: (row: Row, column: Column) => any
   formatValue?: (value: any, row: Row, column: Column) => string
   renderValue?: (value: any, row: Row, column: Column) => React.ReactNode | string
+  search?: (text: string, row: Row, column: Column) => boolean
 }
 
 export interface ColumnSortMap {

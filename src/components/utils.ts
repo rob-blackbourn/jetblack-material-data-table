@@ -85,8 +85,9 @@ export function filterRows(
   }
   const matchString = filterText.toLowerCase()
   return rows.filter((row) =>
-    columns.some((column) =>
-      getFormattedValue(row, column).toLowerCase().includes(matchString)
+    columns.some((column) => column.search
+      ? column.search(matchString, row, column)
+      : getFormattedValue(row, column).toLowerCase().includes(matchString)
     )
   )
 }
