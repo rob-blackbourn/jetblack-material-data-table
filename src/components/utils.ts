@@ -21,7 +21,7 @@ export function getColumnValue(row: Row, column: Column): any {
   }
 }
 
-export function getFormattedValue(row: Row, column: Column): any {
+export function getFormattedValue(row: Row, column: Column): string {
   const value = getColumnValue(row, column)
   if (column.formatter) {
     return column.formatter(value, row, column)
@@ -33,6 +33,14 @@ export function getFormattedValue(row: Row, column: Column): any {
   }
 }
 
+export function getRenderedValue(row: Row, column: Column): React.ReactNode | string {
+  if (column.renderer) {
+    return column.renderer(getColumnValue(row, column), row, column)
+  } else {
+    return getFormattedValue(row, column)
+  }
+
+}
 function compareRows(
   a: Row,
   b: Row,

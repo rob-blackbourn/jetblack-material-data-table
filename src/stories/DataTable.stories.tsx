@@ -3,6 +3,7 @@ import SimpleDataTable from './SimpleDataTable'
 import DataTableEx1 from './DataTableEx1'
 import RowDetailDataTable from './RowDetailDataTable'
 import NoPaginateDataTable from './NoPaginateDataTable'
+import RenderDataTable from './RenderDataTable'
 
 import { Meta } from '@storybook/react/types-6-0'
 import Typography from '@material-ui/core/Typography'
@@ -32,6 +33,8 @@ export const WithoutPagination: React.FC<{}> = () => (
     </div>
   </div>
 )
+
+export const WithRender: React.FC<{}> = () => <RenderDataTable />
 
 export const WithEverything: React.FC<{}> = () => <DataTableEx1 />
 

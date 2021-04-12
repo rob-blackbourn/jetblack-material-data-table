@@ -1,5 +1,7 @@
 import React from "react"
 import { Theme, withStyles } from "@material-ui/core/styles"
+import CheckIcon from '@material-ui/icons/Check'
+import ClearIcon from '@material-ui/icons/Clear'
 import { Column, Row } from "../components/types"
 import { DataTable } from "../index"
 import { HTMLAttributes } from "react"
@@ -13,9 +15,9 @@ const styles = (theme: Theme) => ({
   },
 })
 
-interface RenderDataTableProps {}
+interface DataTableProps {}
 
-interface RenderDataTableState {
+interface DataTableState {
   columns: Column[]
   rows: Row[]
 }
@@ -24,11 +26,11 @@ interface Classes {
   [key: string]: any
 }
 
-class RenderDataTable extends React.Component<
-  HTMLAttributes<RenderDataTableProps> & Classes,
-  RenderDataTableState
+class App extends React.Component<
+  HTMLAttributes<DataTableProps> & Classes,
+  DataTableState
 > {
-  state: RenderDataTableState = {
+  state: DataTableState = {
     columns: [
       {
         id: "name",
@@ -49,11 +51,18 @@ class RenderDataTable extends React.Component<
         disablePadding: false,
         align: "right",
         formatter: (value, row, _column) => `${row.band} founded in ${value}`,
+      },
+      {
+        id: "living",
+        title:"Alive",
+        disablePadding: false,
+        align: "left",
+        renderer: (value, row, _column) => (value ? <CheckIcon /> : <ClearIcon />),
       }
     ],
     rows: [
-      { name: "Jimmy Page", band: "Led Zeppelin", founded: 1968 },
-      { name: "Marc Bolan", band: "T. Rex", founded: 1967 },
+      { name: "Jimmy Page", band: "Led Zeppelin", founded: 1968, living: true },
+      { name: "Marc Bolan", band: "T. Rex", founded: 1967, living: false },
     ],
   }
 
@@ -68,4 +77,4 @@ class RenderDataTable extends React.Component<
   }
 }
 
-export default withStyles(styles)(RenderDataTable)
+export default withStyles(styles)(App)
