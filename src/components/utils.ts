@@ -1,3 +1,4 @@
+import { SyncProblemRounded } from "@material-ui/icons"
 import { Row, Column, ColumnSortMap } from "./types"
 
 export function getFieldValue(
@@ -42,20 +43,27 @@ export function getRenderedValue(row: Row, column: Column): React.ReactNode | st
 
 }
 function compareRows(
-  a: Row,
-  b: Row,
+  lhs: Row,
+  rhs: Row,
   columns: Column[],
   columnSortMap: ColumnSortMap
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
     const column = columns.find((x) => x.id === id)
     if (column) {
-      const firstValue = getColumnValue(a, column)
-      const secondValue = getColumnValue(b, column)
-      if (secondValue < firstValue) {
-        return sortDirection === "asc" ? 1 : -1
-      } else if (secondValue > firstValue) {
-        return sortDirection == "asc" ? -1 : 1
+      if (column.compare) {
+        const result = column.compare(lhs, rhs, column)
+        if (result !== 0) {
+          return result
+        }
+      } else {
+        const lhsValue = getColumnValue(lhs, column)
+        const rhsValue = getColumnValue(rhs, column)
+        if (rhsValue < lhsValue) {
+          return sortDirection === "asc" ? 1 : -1
+        } else if (rhsValue > lhsValue) {
+          return sortDirection == "asc" ? -1 : 1
+        }  
       }
     }
   }
@@ -68,9 +76,9 @@ export function stableSort(
   columnSortMap: ColumnSortMap
 ): Row[] {
   const data = rows.map((row, index) => ({ row, index }))
-  data.sort((a, b) => {
-    const difference = compareRows(a.row, b.row, columns, columnSortMap)
-    return difference !== 0 ? difference : a.index - b.index
+  data.sort((lhs, rhs) => {
+    const difference = compareRows(lhs.row, rhs.row, columns, columnSortMap)
+    return difference !== 0 ? difference : lhs.index - rhs.index
   })
   return data.map(({ row }) => row)
 }

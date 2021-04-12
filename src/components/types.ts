@@ -11,6 +11,7 @@ export interface Column {
   formatValue?: (value: any, row: Row, column: Column) => string
   renderValue?: (value: any, row: Row, column: Column) => React.ReactNode | string
   search?: (text: string, row: Row, column: Column) => boolean
+  compare?: (lhs: Row, rhs: Row, column: Column) => -1 | 0 | 1
 }
 
 export interface ColumnSortMap {
