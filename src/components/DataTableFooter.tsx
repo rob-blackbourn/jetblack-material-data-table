@@ -2,9 +2,7 @@ import * as React from 'react'
 import TableRow from '@material-ui/core/TableRow'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
-
-import TablePaginationActions from './TablePaginationActions'
-
+import DataTablePaginationActions from './DataTablePaginationActions'
 import { Row } from './types'
 
 type DataTableFooterProps = {
@@ -38,7 +36,7 @@ const DataTableFooter = ({
         onChangeRowsPerPage={(event) =>
           onChangeRowsPerPage(parseInt(event.target.value))
         }
-        ActionsComponent={TablePaginationActions}
+        ActionsComponent={DataTablePaginationActions}
       />
     </TableRow>
   </TableFooter>

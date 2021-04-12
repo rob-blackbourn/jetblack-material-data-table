@@ -15,7 +15,7 @@ const styles = (theme: Theme) => ({
   },
 })
 
-const TablePaginationActions = ({
+const DataTablePaginationActions = ({
   count,
   onChangePage,
   page,
@@ -68,4 +68,4 @@ const TablePaginationActions = ({
   </div>
 )
 
-export default withStyles(styles, { withTheme: true })(TablePaginationActions)
+export default withStyles(styles, { withTheme: true })(DataTablePaginationActions)
