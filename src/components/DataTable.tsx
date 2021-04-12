@@ -16,6 +16,7 @@ type DataTableProps = {
   isSelectable?: boolean
   onSelectionChanged?: (rows: Row[]) => void
   filterText?: string
+  paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
@@ -77,6 +78,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   }
 
   handleClick = (row: Row) => {
+    console.log(row)
     const { selected: prevSelected } = this.state
     const selected = prevSelected.includes(row)
       ? prevSelected.filter((r) => r !== row)
@@ -120,6 +122,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const {
       columns,
       rows,
+      paginate = true,
       rowsPerPageOptions = [rowsPerPage, rowsPerPage * 2, rowsPerPage * 5],
       isSelectable = false,
       filterText = '',
@@ -130,14 +133,11 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const filteredSelected = filteredRows.filter((row) =>
       selected.includes(row)
     )
-
-    const emptyRows =
-      rowsPerPage -
-      Math.min(rowsPerPage, filteredRows.length - page * rowsPerPage)
-
+    const emptyRows = paginate
+      ? rowsPerPage -
+        Math.min(rowsPerPage, filteredRows.length - page * rowsPerPage)
+      : 0
     const numSelected = isSelectable ? filteredSelected.length : 0
-    const rowCount = filteredRows.length
-
     const hasRowDetail = rowDetail != null
     const colSpan =
       columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
@@ -148,7 +148,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           columns={columns}
           isSelectable={isSelectable}
           numSelected={numSelected}
-          rowCount={rowCount}
+          rowCount={filteredRows.length}
           onSelectAllClick={(isInvert, isChecked) =>
             this.handleSelectAllClick(isInvert, isChecked, filteredRows)
           }
@@ -161,6 +161,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           columns={columns}
           selected={selected}
           columnSortMap={columnSortMap}
+          paginate={paginate}
           page={page}
           rowsPerPage={rowsPerPage}
           colSpan={colSpan}
@@ -169,15 +170,17 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           emptyRows={emptyRows}
           rowDetail={rowDetail}
         />
-        <DataTableFooter
-          colSpan={colSpan}
-          rows={filteredRows}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-          page={page}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
+        {paginate ? (
+          <DataTableFooter
+            colSpan={colSpan}
+            rows={filteredRows}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+            page={page}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        ) : null}
       </Table>
     )
   }

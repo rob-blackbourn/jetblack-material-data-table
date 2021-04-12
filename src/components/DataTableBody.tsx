@@ -13,6 +13,7 @@ type DataTableBodyProps = {
   columns: Column[]
   selected: Row[]
   columnSortMap: ColumnSortMap
+  paginate: boolean
   page: number
   rowsPerPage: number
   colSpan: number
@@ -27,6 +28,7 @@ const DataTableBody = ({
   columns,
   selected,
   columnSortMap,
+  paginate,
   page,
   rowsPerPage,
   colSpan,
@@ -37,7 +39,10 @@ const DataTableBody = ({
 }: DataTableBodyProps) => (
   <TableBody>
     {stableSort(rows, columns, columnSortMap)
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .slice(
+        paginate ? page * rowsPerPage : 0,
+        paginate ? page * rowsPerPage + rowsPerPage : rows.length
+      )
       .map((row, rowIndex) => (
         <DataTableBodyRow
           key={`body-${rowIndex}`}
