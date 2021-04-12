@@ -15,11 +15,12 @@ const styles = (theme: Theme) => ({
   filterTextField: {
     width: 300,
   },
+  dataTable: {}
 })
 
-interface DataTableProps {}
+interface ComplexDataTableProps {}
 
-interface DataTableState {
+interface ComplexDataTableState {
   columns: Column[]
   rows: Row[]
   isSelectable: boolean
@@ -30,11 +31,11 @@ interface Classes {
   [key: string]: any
 }
 
-class App extends React.Component<
-  HTMLAttributes<DataTableProps> & Classes,
-  DataTableState
+class ComplexDataTable extends React.Component<
+  HTMLAttributes<ComplexDataTableProps> & Classes,
+  ComplexDataTableState
 > {
-  state: DataTableState = {
+  state: ComplexDataTableState = {
     columns: [
       {
         id: 'name',
@@ -94,6 +95,7 @@ class App extends React.Component<
         </div>
 
         <DataTable
+          className={classes.DataTable}
           columns={columns}
           rows={rows}
           isSelectable={isSelectable}
@@ -107,4 +109,4 @@ class App extends React.Component<
   }
 }
 
-export default withStyles(styles)(App)
+export default withStyles(styles)(ComplexDataTable)

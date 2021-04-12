@@ -1,15 +1,13 @@
 import * as React from 'react'
+import { StyledComponentProps } from '@material-ui/core/styles/withStyles'
 import Table from '@material-ui/core/Table'
-
 import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
-
 import { filterRows } from './utils'
-
 import { Row, Column, ColumnSortMap } from './types'
 
-type DataTableProps = {
+interface DataTableProps extends React.HTMLAttributes<HTMLElement> {
   columns: Column[]
   rows: Row[]
   initialSelected?: Row[]
@@ -22,7 +20,7 @@ type DataTableProps = {
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
 }
 
-type DataTableState = {
+interface DataTableState {
   page: number
   rowsPerPage: number
   columnSortMap: ColumnSortMap
@@ -127,6 +125,8 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       isSelectable = false,
       filterText = '',
       rowDetail,
+      initialSelected,
+      ...rest
     } = this.props
 
     const filteredRows = filterRows(rows, columns, filterText)
@@ -143,7 +143,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
 
     return (
-      <Table>
+      <Table {...rest} >
         <DataTableHead
           columns={columns}
           isSelectable={isSelectable}
