@@ -1,19 +1,8 @@
-import React from "react"
-import { Theme, withStyles } from "@material-ui/core/styles"
+import React from 'react'
 import CheckIcon from '@material-ui/icons/Check'
 import ClearIcon from '@material-ui/icons/Clear'
-import { Column, Row } from "../components/types"
-import { DataTable } from "../index"
-import { HTMLAttributes } from "react"
-
-const styles = (theme: Theme) => ({
-  selectableSlider: {
-    margin: theme.spacing(1),
-  },
-  filterTextField: {
-    width: 300,
-  },
-})
+import { Column, Row } from '../components/types'
+import DataTable from '../components/DataTable'
 
 interface DataTableProps {}
 
@@ -26,51 +15,43 @@ interface Classes {
   [key: string]: any
 }
 
-class App extends React.Component<
-  HTMLAttributes<DataTableProps> & Classes,
-  DataTableState
-> {
-  state: DataTableState = {
-    columns: [
-      {
-        id: "name",
-        title: "Name",
-        align: "left",
-      },
-      {
-        id: "band",
-        title: "Band",
-        align: "left",
-        getValue: (row: Row, _column: Column) => row["band"],
-      },
-      {
-        id: "founded",
-        title: "Founded",
-        align: "right",
-        formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
-      },
-      {
-        id: "living",
-        title:"Alive",
-        align: "left",
-        renderValue: (value, row, _column) => (value ? <CheckIcon /> : <ClearIcon />),
-      }
-    ],
-    rows: [
-      { name: "Jimmy Page", band: "Led Zeppelin", founded: 1968, living: true },
-      { name: "Marc Bolan", band: "T. Rex", founded: 1967, living: false },
-    ],
-  }
+const RenderDataTable = () => {
+  const columns: Column[] = [
+    {
+      id: 'name',
+      title: 'Name',
+      align: 'left',
+    },
+    {
+      id: 'band',
+      title: 'Band',
+      align: 'left',
+      getValue: (row: Row, _column: Column) => row['band'],
+    },
+    {
+      id: 'founded',
+      title: 'Founded',
+      align: 'right',
+      formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
+    },
+    {
+      id: 'living',
+      title: 'Alive',
+      align: 'left',
+      renderValue: (value, row, _column) =>
+        value ? <CheckIcon /> : <ClearIcon />,
+    },
+  ]
+  const rows: Row[] = [
+    { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968, living: true },
+    { name: 'Marc Bolan', band: 'T. Rex', founded: 1967, living: false },
+  ]
 
-  render() {
-    const { classes } = this.props
-    const { columns, rows } = this.state
-    return (
-      <div>
-        <DataTable columns={columns} rows={rows} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <DataTable columns={columns} rows={rows} />
+    </div>
+  )
 }
 
-export default withStyles(styles)(App)
+export default RenderDataTable
