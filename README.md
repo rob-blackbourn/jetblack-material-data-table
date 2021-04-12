@@ -22,11 +22,10 @@ Here is a simple example:
 
 ```js
 import React from "react"
-import { Column, Row } from "../components/types"
-import { DataTable } from "../index"
+import { DataTable } from '@jetblack/material-data-table'
 
 const RenderDataTable = () => {
-    const columns: Column[] = [
+    const columns = [
       {
         id: "name",
         title: "Name",
@@ -45,7 +44,7 @@ const RenderDataTable = () => {
         formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
       }
     ]
-    const rows: Row[] = [
+    const rows = [
       { name: "Jimmy Page", band: "Led Zeppelin", founded: 1968 },
       { name: "Marc Bolan", band: "T. Rex", founded: 1967 },
     ]
@@ -66,11 +65,10 @@ This example has row details:
 
 ```js
 import React from 'react'
-import { Column, Row } from '../components/types'
-import { DataTable } from '../index'
+import { DataTable } from '@jetblack/material-data-table'
 
 const RowDetailDataTable = () => {
-  const columns: Column[] = [
+  const columns = [
     {
       id: 'name',
       title: 'Name',
@@ -89,7 +87,7 @@ const RowDetailDataTable = () => {
       formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
     },
   ]
-  const rows: Row[] = [
+  const rows = [
     { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
     { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },
   ]
