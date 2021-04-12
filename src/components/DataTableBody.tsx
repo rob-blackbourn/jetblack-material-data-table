@@ -15,9 +15,11 @@ type DataTableBodyProps = {
   columnSortMap: ColumnSortMap
   page: number
   rowsPerPage: number
+  colSpan: number
   isSelectable: boolean
   onSelected: (row: Row) => void
   emptyRows: number
+  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
 }
 
 const DataTableBody = ({
@@ -27,9 +29,11 @@ const DataTableBody = ({
   columnSortMap,
   page,
   rowsPerPage,
+  colSpan,
   isSelectable,
   onSelected,
-  emptyRows
+  emptyRows,
+  rowDetail,
 }: DataTableBodyProps) => (
   <TableBody>
     {stableSort(rows, columns, columnSortMap)
@@ -43,11 +47,13 @@ const DataTableBody = ({
           isSelectable={isSelectable}
           onSelected={onSelected}
           rowIndex={rowIndex}
+          rowDetail={rowDetail}
+          colSpan={colSpan}
         />
       ))}
     {emptyRows > 0 && (
-      <TableRow key='body-empty' style={{ height: 48 * emptyRows }}>
-        <TableCell colSpan={columns.length} />
+      <TableRow key="body-empty" style={{ height: 48 * emptyRows }}>
+        <TableCell colSpan={colSpan} />
       </TableRow>
     )}
   </TableBody>

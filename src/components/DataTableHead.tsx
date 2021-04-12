@@ -1,6 +1,7 @@
 import * as React from 'react'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
 
 import DataTableHeadCheckbox from './DataTableHeadCheckbox'
 import DataTableHeadCell from './DataTableHeadCell'
@@ -15,6 +16,7 @@ type DataTableHeadProps = {
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
   columnSortMap: ColumnSortMap
   onSort: (column: Column, isInvert: boolean) => void
+  hasRowDetail: boolean
 }
 
 const DataTableHead = ({
@@ -24,13 +26,15 @@ const DataTableHead = ({
   rowCount,
   onSelectAllClick,
   columnSortMap,
-  onSort
+  onSort,
+  hasRowDetail,
 }: DataTableHeadProps) => (
   <TableHead>
-    <TableRow key='head'>
+    <TableRow key="head">
+      {hasRowDetail ? <TableCell key="head-row-detail" /> : null}
       {isSelectable ? (
         <DataTableHeadCheckbox
-          key='head-checkbox'
+          key="head-checkbox"
           numSelected={numSelected}
           rowCount={rowCount}
           onSelectAllClick={onSelectAllClick}

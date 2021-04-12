@@ -18,6 +18,7 @@ type DataTableProps = {
   filterText?: string
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
+  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
 }
 
 type DataTableState = {
@@ -34,7 +35,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       page: 0,
       rowsPerPage: props.rowsPerPage || 10,
       columnSortMap: {},
-      selected: props.initialSelected || []
+      selected: props.initialSelected || [],
     }
   }
 
@@ -92,24 +93,24 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
         this.setState({
           columnSortMap: {
             ...columnSortMap,
-            [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc'
-          }
+            [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
+          },
         })
       } else {
         // Add a new column
         this.setState({
           columnSortMap: {
             ...columnSortMap,
-            [column.id]: 'asc'
-          }
+            [column.id]: 'asc',
+          },
         })
       }
     } else {
       // Rest the sort to this column.
       this.setState({
         columnSortMap: {
-          [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc'
-        }
+          [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
+        },
       })
     }
   }
@@ -121,7 +122,8 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       rows,
       rowsPerPageOptions = [rowsPerPage, rowsPerPage * 2, rowsPerPage * 5],
       isSelectable = false,
-      filterText = ''
+      filterText = '',
+      rowDetail,
     } = this.props
 
     const filteredRows = filterRows(rows, columns, filterText)
@@ -136,6 +138,10 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const numSelected = isSelectable ? filteredSelected.length : 0
     const rowCount = filteredRows.length
 
+    const hasRowDetail = rowDetail != null
+    const colSpan =
+      columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
+
     return (
       <Table>
         <DataTableHead
@@ -148,6 +154,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           }
           columnSortMap={columnSortMap}
           onSort={this.handleSort}
+          hasRowDetail={hasRowDetail}
         />
         <DataTableBody
           rows={filteredRows}
@@ -156,12 +163,14 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           columnSortMap={columnSortMap}
           page={page}
           rowsPerPage={rowsPerPage}
+          colSpan={colSpan}
           isSelectable={isSelectable}
           onSelected={this.handleClick}
           emptyRows={emptyRows}
+          rowDetail={rowDetail}
         />
         <DataTableFooter
-          colSpan={columns.length + (isSelectable ? 1 : 0)}
+          colSpan={colSpan}
           rows={filteredRows}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={rowsPerPageOptions}

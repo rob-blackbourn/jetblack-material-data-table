@@ -7,20 +7,12 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import { TablePaginationActionsProps } from '@material-ui/core/TablePagination/TablePaginationActions'
 
-// type TablePaginationActionsProps = {
-//   count: number
-//   onChangePage: (page: number) => void
-//   page: number
-//   rowsPerPage: number
-//   classes: { [key: string]: any }
-//   theme: Theme
-// }
 const styles = (theme: Theme) => ({
   root: {
     flexShrink: 0,
     color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(2.5)
-  }
+    marginLeft: theme.spacing(2.5),
+  },
 })
 
 const TablePaginationActions = ({
@@ -29,7 +21,7 @@ const TablePaginationActions = ({
   page,
   rowsPerPage,
   classes,
-  theme
+  theme,
 }: TablePaginationActionsProps & {
   theme: Theme
   classes: { [key: string]: any }
@@ -38,14 +30,14 @@ const TablePaginationActions = ({
     <IconButton
       onClick={(event) => onChangePage(event, 0)}
       disabled={page === 0}
-      aria-label='First Page'
+      aria-label="First Page"
     >
       {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
     </IconButton>
     <IconButton
       onClick={(event) => onChangePage(event, page - 1)}
       disabled={page === 0}
-      aria-label='Previous Page'
+      aria-label="Previous Page"
     >
       {theme.direction === 'rtl' ? (
         <KeyboardArrowRight />
@@ -56,7 +48,7 @@ const TablePaginationActions = ({
     <IconButton
       onClick={(event) => onChangePage(event, page + 1)}
       disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      aria-label='Next Page'
+      aria-label="Next Page"
     >
       {theme.direction === 'rtl' ? (
         <KeyboardArrowLeft />
@@ -69,7 +61,7 @@ const TablePaginationActions = ({
         onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
       }
       disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      aria-label='Next Page'
+      aria-label="Next Page"
     >
       {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
     </IconButton>
