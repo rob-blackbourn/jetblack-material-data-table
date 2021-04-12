@@ -50,7 +50,6 @@ class DataTableBodyRow extends React.Component<
           aria-checked={isSelected}
           role="checkbox"
           selected={isSelected}
-          // onClick={isSelectable ? () => onSelected(row) : undefined}
         >
           {rowDetail != null ? (
             <DataTableBodyShowDetailButton
@@ -74,7 +73,11 @@ class DataTableBodyRow extends React.Component<
           ))}
         </TableRow>
         {rowDetail != null && showRowDetail ? (
-          <TableRow>
+          <TableRow
+            aria-checked={isSelected}
+            role="checkbox"
+            selected={isSelected}
+          >
             <DataTableBodyRowDetailCell
               row={row}
               columns={columns}

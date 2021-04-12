@@ -22,10 +22,10 @@
     "build-storybook": "build-storybook"
   },
   "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
     "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2"
+    "@material-ui/icons": "^4.11.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",
@@ -61,7 +61,6 @@
       "js"
     ]
   },
-  "dependencies": {},
   "files": [
     "dist"
   ]
