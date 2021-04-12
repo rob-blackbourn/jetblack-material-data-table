@@ -67,12 +67,12 @@ export function stableSort(
   columns: Column[],
   columnSortMap: ColumnSortMap
 ): Row[] {
-  const stablizedThis = rows.map((row, index) => ({ row, index }))
-  stablizedThis.sort((a, b) => {
+  const data = rows.map((row, index) => ({ row, index }))
+  data.sort((a, b) => {
     const difference = compareRows(a.row, b.row, columns, columnSortMap)
     return difference !== 0 ? difference : a.index - b.index
   })
-  return stablizedThis.map(({ row, index }) => row)
+  return data.map(({ row }) => row)
 }
 
 export function filterRows(
