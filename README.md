@@ -1,6 +1,18 @@
 # @jetblack/material-data-table
 
-A data table for material-ui
+A simple data table for [material-ui](https://material-ui.com).
+
+## Status
+
+This is work in progress.
+
+## Features
+
+* Optional custom get, format and render
+* optional search
+* Optional sort
+* Row details
+* Selection
 
 ## Examples
 
