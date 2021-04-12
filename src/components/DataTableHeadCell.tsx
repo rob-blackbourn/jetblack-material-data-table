@@ -17,8 +17,7 @@ const DataTableHeadCell = ({
   onSort
 }: DataTableHeadCellProps) => (
   <TableCell
-    align={column.align || 'left'}
-    padding={column.disablePadding ? 'none' : 'default'}
+    align={column.align}
     sortDirection={columnSortMap[column.id] || false}
   >
     <Tooltip

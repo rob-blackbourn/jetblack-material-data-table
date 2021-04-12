@@ -13,7 +13,7 @@ const DataTableBodyRowDetailButton: React.FC<DataTableBodyRowDetailButtonProps> 
   showRowDetail,
   onChange,
 }) => (
-  <TableCell style={{ width: 24 }}>
+  <TableCell style={{ width: 24, height: 24, padding: 0 }}>
     <IconButton onClick={() => onChange(!showRowDetail)}>
       {showRowDetail ? <ArrowDropDownIcon /> : <ArrowRightIcon />}
     </IconButton>

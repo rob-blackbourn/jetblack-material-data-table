@@ -18,6 +18,9 @@ interface DataTableProps extends React.HTMLAttributes<HTMLElement> {
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  size?: 'small' | 'medium'
+  padding?: 'default' | 'checkbox' | 'none'
+  stickyHeader?: boolean
 }
 
 interface DataTableState {
@@ -126,6 +129,9 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       filterText = '',
       rowDetail,
       initialSelected,
+      size = 'medium',
+      padding = 'default',
+      stickyHeader = false,
       ...rest
     } = this.props
 
@@ -143,7 +149,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
 
     return (
-      <Table {...rest} >
+      <Table size={size} padding={padding} stickyHeader={stickyHeader} {...rest} >
         <DataTableHead
           columns={columns}
           isSelectable={isSelectable}

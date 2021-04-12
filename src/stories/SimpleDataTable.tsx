@@ -33,20 +33,17 @@ class RenderDataTable extends React.Component<
       {
         id: "name",
         title: "Name",
-        disablePadding: false,
         align: "left",
       },
       {
         id: "band",
         title: "Band",
-        disablePadding: false,
         align: "left",
         getValue: (row: Row, _column: Column) => row["band"],
       },
       {
         id: "founded",
         title: "Founded",
-        disablePadding: false,
         align: "right",
         formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
       }
