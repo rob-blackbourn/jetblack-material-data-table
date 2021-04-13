@@ -11,6 +11,7 @@ This is work in progress.
 * Optional custom get, format and render
 * optional search
 * Optional sort
+* Optional pagination
 * Row details
 * Selection
 
