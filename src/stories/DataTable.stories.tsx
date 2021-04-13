@@ -9,7 +9,7 @@ import { Meta } from '@storybook/react/types-6-0'
 import Typography from '@material-ui/core/Typography'
 import DataTable from '../components/DataTable'
 
-export const Simple: React.FC<{}> = () => <SimpleDataTable />
+export const Simple: React.VFC<{}> = () => <SimpleDataTable />
 
 export const WithRowDetail: React.FC<{}> = () => <RowDetailDataTable />
 
