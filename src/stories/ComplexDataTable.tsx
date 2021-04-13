@@ -25,6 +25,7 @@ interface ComplexDataTableState {
   rows: Row[]
   isSelectable: boolean
   filterText: string
+  selected: Row[]
 }
 
 interface Classes {
@@ -61,6 +62,7 @@ class ComplexDataTable extends React.Component<
     ],
     isSelectable: false,
     filterText: '',
+    selected: []
   }
 
   render() {
@@ -97,6 +99,7 @@ class ComplexDataTable extends React.Component<
           padding='none'
           columns={columns}
           rows={rows}
+          onSelectionChanged={selected => this.setState({ selected })}
           isSelectable={isSelectable}
           filterText={filterText}
           rowDetail={(row, columns) => <div>This is about {row.band}</div>}

@@ -10,7 +10,7 @@ import { Row, Column, ColumnSortMap } from './types'
 interface DataTableProps extends React.HTMLAttributes<HTMLElement> {
   columns: Column[]
   rows: Row[]
-  initialSelected?: Row[]
+  selected?: Row[]
   isSelectable?: boolean
   onSelectionChanged?: (rows: Row[]) => void
   filterText?: string
@@ -27,7 +27,6 @@ interface DataTableState {
   page: number
   rowsPerPage: number
   columnSortMap: ColumnSortMap
-  selected: Row[]
 }
 
 class DataTable extends React.Component<DataTableProps, DataTableState> {
@@ -36,8 +35,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     this.state = {
       page: 0,
       rowsPerPage: props.rowsPerPage || 10,
-      columnSortMap: {},
-      selected: props.initialSelected || [],
+      columnSortMap: {}
     }
   }
 
@@ -46,9 +44,9 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   handleChangeRowsPerPage = (rowsPerPage: number) =>
     this.setState({ rowsPerPage })
 
-  notifySelectionChanged = () => {
+  notifySelectionChanged = (selected: Row[]) => {
     if (this.props.onSelectionChanged) {
-      this.props.onSelectionChanged(this.state.selected)
+      this.props.onSelectionChanged(selected)
     }
   }
 
@@ -58,15 +56,15 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     filteredRows: Row[]
   ) => {
     const { rows } = this.props
-    const { selected: prevSelected } = this.state
+    const { selected: prevSelected } = this.props
 
     const unfilteredRows = rows.filter((row) => !filteredRows.includes(row))
 
     const filteredUnselected = filteredRows.filter(
-      (row) => !prevSelected.includes(row)
+      (row) => !(prevSelected || []).includes(row)
     )
     const unfilteredSelected = unfilteredRows.filter((row) =>
-      prevSelected.includes(row)
+      (prevSelected || []).includes(row)
     )
 
     const selected = isInvert
@@ -75,16 +73,15 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       ? unfilteredSelected.concat(filteredUnselected)
       : unfilteredSelected
 
-    this.setState({ selected }, this.notifySelectionChanged)
+    this.notifySelectionChanged(selected)
   }
 
   handleClick = (row: Row) => {
-    console.log(row)
-    const { selected: prevSelected } = this.state
-    const selected = prevSelected.includes(row)
-      ? prevSelected.filter((r) => r !== row)
-      : [...prevSelected, row]
-    this.setState({ selected }, this.notifySelectionChanged)
+    const { selected: prevSelected } = this.props
+    const selected = (prevSelected || []).includes(row)
+      ? (prevSelected || []).filter((r) => r !== row)
+      : [...(prevSelected || []), row]
+    this.notifySelectionChanged(selected)
   }
 
   handleSort = (column: Column, isAdditive: boolean) => {
@@ -119,7 +116,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   }
 
   render() {
-    const { page, rowsPerPage, columnSortMap, selected } = this.state
+    const { page, rowsPerPage, columnSortMap } = this.state
     const {
       columns,
       rows,
@@ -128,7 +125,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       isSelectable = false,
       filterText = '',
       rowDetail,
-      initialSelected,
+      selected = [],
       size = 'medium',
       padding = 'default',
       stickyHeader = false,

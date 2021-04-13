@@ -113,10 +113,11 @@ following prototype:
 If the function is not specified the column values are used in the
 comparison.
 
-### `initialSelected`
+### `selected`
 
-This is an optional list of rows which are initially selected. It
-defaults to an empty list.
+This is an optional list of rows which are selected. It
+defaults to an empty list. If selection is required, this property
+must be maintained by the state of the parent component.
 
 ### `isSelectable`
 
