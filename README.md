@@ -9,7 +9,7 @@ This is work in progress.
 ## Features
 
 * Optional custom get, format and render
-* optional search
+* Optional search
 * Optional sort
 * Optional pagination
 * Row details
