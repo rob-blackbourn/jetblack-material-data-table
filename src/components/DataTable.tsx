@@ -56,15 +56,15 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     filteredRows: Row[]
   ) => {
     const { rows } = this.props
-    const { selected: prevSelected } = this.props
+    const prevSelected = this.props.selected || []
 
     const unfilteredRows = rows.filter((row) => !filteredRows.includes(row))
 
     const filteredUnselected = filteredRows.filter(
-      (row) => !(prevSelected || []).includes(row)
+      (row) => !prevSelected.includes(row)
     )
     const unfilteredSelected = unfilteredRows.filter((row) =>
-      (prevSelected || []).includes(row)
+      prevSelected.includes(row)
     )
 
     const selected = isInvert
@@ -77,10 +77,10 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   }
 
   handleClick = (row: Row) => {
-    const { selected: prevSelected } = this.props
-    const selected = (prevSelected || []).includes(row)
-      ? (prevSelected || []).filter((r) => r !== row)
-      : [...(prevSelected || []), row]
+    const prevSelected = this.props.selected || []
+    const selected = prevSelected.includes(row)
+      ? prevSelected.filter((r) => r !== row)
+      : [...prevSelected, row]
     this.notifySelectionChanged(selected)
   }
 
