@@ -33,7 +33,7 @@ The `columns` prop is a list of `Column` objects with the following properties:
 This is **required**. It is a unique identifier for the column, an if 
 no accessor is supplied for the it is used as the key for the row.
 
-#### 'title'
+#### `title`
 
 This is an optional string which will be used as the title of the 
 column.
