@@ -14,18 +14,18 @@ export function getFieldValue(
   }
 }
 
-export function getColumnValue(row: Row, column: Column): any {
+export function getColumnValue(row: Row, column: Column, columns: Column[]): any {
   if (column.getValue) {
-    return column.getValue(row, column)
+    return column.getValue(row, column, columns)
   } else {
     return row[column.id]
   }
 }
 
-export function getFormattedValue(row: Row, column: Column): string {
-  const value = getColumnValue(row, column)
+export function getFormattedValue(row: Row, column: Column, columns: Column[]): string {
+  const value = getColumnValue(row, column, columns)
   if (column.formatValue) {
-    return column.formatValue(value, row, column)
+    return column.formatValue(value, row, column, columns)
   } else if (value == null) {
     return ""
   } else {
@@ -34,11 +34,11 @@ export function getFormattedValue(row: Row, column: Column): string {
   }
 }
 
-export function getRenderedValue(row: Row, column: Column): React.ReactNode | string {
+export function getRenderedValue(row: Row, column: Column, columns: Column[]): React.ReactNode | string {
   if (column.renderValue) {
-    return column.renderValue(getColumnValue(row, column), row, column)
+    return column.renderValue(getColumnValue(row, column, columns), row, column, columns)
   } else {
-    return getFormattedValue(row, column)
+    return getFormattedValue(row, column, columns)
   }
 
 }
@@ -52,13 +52,13 @@ function compareRows(
     const column = columns.find((x) => x.id === id)
     if (column) {
       if (column.compare) {
-        const result = column.compare(lhs, rhs, column)
+        const result = column.compare(lhs, rhs, column, columns)
         if (result !== 0) {
           return result
         }
       } else {
-        const lhsValue = getColumnValue(lhs, column)
-        const rhsValue = getColumnValue(rhs, column)
+        const lhsValue = getColumnValue(lhs, column, columns)
+        const rhsValue = getColumnValue(rhs, column, columns)
         if (rhsValue < lhsValue) {
           return sortDirection === "asc" ? 1 : -1
         } else if (rhsValue > lhsValue) {
@@ -94,8 +94,8 @@ export function filterRows(
   const matchString = filterText.toLowerCase()
   return rows.filter((row) =>
     columns.some((column) => column.search
-      ? column.search(matchString, row, column)
-      : getFormattedValue(row, column).toLowerCase().includes(matchString)
+      ? column.search(matchString, row, column, columns)
+      : getFormattedValue(row, column, columns).toLowerCase().includes(matchString)
     )
   )
 }

@@ -67,8 +67,9 @@ class DataTableBodyRow extends React.Component<
           {columns.map((column, columnIndex) => (
             <DataTableBodyCell
               key={`body-${rowIndex}-${columnIndex}`}
-              column={column}
               row={row}
+              column={column}
+              columns={columns}
             />
           ))}
         </TableRow>

@@ -6,16 +6,18 @@ import { getRenderedValue } from './utils'
 import { Row, Column } from './types'
 
 type DataTableBodyCellProps = {
-  column: Column
   row: Row
+  column: Column
+  columns: Column[]
 }
 
 const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
   row,
-  column
+  column,
+  columns
 }) => (
   <TableCell align={column.align}>
-    {getRenderedValue(row, column)}
+    {getRenderedValue(row, column, columns)}
   </TableCell>
 )
 

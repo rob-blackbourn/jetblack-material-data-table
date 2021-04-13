@@ -13,13 +13,13 @@ const RenderDataTable = () => {
         id: "band",
         title: "Band",
         align: "left",
-        getValue: (row: Row, _column: Column) => row["band"],
+        getValue: (row, _column, _columns) => row["band"],
       },
       {
         id: "founded",
         title: "Founded",
         align: "right",
-        formatValue: (value, row, _column) => `${row.band} founded in ${value}`,
+        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
       }
     ]
     const rows: Row[] = [
