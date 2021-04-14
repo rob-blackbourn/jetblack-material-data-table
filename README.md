@@ -38,23 +38,24 @@ This is work in progress.
 
 The `DataTable` has the following props:
 
-| Name                 | Type       | Default          | Description                                      |
-| -------------------- | ---------- | ---------------- | ------------------------------------------------ |
-| `columns`            | `array`    | *required*       | The columns                                      |
-| `rows`               | `array`    | *required*       | The rows                                         |
-| `selected`           | `array`    | `[]`             | The list of selected rows                        |
-| `isSelectable`       | `boolean`  | `false`          | Whether the rows are selectable                  |
-| `onSelectionChanged` | `function` | `null`           | A function to call when the selection is changed |
-| `filterText`         | `string`   | `''`             | Text to filter the rows                          |
-| `paginate`           | `boolean`  | `true`           | Whether to paginate the table                    |
-| `rowsPerPage`        | `number`   | `10`             | The number of rows to display when paginating    |
-| `rowsPerPageOptions` | `array`    | `[ 10, 20, 100]` | The choices of number of rows to display         |
-| `rowDetail`          | `function` | `null`           | A row detail panel                               |
-| `size`               | `string`   | `'medium'`       | The table size                                   |
-| `padding`            | `string`   | `'default'`      | The table padding                                |
-| `stickyHeader`       | `boolean`  | `false`          | Whether to use sticky headers                    |
-| `className`          | `string`   | `null`           | The class name                                   |
-| `style`              | `styles`   | `null`           | Th component styles                              |
+| Name                 | Type       | Default          | Description                                       |
+| -------------------- | ---------- | ---------------- | ------------------------------------------------- |
+| `columns`            | `array`    | *required*       | The columns                                       |
+| `rows`               | `array`    | *required*       | The rows                                          |
+| `selected`           | `array`    | `[]`             | The list of selected rows                         |
+| `isSelectable`       | `boolean`  | `false`          | Whether the rows are selectable                   |
+| `onSelectionChanged` | `function` | `null`           | A function to call when the selection is changed  |
+| `compareRow`         | `function` | `null`           | A callback function to compare a rows in selected |
+| `filterText`         | `string`   | `''`             | Text to filter the rows                           |
+| `paginate`           | `boolean`  | `true`           | Whether to paginate the table                     |
+| `rowsPerPage`        | `number`   | `10`             | The number of rows to display when paginating     |
+| `rowsPerPageOptions` | `array`    | `[ 10, 20, 100]` | The choices of number of rows to display          |
+| `rowDetail`          | `function` | `null`           | A row detail panel                                |
+| `size`               | `string`   | `'medium'`       | The table size                                    |
+| `padding`            | `string`   | `'default'`      | The table padding                                 |
+| `stickyHeader`       | `boolean`  | `false`          | Whether to use sticky headers                     |
+| `className`          | `string`   | `null`           | The class name                                    |
+| `style`              | `styles`   | `null`           | The component styles                              |
 
 ### `DataTable.rows`
 
@@ -176,6 +177,12 @@ should be displayed. It defaults to `false`.
 
 This is an optional callback function which takes the list of selected
 rows.
+
+### `DataTable.compareRow`
+
+This is an optional callback function used to check if a row is in the
+selected rows array. The default is to check that the object is the same
+(i.e. `row === row`), which will fail if the row objects are recreated.
 
 ### `DataTable.filterText`
 

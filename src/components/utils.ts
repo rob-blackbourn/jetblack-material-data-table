@@ -1,20 +1,24 @@
-import { SyncProblemRounded } from "@material-ui/icons"
-import { Row, Column, ColumnSortMap } from "./types"
+import { SyncProblemRounded } from '@material-ui/icons'
+import { Row, Column, ColumnSortMap } from './types'
 
 export function getFieldValue(
   row: Row,
   key: string | ((row: Row) => any)
 ): any {
-  if (typeof key === "string") {
+  if (typeof key === 'string') {
     return row[key]
-  } else if (typeof key === "function") {
+  } else if (typeof key === 'function') {
     return key(row)
   } else {
-    throw new Error("key must be a function or a string")
+    throw new Error('key must be a function or a string')
   }
 }
 
-export function getColumnValue(row: Row, column: Column, columns: Column[]): any {
+export function getColumnValue(
+  row: Row,
+  column: Column,
+  columns: Column[]
+): any {
   if (column.getValue) {
     return column.getValue(row, column, columns)
   } else {
@@ -22,25 +26,37 @@ export function getColumnValue(row: Row, column: Column, columns: Column[]): any
   }
 }
 
-export function getFormattedValue(row: Row, column: Column, columns: Column[]): string {
+export function getFormattedValue(
+  row: Row,
+  column: Column,
+  columns: Column[]
+): string {
   const value = getColumnValue(row, column, columns)
   if (column.formatValue) {
     return column.formatValue(value, row, column, columns)
   } else if (value == null) {
-    return ""
+    return ''
   } else {
     // Ensure we return a string.
-    return value + ""
+    return value + ''
   }
 }
 
-export function getRenderedValue(row: Row, column: Column, columns: Column[]): React.ReactNode | string {
+export function getRenderedValue(
+  row: Row,
+  column: Column,
+  columns: Column[]
+): React.ReactNode | string {
   if (column.renderValue) {
-    return column.renderValue(getColumnValue(row, column, columns), row, column, columns)
+    return column.renderValue(
+      getColumnValue(row, column, columns),
+      row,
+      column,
+      columns
+    )
   } else {
     return getFormattedValue(row, column, columns)
   }
-
 }
 function compareRows(
   lhs: Row,
@@ -60,10 +76,10 @@ function compareRows(
         const lhsValue = getColumnValue(lhs, column, columns)
         const rhsValue = getColumnValue(rhs, column, columns)
         if (rhsValue < lhsValue) {
-          return sortDirection === "asc" ? 1 : -1
+          return sortDirection === 'asc' ? 1 : -1
         } else if (rhsValue > lhsValue) {
-          return sortDirection == "asc" ? -1 : 1
-        }  
+          return sortDirection == 'asc' ? -1 : 1
+        }
       }
     }
   }
@@ -93,9 +109,22 @@ export function filterRows(
   }
   const matchString = filterText.toLowerCase()
   return rows.filter((row) =>
-    columns.some((column) => column.search
-      ? column.search(matchString, row, column, columns)
-      : getFormattedValue(row, column, columns).toLowerCase().includes(matchString)
+    columns.some((column) =>
+      column.search
+        ? column.search(matchString, row, column, columns)
+        : getFormattedValue(row, column, columns)
+            .toLowerCase()
+            .includes(matchString)
     )
   )
+}
+
+export function isRowSelected(
+  row: Row,
+  selected: Row[],
+  compareRow?: (lhs: Row, rhs: Row) => boolean
+): boolean {
+  return compareRow == null
+    ? selected.includes(row)
+    : selected.find((x) => compareRow(row, x)) !== undefined
 }

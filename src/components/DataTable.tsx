@@ -22,7 +22,8 @@ interface DataTableProps {
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'default' | 'checkbox' | 'none'
-  stickyHeader?: boolean
+  stickyHeader?: boolean,
+  compareRow?: (lhs: Row, rhs: Row) => boolean
 }
 
 interface DataTableState {
@@ -131,6 +132,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       size = 'medium',
       padding = 'default',
       stickyHeader = false,
+      compareRow,
       ...rest
     } = this.props
 
@@ -172,6 +174,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           colSpan={colSpan}
           isSelectable={isSelectable}
           onSelected={this.handleClick}
+          compareRow={compareRow}
           emptyRows={emptyRows}
           rowDetail={rowDetail}
         />

@@ -3,7 +3,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 
-import { stableSort } from './utils'
+import { stableSort, isRowSelected } from './utils'
 import DataTableBodyRow from './DataTableBodyRow'
 
 import { Row, Column, ColumnSortMap } from './types'
@@ -21,6 +21,7 @@ type DataTableBodyProps = {
   onSelected: (row: Row) => void
   emptyRows: number
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  compareRow?: (lhs: Row, rhs: Row) => boolean
 }
 
 const DataTableBody = ({
@@ -36,6 +37,7 @@ const DataTableBody = ({
   onSelected,
   emptyRows,
   rowDetail,
+  compareRow
 }: DataTableBodyProps) => (
   <TableBody>
     {stableSort(rows, columns, columnSortMap)
@@ -48,7 +50,7 @@ const DataTableBody = ({
           key={`body-${rowIndex}`}
           row={row}
           columns={columns}
-          isSelected={isSelectable && selected.includes(row)}
+          isSelected={isSelectable && isRowSelected(row, selected, compareRow)}
           isSelectable={isSelectable}
           onSelected={onSelected}
           rowIndex={rowIndex}

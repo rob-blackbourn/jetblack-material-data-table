@@ -43,7 +43,6 @@ class DataTableBodyRow extends React.Component<
     } = this.props
     const { showRowDetail } = this.state
 
-    console.log(isSelected)
     return (
       <>
         <TableRow
