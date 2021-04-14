@@ -217,13 +217,13 @@ const RenderDataTable = () => {
         id: "band",
         title: "Band",
         align: "left",
-        getValue: (row, _column, _columns) => row["band"],
+        getValue: row => row["band"],
       },
       {
         id: "founded",
         title: "Founded",
         align: "right",
-        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+        formatValue: (value, row) => `${row.band} founded in ${value}`,
       }
     ]
     const rows = [
@@ -260,13 +260,13 @@ const RowDetailDataTable = () => {
       id: 'band',
       title: 'Band',
       align: 'left',
-      getValue: (row, _column, _columns) => row['band'],
+      getValue: row => row['band'],
     },
     {
       id: 'founded',
       title: 'Founded',
       align: 'right',
-      formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+      formatValue: (value, row) => `${row.band} founded in ${value}`,
     },
   ]
   const rows = [
@@ -308,13 +308,13 @@ class SelectableDataTable extends React.Component {
         id: 'band',
         title: 'Band',
         align: 'left',
-        getValue: (row, _column, _columns) => row['band'],
+        getValue: row => row['band'],
       },
       {
         id: 'founded',
         title: 'Founded',
         align: 'right',
-        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+        formatValue: (value, row,) => `${row.band} founded in ${value}`,
       },
     ],
     rows: [
