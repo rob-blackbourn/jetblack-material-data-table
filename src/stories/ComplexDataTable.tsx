@@ -5,7 +5,6 @@ import Switch from '@material-ui/core/Switch'
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 import FilterTextField from './FilterTextField'
-import { HTMLAttributes } from 'react'
 
 const styles = (theme: Theme) => ({
   selectableSlider: {
@@ -32,7 +31,7 @@ interface Classes {
 }
 
 class ComplexDataTable extends React.Component<
-  HTMLAttributes<ComplexDataTableProps> & Classes,
+  ComplexDataTableProps & Classes,
   ComplexDataTableState
 > {
   state: ComplexDataTableState = {
@@ -66,7 +65,14 @@ class ComplexDataTable extends React.Component<
 
   render() {
     const { classes } = this.props
-    const { columns, rows, isSelectable, filterText } = this.state
+    const {
+      columns,
+      rows,
+      selected,
+      isSelectable,
+      filterText
+    } = this.state
+
     return (
       <div>
         <div>
@@ -98,6 +104,7 @@ class ComplexDataTable extends React.Component<
           padding='none'
           columns={columns}
           rows={rows}
+          selected={selected}
           onSelectionChanged={selected => this.setState({ selected })}
           isSelectable={isSelectable}
           filterText={filterText}

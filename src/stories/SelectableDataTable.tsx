@@ -45,8 +45,6 @@ class SelectableDataTable extends React.Component<
     const { columns, rows, selected } = this.state
     return (
       <DataTable
-        size='small'
-        padding='none'
         columns={columns}
         rows={rows}
         selected={selected}
