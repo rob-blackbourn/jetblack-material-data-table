@@ -7,7 +7,9 @@ import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
 import { Row, Column, ColumnSortMap } from './types'
 
-interface DataTableProps extends React.HTMLAttributes<HTMLElement> {
+interface DataTableProps {
+  className?: string
+  style?: React.CSSProperties
   columns: Column[]
   rows: Row[]
   selected?: Row[]
