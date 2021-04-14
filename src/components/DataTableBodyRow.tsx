@@ -3,7 +3,7 @@ import TableRow from '@material-ui/core/TableRow'
 import DataTableBodyCheckbox from './DataTableBodyCheckbox'
 import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'
-import DataTableBodyShowDetailButton from './DataTableBodyRowDetailButton'
+import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
 import { Row, Column } from './types'
 
@@ -52,7 +52,7 @@ class DataTableBodyRow extends React.Component<
           selected={isSelected}
         >
           {rowDetail != null ? (
-            <DataTableBodyShowDetailButton
+            <DataTableBodyRowDetailButton
               showRowDetail={showRowDetail}
               onChange={(showRowDetail) => this.setState({ showRowDetail })}
             />
