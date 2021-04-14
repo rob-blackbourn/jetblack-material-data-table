@@ -1,12 +1,12 @@
 import * as React from 'react'
 import TableCell from '@material-ui/core/TableCell'
 
-import { Row, Column } from './types'
+import { Row, ColumnMap } from './types'
 
 type DataTableBodyRowDetailCellProps = {
-  columns: Column[]
+  columns: ColumnMap
   row: Row
-  rowDetail: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail: (row: Row, columns: ColumnMap) => React.ReactNode
   colSpan: number
 }
 

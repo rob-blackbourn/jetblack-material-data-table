@@ -3,14 +3,18 @@ export interface Row {
 }
 
 export interface Column {
-  id: string
+  order: number
   title?: string
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify'
-  getValue?: (row: Row, column: Column, columns: Column[]) => any
-  formatValue?: (value: any, row: Row, column: Column, columns: Column[]) => string
-  renderValue?: (value: any, row: Row, column: Column, columns: Column[]) => React.ReactNode | string
-  search?: (text: string, row: Row, column: Column, columns: Column[]) => boolean
-  compare?: (lhs: Row, rhs: Row, column: Column, columns: Column[]) => -1 | 0 | 1
+  getValue?: (row: Row, column: Column, columns: ColumnMap) => any
+  formatValue?: (value: any, row: Row, column: Column, columns: ColumnMap) => string
+  renderValue?: (value: any, row: Row, column: Column, columns: ColumnMap) => React.ReactNode | string
+  search?: (text: string, row: Row, column: Column, columns: ColumnMap) => boolean
+  compare?: (lhs: Row, rhs: Row, column: Column, columns: ColumnMap) => -1 | 0 | 1
+}
+
+export interface ColumnMap {
+  [id: string]: Column
 }
 
 export interface ColumnSortMap {

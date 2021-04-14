@@ -1,16 +1,15 @@
 import * as React from 'react'
-import { StyledComponentProps } from '@material-ui/core/styles/withStyles'
 import Table from '@material-ui/core/Table'
 import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
-import { Row, Column, ColumnSortMap } from './types'
+import { Row, Column, ColumnMap, ColumnSortMap } from './types'
 
 interface DataTableProps {
   className?: string
   style?: React.CSSProperties
-  columns: Column[]
+  columns: ColumnMap
   rows: Row[]
   selected?: Row[]
   isSelectable?: boolean
@@ -19,7 +18,7 @@ interface DataTableProps {
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: ColumnMap) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'default' | 'checkbox' | 'none'
   stickyHeader?: boolean
@@ -86,16 +85,16 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     this.notifySelectionChanged(selected)
   }
 
-  handleSort = (column: Column, isAdditive: boolean) => {
+  handleSort = (id: string, isAdditive: boolean) => {
     const { columnSortMap } = this.state
 
     if (isAdditive) {
-      if (column.id in columnSortMap) {
+      if (id in columnSortMap) {
         // Switch direction
         this.setState({
           columnSortMap: {
             ...columnSortMap,
-            [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
+            [id]: columnSortMap[id] === 'asc' ? 'desc' : 'asc',
           },
         })
       } else {
@@ -103,7 +102,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
         this.setState({
           columnSortMap: {
             ...columnSortMap,
-            [column.id]: 'asc',
+            [id]: 'asc',
           },
         })
       }
@@ -111,7 +110,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       // Rest the sort to this column.
       this.setState({
         columnSortMap: {
-          [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
+          [id]: columnSortMap[id] === 'asc' ? 'desc' : 'asc',
         },
       })
     }
@@ -145,7 +144,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const numSelected = isSelectable ? filteredSelected.length : 0
     const hasRowDetail = rowDetail != null
     const colSpan =
-      columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
+      Object.keys(columns).length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
 
     return (
       <Table size={size} padding={padding} stickyHeader={stickyHeader} {...rest} >

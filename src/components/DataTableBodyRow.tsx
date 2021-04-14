@@ -5,17 +5,17 @@ import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'
 import DataTableBodyShowDetailButton from './DataTableBodyRowDetailButton'
 
-import { Row, Column } from './types'
+import { Row, Column, ColumnMap } from './types'
 
 interface DataTableBodyRowProps {
   row: Row
-  columns: Column[]
+  columns: ColumnMap
   isSelected: boolean
   isSelectable: boolean
   onSelected: (row: Row) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: ColumnMap) => React.ReactNode
 }
 
 interface DataTableBodyRowState {
@@ -64,10 +64,16 @@ class DataTableBodyRow extends React.Component<
               onChange={() => onSelected(row)}
             />
           ) : null}
-          {columns.map((column, columnIndex) => (
+          {Object.entries(columns)
+            .sort((
+              [_lhsId, {order:lhsOrder}],
+              [_rhsId, {order: rhsOrder}]) =>
+              lhsOrder - rhsOrder
+            ).map(([id, column]) => (
             <DataTableBodyCell
-              key={`body-${rowIndex}-${columnIndex}`}
+              key={`body-${rowIndex}-${id}`}
               row={row}
+              id={id}
               column={column}
               columns={columns}
             />

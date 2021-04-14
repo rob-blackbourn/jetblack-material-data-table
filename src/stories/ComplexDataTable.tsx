@@ -2,10 +2,9 @@ import React from 'react'
 import { Theme, withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import { Column, Row } from '../components/types'
+import { Column, ColumnMap, Row } from '../components/types'
 import { DataTable } from '../index'
 import FilterTextField from './FilterTextField'
-import { Props } from 'react'
 import { HTMLAttributes } from 'react'
 
 const styles = (theme: Theme) => ({
@@ -21,7 +20,7 @@ const styles = (theme: Theme) => ({
 interface ComplexDataTableProps {}
 
 interface ComplexDataTableState {
-  columns: Column[]
+  columns: ColumnMap
   rows: Row[]
   isSelectable: boolean
   filterText: string
@@ -37,25 +36,25 @@ class ComplexDataTable extends React.Component<
   ComplexDataTableState
 > {
   state: ComplexDataTableState = {
-    columns: [
-      {
-        id: 'name',
+    columns: {
+      name: {
+        order: 0,
         title: 'Name',
         align: 'left',
       },
-      {
-        id: 'band',
+      band: {
+        order: 1,
         title: 'Band',
         align: 'left',
         getValue: (row, _column, _columns) => row['band'],
       },
-      {
-        id: 'founded',
+      founded: {
+        order: 2,
         title: 'Founded',
         align: 'right',
         formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
       },
-    ],
+    },
     rows: [
       { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
       { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },

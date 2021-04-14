@@ -6,16 +6,16 @@ import TableCell from '@material-ui/core/TableCell'
 import DataTableHeadCheckbox from './DataTableHeadCheckbox'
 import DataTableHeadCell from './DataTableHeadCell'
 
-import { Column, ColumnSortMap } from './types'
+import { Column, ColumnMap, ColumnSortMap } from './types'
 
 type DataTableHeadProps = {
-  columns: Column[]
+  columns: ColumnMap
   isSelectable: boolean
   numSelected: number
   rowCount: number
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
   columnSortMap: ColumnSortMap
-  onSort: (column: Column, isInvert: boolean) => void
+  onSort: (id: string, isInvert: boolean) => void
   hasRowDetail: boolean
 }
 
@@ -41,9 +41,15 @@ const DataTableHead = ({
         />
       ) : null}
 
-      {columns.map((column, columnIndex) => (
+      {Object.entries(columns)
+        .sort((
+          [_lhsId, {order:lhsOrder}],
+          [_rhsId, {order: rhsOrder}]) =>
+          lhsOrder - rhsOrder)
+        .map(([id, column]) => (
         <DataTableHeadCell
-          key={`head-cell-${columnIndex}`}
+          key={`head-cell-${id}`}
+          id={id}
           column={column}
           columnSortMap={columnSortMap}
           onSort={onSort}

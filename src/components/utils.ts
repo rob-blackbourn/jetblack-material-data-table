@@ -1,5 +1,5 @@
 import { SyncProblemRounded } from "@material-ui/icons"
-import { Row, Column, ColumnSortMap } from "./types"
+import { Row, Column, ColumnMap, ColumnSortMap } from "./types"
 
 export function getFieldValue(
   row: Row,
@@ -14,16 +14,16 @@ export function getFieldValue(
   }
 }
 
-export function getColumnValue(row: Row, column: Column, columns: Column[]): any {
+export function getColumnValue(row: Row, id: string, column: Column, columns: ColumnMap): any {
   if (column.getValue) {
     return column.getValue(row, column, columns)
   } else {
-    return row[column.id]
+    return row[id]
   }
 }
 
-export function getFormattedValue(row: Row, column: Column, columns: Column[]): string {
-  const value = getColumnValue(row, column, columns)
+export function getFormattedValue(row: Row, id: string, column: Column, columns: ColumnMap): string {
+  const value = getColumnValue(row, id, column, columns)
   if (column.formatValue) {
     return column.formatValue(value, row, column, columns)
   } else if (value == null) {
@@ -34,22 +34,22 @@ export function getFormattedValue(row: Row, column: Column, columns: Column[]): 
   }
 }
 
-export function getRenderedValue(row: Row, column: Column, columns: Column[]): React.ReactNode | string {
+export function getRenderedValue(row: Row, id: string, column: Column, columns: ColumnMap): React.ReactNode | string {
   if (column.renderValue) {
-    return column.renderValue(getColumnValue(row, column, columns), row, column, columns)
+    return column.renderValue(getColumnValue(row, id, column, columns), row, column, columns)
   } else {
-    return getFormattedValue(row, column, columns)
+    return getFormattedValue(row, id, column, columns)
   }
 
 }
 function compareRows(
   lhs: Row,
   rhs: Row,
-  columns: Column[],
+  columns: ColumnMap,
   columnSortMap: ColumnSortMap
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
-    const column = columns.find((x) => x.id === id)
+    const column = columns[id]
     if (column) {
       if (column.compare) {
         const result = column.compare(lhs, rhs, column, columns)
@@ -57,8 +57,8 @@ function compareRows(
           return result
         }
       } else {
-        const lhsValue = getColumnValue(lhs, column, columns)
-        const rhsValue = getColumnValue(rhs, column, columns)
+        const lhsValue = getColumnValue(lhs, id, column, columns)
+        const rhsValue = getColumnValue(rhs, id, column, columns)
         if (rhsValue < lhsValue) {
           return sortDirection === "asc" ? 1 : -1
         } else if (rhsValue > lhsValue) {
@@ -72,7 +72,7 @@ function compareRows(
 
 export function stableSort(
   rows: Row[],
-  columns: Column[],
+  columns: ColumnMap,
   columnSortMap: ColumnSortMap
 ): Row[] {
   const data = rows.map((row, index) => ({ row, index }))
@@ -85,7 +85,7 @@ export function stableSort(
 
 export function filterRows(
   rows: Row[],
-  columns: Column[],
+  columns: ColumnMap,
   filterText: string
 ): Row[] {
   if (!filterText) {
@@ -93,9 +93,18 @@ export function filterRows(
   }
   const matchString = filterText.toLowerCase()
   return rows.filter((row) =>
-    columns.some((column) => column.search
+    Object.entries(columns).some(([id, column]) => column.search
       ? column.search(matchString, row, column, columns)
-      : getFormattedValue(row, column, columns).toLowerCase().includes(matchString)
+      : getFormattedValue(row, id, column, columns).toLowerCase().includes(matchString)
     )
   )
+}
+
+export function sortColumnMap(columns: ColumnMap): Column[] {
+  return Object.entries(columns)
+    .sort((
+      [_lhsId, {order:lhsOrder}],
+      [_rhsId, {order: rhsOrder}]) =>
+      lhsOrder - rhsOrder)
+    .map(([_id, column]) => column)
 }

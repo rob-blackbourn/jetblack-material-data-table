@@ -6,11 +6,11 @@ import TableCell from '@material-ui/core/TableCell'
 import { stableSort } from './utils'
 import DataTableBodyRow from './DataTableBodyRow'
 
-import { Row, Column, ColumnSortMap } from './types'
+import { Row, Column, ColumnMap, ColumnSortMap } from './types'
 
 type DataTableBodyProps = {
   rows: Row[]
-  columns: Column[]
+  columns: ColumnMap
   selected: Row[]
   columnSortMap: ColumnSortMap
   paginate: boolean
@@ -20,7 +20,7 @@ type DataTableBodyProps = {
   isSelectable: boolean
   onSelected: (row: Row) => void
   emptyRows: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: ColumnMap) => React.ReactNode
 }
 
 const DataTableBody = ({

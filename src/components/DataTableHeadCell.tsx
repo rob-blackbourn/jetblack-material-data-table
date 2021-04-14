@@ -6,19 +6,21 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { Column, ColumnSortMap } from './types'
 
 type DataTableHeadCellProps = {
+  id: string
   column: Column
   columnSortMap: ColumnSortMap
-  onSort: (column: Column, isInvert: boolean) => void
+  onSort: (id: string, isInvert: boolean) => void
 }
 
 const DataTableHeadCell = ({
+  id,
   column,
   columnSortMap,
   onSort
 }: DataTableHeadCellProps) => (
   <TableCell
     align={column.align}
-    sortDirection={columnSortMap[column.id] || false}
+    sortDirection={columnSortMap[id] || false}
   >
     <Tooltip
       title='Sort'
@@ -26,9 +28,9 @@ const DataTableHeadCell = ({
       enterDelay={300}
     >
       <TableSortLabel
-        active={column.id in columnSortMap}
-        direction={columnSortMap[column.id] || 'asc'}
-        onClick={(event) => onSort(column, event.nativeEvent.shiftKey)}
+        active={id in columnSortMap}
+        direction={columnSortMap[id] || 'asc'}
+        onClick={(event) => onSort(id, event.nativeEvent.shiftKey)}
       >
         {column.title}
       </TableSortLabel>
