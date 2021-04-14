@@ -5,7 +5,6 @@ import Switch from '@material-ui/core/Switch'
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 import FilterTextField from './FilterTextField'
-import { Props } from 'react'
 import { HTMLAttributes } from 'react'
 
 const styles = (theme: Theme) => ({

@@ -4,6 +4,7 @@ import ComplexDataTable from './ComplexDataTable'
 import RowDetailDataTable from './RowDetailDataTable'
 import NoPaginateDataTable from './NoPaginateDataTable'
 import RenderDataTable from './RenderDataTable'
+import SelectableDataTable from './SelectableDataTable'
 
 import { Meta } from '@storybook/react/types-6-0'
 import Typography from '@material-ui/core/Typography'
@@ -36,6 +37,8 @@ export const WithoutPagination: React.FC<{}> = () => (
 )
 
 export const WithRender: React.FC<{}> = () => <RenderDataTable />
+
+export const WithSelection: React.FC<{}> = () => <SelectableDataTable />
 
 export const WithEverything: React.FC<{}> = () => <ComplexDataTable />
 
