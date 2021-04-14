@@ -19,32 +19,61 @@ This is work in progress.
 
 The `DataTable` has the following props:
 
-### `rows`
+| Name                 | Type       | Default          | Description                                      |
+| -------------------- | ---------- | ---------------- | ------------------------------------------------ |
+| `columns`            | `array`    | *required*       | The columns                                      |
+| `rows`               | `array`    | *required*       | The rows                                         |
+| `selected`           | `array`    | `[]`             | The list of selected rows                        |
+| `isSelectable`       | `boolean`  | `false`          | Whether the rows are selectable                  |
+| `onSelectionChanged` | `function` | `null`           | A function to call when the selection is changed |
+| `filterText`         | `string`   | `''`             | Text to filter the rows                          |
+| `paginate`           | `boolean`  | `true`           | Whether to paginate the table                    |
+| `rowsPerPage`        | `number`   | `10`             | The number of rows to display when paginating    |
+| `rowsPerPageOptions` | `array`    | `[ 10, 20, 100]` | The choices of number of rows to display         |
+| `rowDetail`          | `function` | `null`           | A row detail panel                               |
+| `size`               | `string`   | `'medium'`       | The table size                                   |
+| `padding`            | `string`   | `'default'`      | The table padding                                |
+| `stickyHeader`       | `boolean`  | `false`          | Whether to use sticky headers                    |
+| `className`          | `string`   | `null`           | The class name                                   |
+| `style`              | `styles`   | `null`           | Th component styles                              |
+
+### `DataTable.rows`
 
 The `rows` prop is a list of objects where each object is a now in the
 table.
 
-### `columns`
+### `DataTable.columns`
 
 The `columns` prop is a list of `Column` objects with the following properties:
 
-#### `id`
+| Name          | Type       | Default    | Description                           |
+| ------------- | ---------- | ---------- | ------------------------------------- |
+| `id`          | `string`   | *required* | The column id                         |
+| `title`       | `string`   | `null`     | The column title                      |
+| `align`       | `string`   | `'left'`   | The column alignment                  |
+| `getValue`    | `function` | `null`     | A custom function to select cell data |
+| `formatValue` | `function` | `null`     | A custom function to format cell data |
+| `renderValue` | `function` | `null`     | A custom function  to render a cell   |
+| `search`      | `function` | `null`     | a custom function used by the filter  |
+| `compare`     | `function` | `null`     | A custom function used when sorting   |
+
+#### `Column.id`
 
 This is **required**. It is a unique identifier for the column, an if 
 no accessor is supplied for the it is used as the key for the row.
 
-#### `title`
+#### `Column.title`
 
 This is an optional string which will be used as the title of the 
 column.
 
-#### `align`
+#### `Column.align`
 
 This is the optional column alignment which is passed straight
 through to
 [`TableCell`](https://material-ui.com/api/table-cell/#props).
 
-#### `getValue`
+#### `Column.getValue`
 
 This is an optional function to get the column value in its native
 form (it doesn't need to be formatted to a string). It has the 
@@ -62,7 +91,7 @@ function (row: Row, col: Column, columns: Column[]): any {
 }
 ```
 
-#### `formatValue`
+#### `Column.formatValue`
 
 This is an optional function which takes the row value and formats it
 to a string. it has the following prototype:
@@ -77,7 +106,7 @@ applied.
 The formatted value is used for rendering if a `renderValue` function
 is not defined, an for searching.
 
-#### `renderValue`
+#### `Column.renderValue`
 
 This is an optional function which takes the row value and returns 
 either a string or a react component. It has the following prototype.
@@ -88,7 +117,7 @@ either a string or a react component. It has the following prototype.
 
 If this function is not specified the formatted value is used.
 
-#### `search`
+#### `Column.search`
 
 This is an optional function which takes the search text and returns
 `true` if the text matches the column value. It has the following
@@ -101,7 +130,7 @@ prototype.
 If the function is not specified the formatted value is used for 
 comparison.
 
-### `compare`
+#### `Column.compare`
 
 This is an optional function which is used for sorting. It has the
 following prototype:
@@ -113,41 +142,41 @@ following prototype:
 If the function is not specified the column values are used in the
 comparison.
 
-### `selected`
+### `DataTable.selected`
 
 This is an optional list of rows which are selected. It
 defaults to an empty list. If selection is required, this property
 must be maintained by the state of the parent component.
 
-### `isSelectable`
+### `DataTable.isSelectable`
 
 This is an optional boolean specifying whether the selection checkboxes
 should be displayed. It defaults to `false`.
 
-### `onSelectionChanged`
+### `DataTable.onSelectionChanged`
 
 This is an optional callback function which takes the list of selected
 rows.
 
-### `filterText`
+### `DataTable.filterText`
 
 This is an optional string which is used to filter the rows in the 
 table.
 
-### `paginate`
+### `DataTable.paginate`
 
 This is an optional boolean which controls whether the table provides
 pagination. It defaults to `true`.
 
-### `rowsPerPage`
+### `DataTable.rowsPerPage`
 
 The number of rows shown in a page. This defaults to 10.
 
-### `rowsPerPageOptions`
+### `DataTable.rowsPerPageOptions`
 
 An optional list of the number of rows that can be shown on a page.
 
-### `rowDetail`
+### `DataTable.rowDetail`
 
 An optional property which provides a row detail page. It has the
 following prototype:
@@ -156,15 +185,15 @@ following prototype:
 (row: Row, columns: Column[]) => React.ReactNode
 ```
 
-### `size`
+### `DataTable.size`
 
 An optional property specifying the size of the page.
 
-### `padding`
+### `DataTable.padding`
 
 An optional property controlling the table padding.
 
-### `stickyHeader`
+### `DataTable.stickyHeader`
 
 An optional property controlling the header position.
 ## Examples
