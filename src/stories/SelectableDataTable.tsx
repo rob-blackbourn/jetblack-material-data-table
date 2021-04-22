@@ -37,6 +37,8 @@ class SelectableDataTable extends React.Component<
     rows: [
       { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
       { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },
+      { name: 'Eric Clapton', band: 'Cream', founded: 1966 },
+      { name: 'John Mayall', band: 'Bluesbreakers', founded: 1963 },
     ],
     selected: []
   }

@@ -73,7 +73,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const selected = isInvert
       ? filteredUnselected.concat(unfilteredSelected)
       : isChecked
-      ? unfilteredSelected.concat(filteredUnselected)
+      ? unfilteredSelected.concat(filteredRows)
       : unfilteredSelected
 
     this.notifySelectionChanged(selected)
