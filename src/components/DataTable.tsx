@@ -47,16 +47,11 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   handleChangeRowsPerPage = (rowsPerPage: number) =>
     this.setState({ rowsPerPage })
 
-  notifySelectionChanged = (selected: Row[]) => {
-    if (this.props.onSelectionChanged) {
-      this.props.onSelectionChanged(selected)
-    }
-  }
-
   handleSelectAllClick = (
     isInvert: boolean,
     isChecked: boolean,
-    filteredRows: Row[]
+    filteredRows: Row[],
+    onSelectionChanged?: (rows: Row[]) => void
   ) => {
     const { rows } = this.props
     const prevSelected = this.props.selected || []
@@ -76,15 +71,19 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       ? unfilteredSelected.concat(filteredRows)
       : unfilteredSelected
 
-    this.notifySelectionChanged(selected)
+    if (onSelectionChanged) {
+      onSelectionChanged(selected)
+    }
   }
 
-  handleClick = (row: Row) => {
+  handleClick = (row: Row, onSelectionChanged?: (rows: Row[]) => void) => {
     const prevSelected = this.props.selected || []
     const selected = prevSelected.includes(row)
       ? prevSelected.filter((r) => r !== row)
       : [...prevSelected, row]
-    this.notifySelectionChanged(selected)
+    if (onSelectionChanged) {
+      onSelectionChanged(selected)
+    }
   }
 
   handleSort = (column: Column, isAdditive: boolean) => {
@@ -133,6 +132,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       padding = 'default',
       stickyHeader = false,
       compareRow,
+      onSelectionChanged,
       ...rest
     } = this.props
 
@@ -157,7 +157,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           numSelected={numSelected}
           rowCount={filteredRows.length}
           onSelectAllClick={(isInvert, isChecked) =>
-            this.handleSelectAllClick(isInvert, isChecked, filteredRows)
+            this.handleSelectAllClick(isInvert, isChecked, filteredRows, onSelectionChanged)
           }
           columnSortMap={columnSortMap}
           onSort={this.handleSort}
@@ -173,7 +173,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           rowsPerPage={rowsPerPage}
           colSpan={colSpan}
           isSelectable={isSelectable}
-          onSelected={this.handleClick}
+          onSelected={row => this.handleClick(row, onSelectionChanged)}
           compareRow={compareRow}
           emptyRows={emptyRows}
           rowDetail={rowDetail}
