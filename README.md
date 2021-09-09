@@ -56,6 +56,7 @@ The `DataTable` has the following props:
 | `stickyHeader`       | `boolean`  | `false`          | Whether to use sticky headers                     |
 | `className`          | `string`   | `null`           | The class name                                    |
 | `style`              | `styles`   | `null`           | The component styles                              |
+| `columnSortMap`      | `object`   | `null`           | A map of column id to `'asc'` or `'desc'`         |
 
 ### `DataTable.rows`
 
@@ -222,6 +223,18 @@ An optional property controlling the table padding.
 ### `DataTable.stickyHeader`
 
 An optional property controlling the header position.
+
+### `DataTable.columnSortMap`
+
+An optional property to control the initial sort state. It has
+the following type:
+
+```typescript
+export interface ColumnSortMap {
+  [columnId: string]: 'asc' | 'desc'
+}
+```
+
 ## Examples
 
 ### Simple

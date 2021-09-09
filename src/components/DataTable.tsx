@@ -23,7 +23,8 @@ interface DataTableProps {
   size?: 'small' | 'medium'
   padding?: 'default' | 'checkbox' | 'none'
   stickyHeader?: boolean,
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+  compareRow?: (lhs: Row, rhs: Row) => boolean,
+  columnSortMap?: ColumnSortMap
 }
 
 interface DataTableState {
@@ -38,7 +39,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     this.state = {
       page: 0,
       rowsPerPage: props.rowsPerPage || 10,
-      columnSortMap: {}
+      columnSortMap: props.columnSortMap || {}
     }
   }
 
