@@ -16,6 +16,7 @@ interface DataTableBodyRowProps {
   rowIndex: number
   colSpan: number
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  disabled: boolean
 }
 
 interface DataTableBodyRowState {
@@ -40,6 +41,7 @@ class DataTableBodyRow extends React.Component<
       rowIndex,
       colSpan,
       rowDetail,
+      disabled
     } = this.props
     const { showRowDetail } = this.state
 
@@ -61,6 +63,7 @@ class DataTableBodyRow extends React.Component<
               key={`body-checkbox-${rowIndex}`}
               isSelected={isSelected}
               onChange={() => onSelected(row)}
+              disabled={disabled}
             />
           ) : null}
           {columns.map((column, columnIndex) => (

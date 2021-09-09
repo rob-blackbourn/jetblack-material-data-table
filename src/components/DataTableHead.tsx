@@ -17,6 +17,7 @@ type DataTableHeadProps = {
   columnSortMap: ColumnSortMap
   onSort: (column: Column, isInvert: boolean) => void
   hasRowDetail: boolean
+  disabled: boolean
 }
 
 const DataTableHead = ({
@@ -28,6 +29,7 @@ const DataTableHead = ({
   columnSortMap,
   onSort,
   hasRowDetail,
+  disabled
 }: DataTableHeadProps) => (
   <TableHead>
     <TableRow key="head">
@@ -38,6 +40,7 @@ const DataTableHead = ({
           numSelected={numSelected}
           rowCount={rowCount}
           onSelectAllClick={onSelectAllClick}
+          disabled={disabled}
         />
       ) : null}
 

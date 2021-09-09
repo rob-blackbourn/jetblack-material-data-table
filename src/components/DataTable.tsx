@@ -22,9 +22,10 @@ interface DataTableProps {
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'default' | 'checkbox' | 'none'
-  stickyHeader?: boolean,
-  compareRow?: (lhs: Row, rhs: Row) => boolean,
+  stickyHeader?: boolean
+  compareRow?: (lhs: Row, rhs: Row) => boolean
   columnSortMap?: ColumnSortMap
+  disabled?: boolean
 }
 
 interface DataTableState {
@@ -134,6 +135,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       stickyHeader = false,
       compareRow,
       onSelectionChanged,
+      disabled = false,
       ...rest
     } = this.props
 
@@ -163,6 +165,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           columnSortMap={columnSortMap}
           onSort={this.handleSort}
           hasRowDetail={hasRowDetail}
+          disabled={disabled}
         />
         <DataTableBody
           rows={filteredRows}
@@ -178,6 +181,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           compareRow={compareRow}
           emptyRows={emptyRows}
           rowDetail={rowDetail}
+          disabled={disabled}
         />
         {paginate ? (
           <DataTableFooter
