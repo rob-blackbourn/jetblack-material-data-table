@@ -45,6 +45,7 @@ The `DataTable` has the following props:
 | `selected`           | `array`    | `[]`             | The list of selected rows                         |
 | `isSelectable`       | `boolean`  | `false`          | Whether the rows are selectable                   |
 | `onSelectionChanged` | `function` | `null`           | A function to call when the selection is changed  |
+| `disabled`           | `boolean`  | `false`          | Whether to disable selection                      |
 | `compareRow`         | `function` | `null`           | A callback function to compare a rows in selected |
 | `filterText`         | `string`   | `''`             | Text to filter the rows                           |
 | `paginate`           | `boolean`  | `true`           | Whether to paginate the table                     |
