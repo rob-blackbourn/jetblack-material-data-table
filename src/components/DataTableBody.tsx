@@ -22,6 +22,7 @@ type DataTableBodyProps = {
   emptyRows: number
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   compareRow?: (lhs: Row, rhs: Row) => boolean
+  disabled: boolean
 }
 
 const DataTableBody = ({
@@ -37,7 +38,8 @@ const DataTableBody = ({
   onSelected,
   emptyRows,
   rowDetail,
-  compareRow
+  compareRow,
+  disabled
 }: DataTableBodyProps) => (
   <TableBody>
     {stableSort(rows, columns, columnSortMap)
@@ -56,6 +58,7 @@ const DataTableBody = ({
           rowIndex={rowIndex}
           rowDetail={rowDetail}
           colSpan={colSpan}
+          disabled={disabled}
         />
       ))}
     {emptyRows > 0 && (
