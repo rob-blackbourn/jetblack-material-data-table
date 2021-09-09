@@ -6,12 +6,14 @@ import Tooltip from '@material-ui/core/Tooltip'
 type DataTableHeadCheckboxProps = {
   numSelected: number
   rowCount: number
+  disabled: boolean
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
 }
 
 const DataTableHeadCheckbox = ({
   numSelected,
   rowCount,
+  disabled,
   onSelectAllClick
 }: DataTableHeadCheckboxProps) => (
   <TableCell key='head-checkbox' padding='checkbox'>
@@ -25,6 +27,7 @@ const DataTableHeadCheckbox = ({
             event.target.checked
           )
         }
+        disabled={disabled}
       />
     </Tooltip>
   </TableCell>
