@@ -6,6 +6,7 @@ import NoPaginateDataTable from './NoPaginateDataTable'
 import RenderDataTable from './RenderDataTable'
 import SelectableDataTable from './SelectableDataTable'
 import FilteredDataTable from './FilteredDataTable'
+import ColumnSortDataTable from './ColumnSortDataTable'
 
 import { Meta } from '@storybook/react/types-6-0'
 import Typography from '@material-ui/core/Typography'
@@ -42,6 +43,8 @@ export const WithRender: React.FC<{}> = () => <RenderDataTable />
 export const WithSelection: React.FC<{}> = () => <SelectableDataTable />
 
 export const WithFilter: React.FC<{}> = () => <FilteredDataTable />
+
+export const WithColumnSort: React.FC<{}> = () => <ColumnSortDataTable />
 
 export const WithEverything: React.FC<{}> = () => <ComplexDataTable />
 
