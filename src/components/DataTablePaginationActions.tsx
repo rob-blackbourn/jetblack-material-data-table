@@ -1,71 +1,64 @@
 import * as React from 'react'
-import { withStyles, Theme } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import FirstPageIcon from '@material-ui/icons/FirstPage'
-import LastPageIcon from '@material-ui/icons/LastPage'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import { TablePaginationActionsProps } from '@material-ui/core/TablePagination/TablePaginationActions'
 
-const styles = (theme: Theme) => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(2.5),
-  },
-})
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import FirstPageIcon from '@mui/icons-material/FirstPage'
+import LastPageIcon from '@mui/icons-material/LastPage'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
+import { TablePaginationActionsProps } from '@mui/material/TablePagination/TablePaginationActions'
 
 const DataTablePaginationActions = ({
   count,
-  onChangePage,
+  onPageChange,
   page,
-  rowsPerPage,
-  classes,
-  theme,
-}: TablePaginationActionsProps & {
-  theme: Theme
-  classes: { [key: string]: any }
-}) => (
-  <div className={classes.root}>
-    <IconButton
-      onClick={(event) => onChangePage(event, 0)}
-      disabled={page === 0}
-      aria-label="First Page"
-    >
-      {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-    </IconButton>
-    <IconButton
-      onClick={(event) => onChangePage(event, page - 1)}
-      disabled={page === 0}
-      aria-label="Previous Page"
-    >
-      {theme.direction === 'rtl' ? (
-        <KeyboardArrowRight />
-      ) : (
-        <KeyboardArrowLeft />
-      )}
-    </IconButton>
-    <IconButton
-      onClick={(event) => onChangePage(event, page + 1)}
-      disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      aria-label="Next Page"
-    >
-      {theme.direction === 'rtl' ? (
-        <KeyboardArrowLeft />
-      ) : (
-        <KeyboardArrowRight />
-      )}
-    </IconButton>
-    <IconButton
-      onClick={(event) =>
-        onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
-      }
-      disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      aria-label="Next Page"
-    >
-      {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-    </IconButton>
-  </div>
-)
+  rowsPerPage
+}: TablePaginationActionsProps) => {
+  const theme = useTheme()
 
-export default withStyles(styles, { withTheme: true })(DataTablePaginationActions)
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5}}>
+      <IconButton
+        onClick={(event) => onPageChange(event, 0)}
+        disabled={page === 0}
+        aria-label="First Page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={(event) => onPageChange(event, page - 1)}
+        disabled={page === 0}
+        aria-label="Previous Page"
+      >
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={(event) => onPageChange(event, page + 1)}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="Next Page"
+      >
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={(event) =>
+          onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+        }
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="Next Page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  )
+}
+
+export default DataTablePaginationActions

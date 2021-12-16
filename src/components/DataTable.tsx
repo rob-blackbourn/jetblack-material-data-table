@@ -1,6 +1,9 @@
 import * as React from 'react'
-import { StyledComponentProps } from '@material-ui/core/styles/withStyles'
-import Table from '@material-ui/core/Table'
+
+import { Theme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
+import Table from '@mui/material/Table'
+
 import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
@@ -21,11 +24,12 @@ interface DataTableProps {
   rowsPerPageOptions?: number[]
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   size?: 'small' | 'medium'
-  padding?: 'default' | 'checkbox' | 'none'
+  padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean
   compareRow?: (lhs: Row, rhs: Row) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
+  sx?: SxProps<Theme>
 }
 
 interface DataTableState {
@@ -44,9 +48,9 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     }
   }
 
-  handleChangePage = (page: number) => this.setState({ page })
+  handlePageChange = (page: number) => this.setState({ page })
 
-  handleChangeRowsPerPage = (rowsPerPage: number) =>
+  handleRowsPerPageChange = (rowsPerPage: number) =>
     this.setState({ rowsPerPage })
 
   handleSelectAllClick = (
@@ -131,7 +135,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       rowDetail,
       selected = [],
       size = 'medium',
-      padding = 'default',
+      padding = 'normal',
       stickyHeader = false,
       compareRow,
       onSelectionChanged,
@@ -190,8 +194,8 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={rowsPerPageOptions}
             page={page}
-            onChangePage={this.handleChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onPageChange={this.handlePageChange}
+            onRowsPerPageChange={this.handleRowsPerPageChange}
           />
         ) : null}
       </Table>

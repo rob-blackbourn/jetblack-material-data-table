@@ -1,7 +1,8 @@
 import * as React from 'react'
-import TableCell from '@material-ui/core/TableCell'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Tooltip from '@material-ui/core/Tooltip'
+
+import TableCell from '@mui/material/TableCell'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Tooltip from '@mui/material/Tooltip'
 
 import { Column, ColumnSortMap } from './types'
 

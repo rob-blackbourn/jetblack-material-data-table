@@ -1,6 +1,8 @@
-import React from 'react'
-import CheckIcon from '@material-ui/icons/Check'
-import ClearIcon from '@material-ui/icons/Clear'
+import * as React from 'react'
+
+import CheckIcon from '@mui/icons-material/Check'
+import ClearIcon from '@mui/icons-material/Clear'
+
 import { Column, Row } from '../components/types'
 import DataTable from '../components/DataTable'
 

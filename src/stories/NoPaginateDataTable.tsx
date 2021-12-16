@@ -1,4 +1,5 @@
-import React from 'react'
+import * as React from 'react'
+
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 

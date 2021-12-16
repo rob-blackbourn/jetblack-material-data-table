@@ -1,8 +1,9 @@
 import * as React from 'react'
-import TableCell from '@material-ui/core/TableCell'
-import IconButton from '@material-ui/core/IconButton'
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+
+import TableCell from '@mui/material/TableCell'
+import IconButton from '@mui/material/IconButton'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 type DataTableBodyRowDetailButtonProps = {
   showRowDetail: boolean

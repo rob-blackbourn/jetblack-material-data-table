@@ -1,6 +1,7 @@
 import * as React from 'react'
-import TableCell from '@material-ui/core/TableCell'
-import Checkbox from '@material-ui/core/Checkbox'
+
+import TableCell from '@mui/material/TableCell'
+import Checkbox from '@mui/material/Checkbox'
 
 type DataTableBodyCheckboxProps = {
   isSelected: boolean

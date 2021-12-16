@@ -1,4 +1,3 @@
-import { SyncProblemRounded } from '@material-ui/icons'
 import { Row, Column, ColumnSortMap } from './types'
 
 export function getFieldValue(

@@ -1,4 +1,10 @@
-import React from 'react'
+import * as React from 'react'
+
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+
 import SimpleDataTable from './SimpleDataTable'
 import ComplexDataTable from './ComplexDataTable'
 import RowDetailDataTable from './RowDetailDataTable'
@@ -9,7 +15,7 @@ import FilteredDataTable from './FilteredDataTable'
 import ColumnSortDataTable from './ColumnSortDataTable'
 
 import { Meta } from '@storybook/react/types-6-0'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import DataTable from '../components/DataTable'
 
 export const Simple: React.VFC<{}> = () => <SimpleDataTable />

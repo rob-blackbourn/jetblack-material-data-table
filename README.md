@@ -394,11 +394,11 @@ the filter text.
 
 ```javascript
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import IconButton from "@material-ui/core/IconButton"
-import ClearIcon from "@material-ui/icons/Clear"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import TextField from "@material-ui/core/TextField"
+import { withStyles } from '@mui/core/styles'
+import IconButton from "@mui/core/IconButton"
+import ClearIcon from "@mui/icons/Clear"
+import InputAdornment from "@mui/core/InputAdornment"
+import TextField from "@mui/core/TextField"
 import { DataTable } from '../index'
 
 
