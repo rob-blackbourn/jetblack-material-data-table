@@ -1,6 +1,6 @@
 # @jetblack/material-data-table
 
-A simple data table for [material-ui](https://material-ui.com).
+A simple data table for [material-ui](https://mui.com).
 
 ## Installation
 
@@ -243,7 +243,8 @@ export interface ColumnSortMap {
 Here is a simple example:
 
 ```js
-import React from "react"
+import * as React from "react"
+
 import { DataTable } from '@jetblack/material-data-table'
 
 const RenderDataTable = () => {
@@ -286,7 +287,8 @@ export default RenderDataTable
 This example has row details:
 
 ```js
-import React from 'react'
+import * as React from 'react'
+
 import { DataTable } from '@jetblack/material-data-table'
 
 const RowDetailDataTable = () => {
@@ -335,7 +337,8 @@ export default RowDetailDataTable
 We need to maintain state of the selected rows.
 
 ```javascript
-import React from 'react'
+import * as React from 'react'
+
 import { DataTable } from '@jetblack/material-data-table'
 
 class SelectableDataTable extends React.Component {
@@ -393,18 +396,19 @@ We need to provide a filter text box, and maintain the state of
 the filter text.
 
 ```javascript
-import React from 'react'
-import { withStyles } from '@mui/core/styles'
-import IconButton from "@mui/core/IconButton"
-import ClearIcon from "@mui/icons/Clear"
-import InputAdornment from "@mui/core/InputAdornment"
-import TextField from "@mui/core/TextField"
+import * as React from 'react'
+
+import IconButton from "@mui/material/IconButton"
+import ClearIcon from "@mui/icons-material/Clear"
+import InputAdornment from "@mui/material/InputAdornment"
+import TextField from "@mui/material/TextField"
+
 import { DataTable } from '../index'
 
 
-const FilterTextField = ({text, title, onChange, className}) => (
+const FilterTextField = ({text, title, onChange}) => (
   <TextField
-    className={className}
+    sx={{ width: 300 }}
     label={title}
     value={text}
     InputProps={{
@@ -419,12 +423,6 @@ const FilterTextField = ({text, title, onChange, className}) => (
     onChange={(event) => onChange(event.target.value)}
   />
 )
-
-const styles = (theme) => ({
-  filterTextField: {
-    width: 300,
-  }
-})
 
 class FilteredDataTable extends React.Component {
   state = {
@@ -455,13 +453,11 @@ class FilteredDataTable extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
     const { columns, rows, filterText } = this.state
     return (
       <div>
         <div>
           <FilterTextField
-            className={classes.filterTextField}
             title="Filter"
             text={filterText}
             onChange={(filterText) => this.setState({ filterText })}
@@ -469,7 +465,6 @@ class FilteredDataTable extends React.Component {
         </div>
 
         <DataTable
-          className={classes.DataTable}
           columns={columns}
           rows={rows}
           filterText={filterText}
@@ -480,5 +475,5 @@ class FilteredDataTable extends React.Component {
   }
 }
 
-export default withStyles(styles)(FilteredDataTable)
+export default FilteredDataTable
 ```
