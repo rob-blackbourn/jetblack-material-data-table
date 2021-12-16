@@ -1,20 +1,11 @@
-import React from 'react'
-import { Theme, withStyles } from '@material-ui/core/styles'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
+import * as React from 'react'
+
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
+
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 import FilterTextField from './FilterTextField'
-
-const styles = (theme: Theme) => ({
-  selectableSlider: {
-    margin: theme.spacing(1),
-  },
-  filterTextField: {
-    width: 300,
-  },
-  dataTable: {}
-})
 
 interface ComplexDataTableProps {}
 
@@ -26,12 +17,8 @@ interface ComplexDataTableState {
   selected: Row[]
 }
 
-interface Classes {
-  [key: string]: any
-}
-
 class ComplexDataTable extends React.Component<
-  ComplexDataTableProps & Classes,
+  ComplexDataTableProps,
   ComplexDataTableState
 > {
   state: ComplexDataTableState = {
@@ -64,7 +51,6 @@ class ComplexDataTable extends React.Component<
   }
 
   render() {
-    const { classes } = this.props
     const {
       columns,
       rows,
@@ -77,7 +63,7 @@ class ComplexDataTable extends React.Component<
       <div>
         <div>
           <FormControlLabel
-            className={classes.selectableSlider}
+            sx={{ m: 1 }}
             control={
               <Switch
                 checked={isSelectable}
@@ -91,7 +77,7 @@ class ComplexDataTable extends React.Component<
         </div>
         <div>
           <FilterTextField
-            className={classes.filterTextField}
+            sx={{ width: 300 }}
             title="Filter"
             text={filterText}
             onChange={(filterText) => this.setState({ filterText })}
@@ -99,7 +85,6 @@ class ComplexDataTable extends React.Component<
         </div>
 
         <DataTable
-          className={classes.DataTable}
           size='small'
           padding='none'
           columns={columns}
@@ -117,4 +102,4 @@ class ComplexDataTable extends React.Component<
   }
 }
 
-export default withStyles(styles)(ComplexDataTable)
+export default ComplexDataTable

@@ -1,9 +1,11 @@
-import React from 'react'
-import { Theme, withStyles } from '@material-ui/core/styles'
-import IconButton from "@material-ui/core/IconButton"
-import ClearIcon from "@material-ui/icons/Clear"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import TextField from "@material-ui/core/TextField"
+import * as React from 'react'
+
+import { Theme, SxProps } from '@mui/material/styles'
+import IconButton from "@mui/material/IconButton"
+import ClearIcon from "@mui/icons-material/Clear"
+import InputAdornment from "@mui/material/InputAdornment"
+import TextField from "@mui/material/TextField"
+
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 
@@ -18,10 +20,10 @@ const FilterTextField = ({
   text,
   title,
   onChange,
-  className,
-}: FilterTextFieldProps & { className: string }) => (
+  sx,
+}: FilterTextFieldProps & { sx: SxProps<Theme> }) => (
   <TextField
-    className={className}
+    sx={sx}
     label={title}
     value={text}
     InputProps={{
@@ -37,12 +39,6 @@ const FilterTextField = ({
   />
 )
 
-const styles = (theme: Theme) => ({
-  filterTextField: {
-    width: 300,
-  }
-})
-
 interface FilteredDataTableProps {}
 
 interface FilteredDataTableState {
@@ -51,12 +47,8 @@ interface FilteredDataTableState {
   filterText: string
 }
 
-interface Classes {
-  [key: string]: any
-}
-
 class FilteredDataTable extends React.Component<
-  FilteredDataTableProps & Classes,
+  FilteredDataTableProps,
   FilteredDataTableState
 > {
   state: FilteredDataTableState = {
@@ -87,13 +79,12 @@ class FilteredDataTable extends React.Component<
   }
 
   render() {
-    const { classes } = this.props
     const { columns, rows, filterText } = this.state
     return (
       <div>
         <div>
           <FilterTextField
-            className={classes.filterTextField}
+            sx={{ width: 300 }}
             title="Filter"
             text={filterText}
             onChange={(filterText) => this.setState({ filterText })}
@@ -101,7 +92,6 @@ class FilteredDataTable extends React.Component<
         </div>
 
         <DataTable
-          className={classes.DataTable}
           columns={columns}
           rows={rows}
           filterText={filterText}
@@ -112,4 +102,4 @@ class FilteredDataTable extends React.Component<
   }
 }
 
-export default withStyles(styles)(FilteredDataTable)
+export default FilteredDataTable

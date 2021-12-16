@@ -1,7 +1,10 @@
 import * as React from 'react'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
+
+import { Theme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
 
 import DataTableHeadCheckbox from './DataTableHeadCheckbox'
 import DataTableHeadCell from './DataTableHeadCell'
@@ -18,6 +21,7 @@ type DataTableHeadProps = {
   onSort: (column: Column, isInvert: boolean) => void
   hasRowDetail: boolean
   disabled: boolean
+  sx?: SxProps<Theme>
 }
 
 const DataTableHead = ({

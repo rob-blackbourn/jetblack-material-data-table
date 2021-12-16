@@ -9,7 +9,7 @@ import FilteredDataTable from './FilteredDataTable'
 import ColumnSortDataTable from './ColumnSortDataTable'
 
 import { Meta } from '@storybook/react/types-6-0'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import DataTable from '../components/DataTable'
 
 export const Simple: React.VFC<{}> = () => <SimpleDataTable />

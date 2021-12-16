@@ -1,13 +1,17 @@
 import * as React from 'react'
-import TableCell from '@material-ui/core/TableCell'
-import Checkbox from '@material-ui/core/Checkbox'
-import Tooltip from '@material-ui/core/Tooltip'
+
+import { Theme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
+import TableCell from '@mui/material/TableCell'
+import Checkbox from '@mui/material/Checkbox'
+import Tooltip from '@mui/material/Tooltip'
 
 type DataTableHeadCheckboxProps = {
   numSelected: number
   rowCount: number
   disabled: boolean
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
+  sx?: SxProps<Theme>
 }
 
 const DataTableHeadCheckbox = ({

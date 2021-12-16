@@ -1,5 +1,7 @@
 import * as React from 'react'
-import TableRow from '@material-ui/core/TableRow'
+
+import TableRow from '@mui/material/TableRow'
+
 import DataTableBodyCheckbox from './DataTableBodyCheckbox'
 import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'

@@ -1,7 +1,11 @@
 import * as React from 'react'
-import TableRow from '@material-ui/core/TableRow'
-import TableFooter from '@material-ui/core/TableFooter'
-import TablePagination from '@material-ui/core/TablePagination'
+
+import { Theme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
+import TableRow from '@mui/material/TableRow'
+import TableFooter from '@mui/material/TableFooter'
+import TablePagination from '@mui/material/TablePagination'
+
 import DataTablePaginationActions from './DataTablePaginationActions'
 import { Row } from './types'
 
@@ -11,8 +15,9 @@ type DataTableFooterProps = {
   page: number
   rowsPerPage: number
   rowsPerPageOptions: number[]
-  onChangePage: (page: number) => void
-  onChangeRowsPerPage: (rowsPerPage: number) => void
+  onPageChange: (page: number) => void
+  onRowsPerPageChange: (rowsPerPage: number) => void
+  sx?: SxProps<Theme>
 }
 
 const DataTableFooter = ({
@@ -21,8 +26,8 @@ const DataTableFooter = ({
   page,
   rowsPerPage,
   rowsPerPageOptions,
-  onChangePage,
-  onChangeRowsPerPage
+  onPageChange,
+  onRowsPerPageChange
 }: DataTableFooterProps) => (
   <TableFooter>
     <TableRow>
@@ -32,9 +37,9 @@ const DataTableFooter = ({
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={rowsPerPageOptions}
         page={page}
-        onChangePage={(_event, page) => onChangePage(page)}
-        onChangeRowsPerPage={(event) =>
-          onChangeRowsPerPage(parseInt(event.target.value))
+        onPageChange={(_event, page) => onPageChange(page)}
+        onRowsPerPageChange={(event) =>
+          onRowsPerPageChange(parseInt(event.target.value))
         }
         ActionsComponent={DataTablePaginationActions}
       />

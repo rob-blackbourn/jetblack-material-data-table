@@ -1,8 +1,11 @@
 import * as React from "react"
-import IconButton from "@material-ui/core/IconButton"
-import ClearIcon from "@material-ui/icons/Clear"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import TextField from "@material-ui/core/TextField"
+
+import { Theme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
+import IconButton from "@mui/material/IconButton"
+import ClearIcon from "@mui/icons-material/Clear"
+import InputAdornment from "@mui/material/InputAdornment"
+import TextField from "@mui/material/TextField"
 
 interface FilterTextFieldProps {
   text: string
@@ -14,10 +17,10 @@ const FilterTextField = ({
   text,
   title,
   onChange,
-  className,
-}: FilterTextFieldProps & { className: string }) => (
+  sx,
+}: FilterTextFieldProps & { sx: SxProps<Theme> }) => (
   <TextField
-    className={className}
+    sx={sx}
     label={title}
     value={text}
     InputProps={{
