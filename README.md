@@ -212,7 +212,7 @@ An optional property which provides a row detail page. It has the
 following prototype:
 
 ```typescript
-(row: Row, columns: Column[]) => React.ReactNode
+(row: Row, columns: Column[], rows: Row[], context: any) => React.ReactNode
 ```
 
 ### `DataTable.size`
