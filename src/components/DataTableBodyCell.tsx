@@ -8,17 +8,19 @@ import { Row, Column } from './types'
 
 type DataTableBodyCellProps = {
   row: Row
+  rows: Row[]
   column: Column
   columns: Column[]
 }
 
 const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
   row,
+  rows,
   column,
   columns
 }) => (
   <TableCell align={column.align}>
-    {getRenderedValue(row, column, columns)}
+    {getRenderedValue(row, column, columns, rows)}
   </TableCell>
 )
 
