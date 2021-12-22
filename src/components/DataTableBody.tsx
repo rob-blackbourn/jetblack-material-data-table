@@ -52,6 +52,7 @@ const DataTableBody = ({
         <DataTableBodyRow
           key={`body-${rowIndex}`}
           row={row}
+          rows={rows}
           columns={columns}
           isSelected={isSelectable && isRowSelected(row, selected, compareRow)}
           isSelectable={isSelectable}

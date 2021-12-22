@@ -11,6 +11,7 @@ import { Row, Column } from './types'
 
 interface DataTableBodyRowProps {
   row: Row
+  rows: Row[]
   columns: Column[]
   isSelected: boolean
   isSelectable: boolean
@@ -36,6 +37,7 @@ class DataTableBodyRow extends React.Component<
   render() {
     const {
       row,
+      rows,
       columns,
       isSelected,
       isSelectable,
@@ -72,6 +74,7 @@ class DataTableBodyRow extends React.Component<
             <DataTableBodyCell
               key={`body-${rowIndex}-${columnIndex}`}
               row={row}
+              rows={rows}
               column={column}
               columns={columns}
             />
