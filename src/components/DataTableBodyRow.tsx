@@ -91,7 +91,9 @@ class DataTableBodyRow extends React.Component<
           >
             <DataTableBodyRowDetailCell
               row={row}
+              rows={rows}
               columns={columns}
+              context={context}
               colSpan={colSpan}
               rowDetail={rowDetail}
             />
