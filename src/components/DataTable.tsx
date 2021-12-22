@@ -29,6 +29,7 @@ interface DataTableProps {
   compareRow?: (lhs: Row, rhs: Row) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
+  context?: any
   sx?: SxProps<Theme>
 }
 
@@ -140,10 +141,11 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       compareRow,
       onSelectionChanged,
       disabled = false,
+      context = null,
       ...rest
     } = this.props
 
-    const filteredRows = filterRows(rows, columns, filterText)
+    const filteredRows = filterRows(rows, columns, filterText, context)
     const filteredSelected = filteredRows.filter((row) =>
       selected.includes(row)
     )
@@ -186,6 +188,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           emptyRows={emptyRows}
           rowDetail={rowDetail}
           disabled={disabled}
+          context={context}
         />
         {paginate ? (
           <DataTableFooter

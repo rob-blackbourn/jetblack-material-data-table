@@ -24,6 +24,7 @@ type DataTableBodyProps = {
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   compareRow?: (lhs: Row, rhs: Row) => boolean
   disabled: boolean
+  context: any
 }
 
 const DataTableBody = ({
@@ -40,10 +41,11 @@ const DataTableBody = ({
   emptyRows,
   rowDetail,
   compareRow,
-  disabled
+  disabled,
+  context
 }: DataTableBodyProps) => (
   <TableBody>
-    {stableSort(rows, columns, columnSortMap)
+    {stableSort(rows, columns, columnSortMap, context)
       .slice(
         paginate ? page * rowsPerPage : 0,
         paginate ? page * rowsPerPage + rowsPerPage : rows.length
@@ -61,6 +63,7 @@ const DataTableBody = ({
           rowDetail={rowDetail}
           colSpan={colSpan}
           disabled={disabled}
+          context={context}
         />
       ))}
     {emptyRows > 0 && (

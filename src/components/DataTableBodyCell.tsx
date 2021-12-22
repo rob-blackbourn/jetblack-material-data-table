@@ -11,16 +11,18 @@ type DataTableBodyCellProps = {
   rows: Row[]
   column: Column
   columns: Column[]
+  context: any
 }
 
 const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
   row,
   rows,
   column,
-  columns
+  columns,
+  context
 }) => (
   <TableCell align={column.align}>
-    {getRenderedValue(row, column, columns, rows)}
+    {getRenderedValue(row, column, columns, rows, context)}
   </TableCell>
 )
 

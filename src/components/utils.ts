@@ -17,10 +17,11 @@ export function getColumnValue(
   row: Row,
   column: Column,
   columns: Column[],
-  rows: Row[]
+  rows: Row[],
+  context: any
 ): any {
   if (column.getValue) {
-    return column.getValue(row, column, columns, rows)
+    return column.getValue(row, column, columns, rows, context)
   } else {
     return row[column.id]
   }
@@ -30,11 +31,12 @@ export function getFormattedValue(
   row: Row,
   column: Column,
   columns: Column[],
-  rows: Row[]
+  rows: Row[],
+  context: any
 ): string {
-  const value = getColumnValue(row, column, columns, rows)
+  const value = getColumnValue(row, column, columns, rows, context)
   if (column.formatValue) {
-    return column.formatValue(value, row, column, columns, rows)
+    return column.formatValue(value, row, column, columns, rows, context)
   } else if (value == null) {
     return ''
   } else {
@@ -47,18 +49,20 @@ export function getRenderedValue(
   row: Row,
   column: Column,
   columns: Column[],
-  rows: Row[]
+  rows: Row[],
+  context: any
 ): React.ReactNode | string {
   if (column.renderValue) {
     return column.renderValue(
-      getColumnValue(row, column, columns, rows),
+      getColumnValue(row, column, columns, rows, context),
       row,
       column,
       columns,
-      rows
+      rows,
+      context
     )
   } else {
-    return getFormattedValue(row, column, columns, rows)
+    return getFormattedValue(row, column, columns, rows, context)
   }
 }
 function compareRows(
@@ -66,19 +70,20 @@ function compareRows(
   rhs: Row,
   columns: Column[],
   columnSortMap: ColumnSortMap,
-  rows: Row[]
+  rows: Row[],
+  context: any
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
     const column = columns.find((x) => x.id === id)
     if (column) {
       if (column.compare) {
-        const result = column.compare(lhs, rhs, column, columns, rows)
+        const result = column.compare(lhs, rhs, column, columns, rows, context)
         if (result !== 0) {
           return result
         }
       } else {
-        const lhsValue = getColumnValue(lhs, column, columns, rows)
-        const rhsValue = getColumnValue(rhs, column, columns, rows)
+        const lhsValue = getColumnValue(lhs, column, columns, rows, context)
+        const rhsValue = getColumnValue(rhs, column, columns, rows, context)
         if (rhsValue < lhsValue) {
           return sortDirection === 'asc' ? 1 : -1
         } else if (rhsValue > lhsValue) {
@@ -93,11 +98,12 @@ function compareRows(
 export function stableSort(
   rows: Row[],
   columns: Column[],
-  columnSortMap: ColumnSortMap
+  columnSortMap: ColumnSortMap,
+  context: any
 ): Row[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
-    const difference = compareRows(lhs.row, rhs.row, columns, columnSortMap, rows)
+    const difference = compareRows(lhs.row, rhs.row, columns, columnSortMap, rows, context)
     return difference !== 0 ? difference : lhs.index - rhs.index
   })
   return data.map(({ row }) => row)
@@ -106,7 +112,8 @@ export function stableSort(
 export function filterRows(
   rows: Row[],
   columns: Column[],
-  filterText: string
+  filterText: string,
+  context: any
 ): Row[] {
   if (!filterText) {
     return rows
@@ -115,8 +122,8 @@ export function filterRows(
   return rows.filter((row) =>
     columns.some((column) =>
       column.search
-        ? column.search(matchString, row, column, columns, rows)
-        : getFormattedValue(row, column, columns, rows)
+        ? column.search(matchString, row, column, columns, rows, context)
+        : getFormattedValue(row, column, columns, rows, context)
             .toLowerCase()
             .includes(matchString)
     )
