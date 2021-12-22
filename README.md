@@ -1,6 +1,6 @@
 # @jetblack/material-data-table
 
-A simple data table for [material-ui](https://mui.com).
+A simple data table for [mui](https://mui.com).
 
 ## Installation
 
@@ -58,6 +58,8 @@ The `DataTable` has the following props:
 | `className`          | `string`   | `null`           | The class name                                    |
 | `style`              | `styles`   | `null`           | The component styles                              |
 | `columnSortMap`      | `object`   | `null`           | A map of column id to `'asc'` or `'desc'`         |
+| `context`            | `any`      | `null`           | User data passed through to callbacks             |
+| `sx`                 | `objects`  | `null`           | Object for styling                                |
 
 ### `DataTable.rows`
 
@@ -102,13 +104,13 @@ form (it doesn't need to be formatted to a string). It has the
 following prototype:
 
 ```typescript
-(row: Row, column: Column, columns: Column[], rows: Row[]) => any
+(row: Row, column: Column, columns: Column[], rows: Row[], context: any) => any
 ```
 
 If this function is not specified it defaults to:
 
 ```typescript
-function (row: Row, col: Column, columns: Column[], rows: Row[]): any {
+function (row: Row, col: Column, columns: Column[], rows: Row[], context: any): any {
   return row[column.id]
 }
 ```
@@ -119,7 +121,7 @@ This is an optional function which takes the row value and formats it
 to a string. it has the following prototype:
 
 ```typescript
-(value: any, row: Row, column: Column, columns: Column[], rows: Row[]) => string
+(value: any, row: Row, column: Column, columns: Column[], rows: Row[], context: any) => string
 ```
 
 If this function is not specified a simple string conversion is 
@@ -134,7 +136,7 @@ This is an optional function which takes the row value and returns
 either a string or a react component. It has the following prototype.
 
 ```typescript
-(value: any, row: Row, column: Column, columns: Column[], rows: Row[]) => React.ReactNode | string
+(value: any, row: Row, column: Column, columns: Column[], rows: Row[], context: any) => React.ReactNode | string
 ```
 
 If this function is not specified the formatted value is used.
@@ -146,7 +148,7 @@ This is an optional function which takes the search text and returns
 prototype.
 
 ```typescript
-(searchText: string, row: Row, column: Column, columns: Column[], rows: Row[]) => boolean
+(searchText: string, row: Row, column: Column, columns: Column[], rows: Row[], context: any) => boolean
 ```
 
 If the function is not specified the formatted value is used for 
@@ -158,7 +160,7 @@ This is an optional function which is used for sorting. It has the
 following prototype:
 
 ```typescript
-(lhs: Row, rhs: Row, column: Column, columns: Column[], rows: Row[]) => -1 | 0 | 1
+(lhs: Row, rhs: Row, column: Column, columns: Column[], rows: Row[], context: any) => -1 | 0 | 1
 ```
 
 If the function is not specified the column values are used in the

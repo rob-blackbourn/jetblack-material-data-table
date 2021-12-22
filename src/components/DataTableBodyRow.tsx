@@ -20,6 +20,7 @@ interface DataTableBodyRowProps {
   colSpan: number
   rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
   disabled: boolean
+  context: any
 }
 
 interface DataTableBodyRowState {
@@ -45,7 +46,8 @@ class DataTableBodyRow extends React.Component<
       rowIndex,
       colSpan,
       rowDetail,
-      disabled
+      disabled,
+      context
     } = this.props
     const { showRowDetail } = this.state
 
@@ -77,6 +79,7 @@ class DataTableBodyRow extends React.Component<
               rows={rows}
               column={column}
               columns={columns}
+              context={context}
             />
           ))}
         </TableRow>
