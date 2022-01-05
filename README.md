@@ -74,6 +74,7 @@ The `columns` prop is a list of `Column` objects with the following properties:
 | ------------- | ---------- | ---------- | ------------------------------------- |
 | `id`          | `string`   | *required* | The column id                         |
 | `title`       | `string`   | `null`     | The column title                      |
+| `hide`        | `boolean`  | `null`     | If true the column is hidden          |
 | `align`       | `string`   | `'left'`   | The column alignment                  |
 | `getValue`    | `function` | `null`     | A custom function to select cell data |
 | `formatValue` | `function` | `null`     | A custom function to format cell data |
@@ -90,6 +91,10 @@ no accessor is supplied for the it is used as the key for the row.
 
 This is an optional string which will be used as the title of the 
 column.
+
+#### `Column.hide`
+
+This is an optional boolean which, when true, hides the column.
 
 #### `Column.align`
 

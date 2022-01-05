@@ -48,7 +48,7 @@ const DataTableHead = ({
         />
       ) : null}
 
-      {columns.map((column, columnIndex) => (
+      {columns.filter(column => !column.hide).map((column, columnIndex) => (
         <DataTableHeadCell
           key={`head-cell-${columnIndex}`}
           column={column}

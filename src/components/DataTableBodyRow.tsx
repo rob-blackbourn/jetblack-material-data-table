@@ -72,7 +72,7 @@ class DataTableBodyRow extends React.Component<
               disabled={disabled}
             />
           ) : null}
-          {columns.map((column, columnIndex) => (
+          {columns.filter(column => !column.hide).map((column, columnIndex) => (
             <DataTableBodyCell
               key={`body-${rowIndex}-${columnIndex}`}
               row={row}
