@@ -45,7 +45,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     this.state = {
       page: 0,
       rowsPerPage: props.rowsPerPage || 10,
-      columnSortMap: props.columnSortMap || {}
+      columnSortMap: props.columnSortMap || {},
     }
   }
 
@@ -63,12 +63,12 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     const { rows } = this.props
     const prevSelected = this.props.selected || []
 
-    const unfilteredRows = rows.filter((row) => !filteredRows.includes(row))
+    const unfilteredRows = rows.filter(row => !filteredRows.includes(row))
 
     const filteredUnselected = filteredRows.filter(
-      (row) => !prevSelected.includes(row)
+      row => !prevSelected.includes(row)
     )
-    const unfilteredSelected = unfilteredRows.filter((row) =>
+    const unfilteredSelected = unfilteredRows.filter(row =>
       prevSelected.includes(row)
     )
 
@@ -86,7 +86,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   handleClick = (row: Row, onSelectionChanged?: (rows: Row[]) => void) => {
     const prevSelected = this.props.selected || []
     const selected = prevSelected.includes(row)
-      ? prevSelected.filter((r) => r !== row)
+      ? prevSelected.filter(r => r !== row)
       : [...prevSelected, row]
     if (onSelectionChanged) {
       onSelectionChanged(selected)
@@ -142,13 +142,12 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       onSelectionChanged,
       disabled = false,
       context = null,
+      columnSortMap: _columnSortMap,
       ...rest
     } = this.props
 
     const filteredRows = filterRows(rows, columns, filterText, context)
-    const filteredSelected = filteredRows.filter((row) =>
-      selected.includes(row)
-    )
+    const filteredSelected = filteredRows.filter(row => selected.includes(row))
     const emptyRows = paginate
       ? rowsPerPage -
         Math.min(rowsPerPage, filteredRows.length - page * rowsPerPage)
@@ -159,14 +158,24 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       columns.length + (isSelectable ? 1 : 0) + (hasRowDetail ? 1 : 0)
 
     return (
-      <Table size={size} padding={padding} stickyHeader={stickyHeader} {...rest} >
+      <Table
+        size={size}
+        padding={padding}
+        stickyHeader={stickyHeader}
+        {...rest}
+      >
         <DataTableHead
           columns={columns}
           isSelectable={isSelectable}
           numSelected={numSelected}
           rowCount={filteredRows.length}
           onSelectAllClick={(isInvert, isChecked) =>
-            this.handleSelectAllClick(isInvert, isChecked, filteredRows, onSelectionChanged)
+            this.handleSelectAllClick(
+              isInvert,
+              isChecked,
+              filteredRows,
+              onSelectionChanged
+            )
           }
           columnSortMap={columnSortMap}
           onSort={this.handleSort}
