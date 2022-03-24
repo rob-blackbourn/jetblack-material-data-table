@@ -19,9 +19,9 @@ const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
   rows,
   column,
   columns,
-  context
+  context,
 }) => (
-  <TableCell align={column.align}>
+  <TableCell align={column.align} sx={column.sx}>
     {getRenderedValue(row, column, columns, rows, context)}
   </TableCell>
 )
