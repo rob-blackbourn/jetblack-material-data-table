@@ -1,7 +1,7 @@
 {
   "name": "@jetblack/material-data-table",
   "private": false,
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "A data table for material-ui",
   "repository": "https://github.com/rob-blackbourn/jetblack-material-data-table",
   "homepage": "https://github.com/rob-blackbourn/jetblack-material-data-table",
