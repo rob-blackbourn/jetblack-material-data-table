@@ -1,55 +1,55 @@
 import { Theme } from '@mui/material/styles'
 import { SxProps } from '@mui/system'
 
-export interface Row<TRow = {}> {
-  [key: string]: TRow
+export interface Row {
+  [key: string]: any
 }
 
 export type ColumnGetValueHandler<TRow, TContext> = (
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ) => any
 
 export type ColumnFormatValueHandler<TRow, TContext> = (
   value: any,
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ) => string
 
 export type ColumnRenderValueHandler<TRow, TContext> = (
   value: any,
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ) => React.ReactNode | string
 
 export type ColumnSearchHandler<TRow, TContext> = (
   text: string,
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ) => boolean
 
 export type ColumnCompareHandler<TRow, TContext> = (
-  lhs: Row<TRow>,
-  rhs: Row<TRow>,
+  lhs: TRow,
+  rhs: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ) => -1 | 0 | 1
 
-export interface Column<TRow = {}, TContext = null> {
+export interface Column<TRow extends Row = {}, TContext = null> {
   id: string
   title?: string
   hide?: boolean

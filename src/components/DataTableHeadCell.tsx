@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Tooltip from '@mui/material/Tooltip'
 
-import { Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
 interface DataTableHeadCellProps<TRow, TContext> {
   column: Column<TRow, TContext>
@@ -12,7 +12,7 @@ interface DataTableHeadCellProps<TRow, TContext> {
   onSort: (column: Column<TRow, TContext>, isInvert: boolean) => void
 }
 
-export default function DataTableHeadCell<TRow, TContext>({
+export default function DataTableHeadCell<TRow extends Row, TContext>({
   column,
   columnSortMap,
   onSort,

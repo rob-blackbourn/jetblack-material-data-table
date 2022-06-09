@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell'
 import DataTableHeadCheckbox from './DataTableHeadCheckbox'
 import DataTableHeadCell from './DataTableHeadCell'
 
-import { Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
 type DataTableHeadProps<TRow, TContext> = {
   columns: Column<TRow, TContext>[]
@@ -24,7 +24,7 @@ type DataTableHeadProps<TRow, TContext> = {
   sx?: SxProps<Theme>
 }
 
-export default function DataTableHead<TRow, TContext>({
+export default function DataTableHead<TRow extends Row, TContext>({
   columns,
   isSelectable,
   numSelected,

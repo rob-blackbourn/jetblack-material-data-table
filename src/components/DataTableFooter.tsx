@@ -11,7 +11,7 @@ import { Row } from './types'
 
 type DataTableFooterProps<TRow> = {
   colSpan: number
-  rows: Row<TRow>[]
+  rows: TRow[]
   page: number
   rowsPerPage: number
   rowsPerPageOptions: number[]
@@ -20,7 +20,7 @@ type DataTableFooterProps<TRow> = {
   sx?: SxProps<Theme>
 }
 
-export default function DataTableFooter<TRow>({
+export default function DataTableFooter<TRow extends Row>({
   colSpan,
   rows,
   page,

@@ -7,21 +7,18 @@ import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'
 import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
-import { Row, Column } from './types'
+import { Column, Row } from './types'
 
 interface DataTableBodyRowProps<TRow, TContext> {
-  row: Row<TRow>
-  rows: Row<TRow>[]
+  row: TRow
+  rows: TRow[]
   columns: Column<TRow, TContext>[]
   isSelected: boolean
   isSelectable: boolean
-  onSelected: (row: Row<TRow>) => void
+  onSelected: (row: TRow) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (
-    row: Row<TRow>,
-    columns: Column<TRow, TContext>[]
-  ) => React.ReactNode
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   disabled: boolean
   context: TContext
 }
@@ -30,7 +27,7 @@ interface DataTableBodyRowState {
   showRowDetail: boolean
 }
 
-class DataTableBodyRow<TRow, TContext> extends React.Component<
+class DataTableBodyRow<TRow extends Row, TContext> extends React.Component<
   DataTableBodyRowProps<TRow, TContext>,
   DataTableBodyRowState
 > {

@@ -8,28 +8,25 @@ import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
-import { Row, Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
 interface DataTableProps<TRow, TContext> {
   className?: string
   style?: React.CSSProperties
   columns: Column<TRow, TContext>[]
-  rows: Row<TRow>[]
-  selected?: Row<TRow>[]
+  rows: TRow[]
+  selected?: TRow[]
   isSelectable?: boolean
-  onSelectionChanged?: (rows: Row<TRow>[]) => void
+  onSelectionChanged?: (rows: TRow[]) => void
   filterText?: string
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (
-    row: Row<TRow>,
-    columns: Column<TRow, TContext>[]
-  ) => React.ReactNode
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean
-  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
   context?: TContext
@@ -42,7 +39,7 @@ interface DataTableState {
   columnSortMap: ColumnSortMap
 }
 
-class DataTable<TRow = {}, TContext = null> extends React.Component<
+class DataTable<TRow extends Row = {}, TContext = null> extends React.Component<
   DataTableProps<TRow, TContext>,
   DataTableState
 > {
@@ -63,8 +60,8 @@ class DataTable<TRow = {}, TContext = null> extends React.Component<
   handleSelectAllClick = (
     isInvert: boolean,
     isChecked: boolean,
-    filteredRows: Row<TRow>[],
-    onSelectionChanged?: (rows: Row<TRow>[]) => void
+    filteredRows: TRow[],
+    onSelectionChanged?: (rows: TRow[]) => void
   ) => {
     const { rows } = this.props
     const prevSelected = this.props.selected || []
@@ -89,10 +86,7 @@ class DataTable<TRow = {}, TContext = null> extends React.Component<
     }
   }
 
-  handleClick = (
-    row: Row<TRow>,
-    onSelectionChanged?: (rows: Row<TRow>[]) => void
-  ) => {
+  handleClick = (row: TRow, onSelectionChanged?: (rows: TRow[]) => void) => {
     const prevSelected = this.props.selected || []
     const selected = prevSelected.includes(row)
       ? prevSelected.filter(r => r !== row)

@@ -1,8 +1,8 @@
 import { Row, Column, ColumnSortMap } from './types'
 
-export function getFieldValue<TRow>(
-  row: Row<TRow>,
-  key: string | ((row: Row<TRow>) => any)
+export function getFieldValue<TRow extends Row>(
+  row: TRow,
+  key: string | ((row: TRow) => any)
 ): any {
   if (typeof key === 'string') {
     return row[key]
@@ -13,11 +13,11 @@ export function getFieldValue<TRow>(
   }
 }
 
-export function getColumnValue<TRow, TContext>(
-  row: Row<TRow>,
+export function getColumnValue<TRow extends Row, TContext>(
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ): any {
   if (column.getValue) {
@@ -28,10 +28,10 @@ export function getColumnValue<TRow, TContext>(
 }
 
 export function getFormattedValue<TRow, TContext>(
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ): string {
   const value = getColumnValue(row, column, columns, rows, context)
@@ -46,10 +46,10 @@ export function getFormattedValue<TRow, TContext>(
 }
 
 export function getRenderedValue<TRow, TContext>(
-  row: Row<TRow>,
+  row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ): React.ReactNode | string {
   if (column.renderValue) {
@@ -66,11 +66,11 @@ export function getRenderedValue<TRow, TContext>(
   }
 }
 function compareRows<TRow, TContext>(
-  lhs: Row<TRow>,
-  rhs: Row<TRow>,
+  lhs: TRow,
+  rhs: TRow,
   columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  rows: Row<TRow>[],
+  rows: TRow[],
   context: TContext
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
@@ -96,11 +96,11 @@ function compareRows<TRow, TContext>(
 }
 
 export function stableSort<TRow, TContext>(
-  rows: Row<TRow>[],
+  rows: TRow[],
   columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
   context: TContext
-): Row<TRow>[] {
+): TRow[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
     const difference = compareRows(
@@ -117,11 +117,11 @@ export function stableSort<TRow, TContext>(
 }
 
 export function filterRows<TRow, TContext>(
-  rows: Row<TRow>[],
+  rows: TRow[],
   columns: Column<TRow, TContext>[],
   filterText: string,
   context: TContext
-): Row<TRow>[] {
+): TRow[] {
   if (!filterText) {
     return rows
   }
@@ -138,9 +138,9 @@ export function filterRows<TRow, TContext>(
 }
 
 export function isRowSelected<TRow>(
-  row: Row<TRow>,
-  selected: Row<TRow>[],
-  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
+  row: TRow,
+  selected: TRow[],
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
 ): boolean {
   return compareRow == null
     ? selected.includes(row)

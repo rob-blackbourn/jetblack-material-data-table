@@ -4,17 +4,17 @@ import TableCell from '@mui/material/TableCell'
 
 import { getRenderedValue } from './utils'
 
-import { Row, Column } from './types'
+import { Column, Row } from './types'
 
 type DataTableBodyCellProps<TRow, TContext> = {
-  row: Row<TRow>
-  rows: Row<TRow>[]
+  row: TRow
+  rows: TRow[]
   column: Column<TRow, TContext>
   columns: Column<TRow, TContext>[]
   context: TContext
 }
 
-export default function DataTableBodyCell<TRow, TContext>({
+export default function DataTableBodyCell<TRow extends Row, TContext>({
   row,
   rows,
   column,

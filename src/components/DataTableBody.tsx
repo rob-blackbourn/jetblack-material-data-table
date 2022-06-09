@@ -7,30 +7,27 @@ import TableCell from '@mui/material/TableCell'
 import { stableSort, isRowSelected } from './utils'
 import DataTableBodyRow from './DataTableBodyRow'
 
-import { Row, Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
 type DataTableBodyProps<TRow, TContext> = {
-  rows: Row<TRow>[]
+  rows: TRow[]
   columns: Column<TRow, TContext>[]
-  selected: Row<TRow>[]
+  selected: TRow[]
   columnSortMap: ColumnSortMap
   paginate: boolean
   page: number
   rowsPerPage: number
   colSpan: number
   isSelectable: boolean
-  onSelected: (row: Row<TRow>) => void
+  onSelected: (row: TRow) => void
   emptyRows: number
-  rowDetail?: (
-    row: Row<TRow>,
-    columns: Column<TRow, TContext>[]
-  ) => React.ReactNode
-  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
   disabled: boolean
   context: TContext
 }
 
-export default function DataTableBody<TRow, TContext>({
+export default function DataTableBody<TRow extends Row, TContext>({
   rows,
   columns,
   selected,
