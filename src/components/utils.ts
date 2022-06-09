@@ -13,10 +13,10 @@ export function getFieldValue(
   }
 }
 
-export function getColumnValue(
+export function getColumnValue<TContext>(
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
   context: any
 ): any {
@@ -27,10 +27,10 @@ export function getColumnValue(
   }
 }
 
-export function getFormattedValue(
+export function getFormattedValue<TContext>(
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
   context: any
 ): string {
@@ -45,10 +45,10 @@ export function getFormattedValue(
   }
 }
 
-export function getRenderedValue(
+export function getRenderedValue<TContext>(
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
   context: any
 ): React.ReactNode | string {
@@ -65,16 +65,16 @@ export function getRenderedValue(
     return getFormattedValue(row, column, columns, rows, context)
   }
 }
-function compareRows(
+function compareRows<TContext>(
   lhs: Row,
   rhs: Row,
-  columns: Column[],
+  columns: Column<TContext>[],
   columnSortMap: ColumnSortMap,
   rows: Row[],
   context: any
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
-    const column = columns.find((x) => x.id === id)
+    const column = columns.find(x => x.id === id)
     if (column) {
       if (column.compare) {
         const result = column.compare(lhs, rhs, column, columns, rows, context)
@@ -95,23 +95,30 @@ function compareRows(
   return 0
 }
 
-export function stableSort(
+export function stableSort<TContext>(
   rows: Row[],
-  columns: Column[],
+  columns: Column<TContext>[],
   columnSortMap: ColumnSortMap,
   context: any
 ): Row[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
-    const difference = compareRows(lhs.row, rhs.row, columns, columnSortMap, rows, context)
+    const difference = compareRows(
+      lhs.row,
+      rhs.row,
+      columns,
+      columnSortMap,
+      rows,
+      context
+    )
     return difference !== 0 ? difference : lhs.index - rhs.index
   })
   return data.map(({ row }) => row)
 }
 
-export function filterRows(
+export function filterRows<TContext>(
   rows: Row[],
-  columns: Column[],
+  columns: Column<TContext>[],
   filterText: string,
   context: any
 ): Row[] {
@@ -119,8 +126,8 @@ export function filterRows(
     return rows
   }
   const matchString = filterText.toLowerCase()
-  return rows.filter((row) =>
-    columns.some((column) =>
+  return rows.filter(row =>
+    columns.some(column =>
       column.search
         ? column.search(matchString, row, column, columns, rows, context)
         : getFormattedValue(row, column, columns, rows, context)
@@ -137,5 +144,5 @@ export function isRowSelected(
 ): boolean {
   return compareRow == null
     ? selected.includes(row)
-    : selected.find((x) => compareRow(row, x)) !== undefined
+    : selected.find(x => compareRow(row, x)) !== undefined
 }

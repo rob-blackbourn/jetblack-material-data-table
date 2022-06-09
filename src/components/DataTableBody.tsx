@@ -9,9 +9,9 @@ import DataTableBodyRow from './DataTableBodyRow'
 
 import { Row, Column, ColumnSortMap } from './types'
 
-type DataTableBodyProps = {
+type DataTableBodyProps<TContext> = {
   rows: Row[]
-  columns: Column[]
+  columns: Column<TContext>[]
   selected: Row[]
   columnSortMap: ColumnSortMap
   paginate: boolean
@@ -21,13 +21,13 @@ type DataTableBodyProps = {
   isSelectable: boolean
   onSelected: (row: Row) => void
   emptyRows: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
   compareRow?: (lhs: Row, rhs: Row) => boolean
   disabled: boolean
   context: any
 }
 
-const DataTableBody = ({
+export default function DataTableBody<TContext>({
   rows,
   columns,
   selected,
@@ -42,36 +42,38 @@ const DataTableBody = ({
   rowDetail,
   compareRow,
   disabled,
-  context
-}: DataTableBodyProps) => (
-  <TableBody>
-    {stableSort(rows, columns, columnSortMap, context)
-      .slice(
-        paginate ? page * rowsPerPage : 0,
-        paginate ? page * rowsPerPage + rowsPerPage : rows.length
-      )
-      .map((row, rowIndex) => (
-        <DataTableBodyRow
-          key={`body-${rowIndex}`}
-          row={row}
-          rows={rows}
-          columns={columns}
-          isSelected={isSelectable && isRowSelected(row, selected, compareRow)}
-          isSelectable={isSelectable}
-          onSelected={onSelected}
-          rowIndex={rowIndex}
-          rowDetail={rowDetail}
-          colSpan={colSpan}
-          disabled={disabled}
-          context={context}
-        />
-      ))}
-    {emptyRows > 0 && (
-      <TableRow key="body-empty" style={{ height: 48 * emptyRows }}>
-        <TableCell colSpan={colSpan} />
-      </TableRow>
-    )}
-  </TableBody>
-)
-
-export default DataTableBody
+  context,
+}: DataTableBodyProps<TContext>) {
+  return (
+    <TableBody>
+      {stableSort(rows, columns, columnSortMap, context)
+        .slice(
+          paginate ? page * rowsPerPage : 0,
+          paginate ? page * rowsPerPage + rowsPerPage : rows.length
+        )
+        .map((row, rowIndex) => (
+          <DataTableBodyRow
+            key={`body-${rowIndex}`}
+            row={row}
+            rows={rows}
+            columns={columns}
+            isSelected={
+              isSelectable && isRowSelected(row, selected, compareRow)
+            }
+            isSelectable={isSelectable}
+            onSelected={onSelected}
+            rowIndex={rowIndex}
+            rowDetail={rowDetail}
+            colSpan={colSpan}
+            disabled={disabled}
+            context={context}
+          />
+        ))}
+      {emptyRows > 0 && (
+        <TableRow key="body-empty" style={{ height: 48 * emptyRows }}>
+          <TableCell colSpan={colSpan} />
+        </TableRow>
+      )}
+    </TableBody>
+  )
+}

@@ -10,10 +10,10 @@ import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
 import { Row, Column, ColumnSortMap } from './types'
 
-interface DataTableProps {
+interface DataTableProps<TContext> {
   className?: string
   style?: React.CSSProperties
-  columns: Column[]
+  columns: Column<TContext>[]
   rows: Row[]
   selected?: Row[]
   isSelectable?: boolean
@@ -22,14 +22,14 @@ interface DataTableProps {
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean
   compareRow?: (lhs: Row, rhs: Row) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
-  context?: any
+  context?: TContext
   sx?: SxProps<Theme>
 }
 
@@ -39,8 +39,11 @@ interface DataTableState {
   columnSortMap: ColumnSortMap
 }
 
-class DataTable extends React.Component<DataTableProps, DataTableState> {
-  constructor(props: DataTableProps) {
+class DataTable<TContext = any> extends React.Component<
+  DataTableProps<TContext>,
+  DataTableState
+> {
+  constructor(props: DataTableProps<TContext>) {
     super(props)
     this.state = {
       page: 0,
@@ -93,7 +96,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     }
   }
 
-  handleSort = (column: Column, isAdditive: boolean) => {
+  handleSort = (column: Column<TContext>, isAdditive: boolean) => {
     const { columnSortMap } = this.state
 
     if (isAdditive) {

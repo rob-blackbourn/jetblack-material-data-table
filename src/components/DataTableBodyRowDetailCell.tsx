@@ -4,22 +4,31 @@ import TableCell from '@mui/material/TableCell'
 
 import { Row, Column } from './types'
 
-type DataTableBodyRowDetailCellProps = {
+type DataTableBodyRowDetailCellProps<TContext> = {
   row: Row
   rows: Row[]
-  columns: Column[]
+  columns: Column<TContext>[]
   context: any
-  rowDetail: (row: Row, columns: Column[], rows: Row[], context: any) => React.ReactNode
+  rowDetail: (
+    row: Row,
+    columns: Column<TContext>[],
+    rows: Row[],
+    context: any
+  ) => React.ReactNode
   colSpan: number
 }
 
-const DataTableBodyRowDetailCell: React.FC<DataTableBodyRowDetailCellProps> = ({
+export default function DataTableBodyRowDetailCell<TContext>({
   row,
   rows,
   columns,
   context,
   rowDetail,
   colSpan,
-}) => <TableCell colSpan={colSpan}>{rowDetail(row, columns, rows, columns)}</TableCell>
-
-export default DataTableBodyRowDetailCell
+}: DataTableBodyRowDetailCellProps<TContext>) {
+  return (
+    <TableCell colSpan={colSpan}>
+      {rowDetail(row, columns, rows, context)}
+    </TableCell>
+  )
+}

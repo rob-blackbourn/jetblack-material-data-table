@@ -5,60 +5,60 @@ export interface Row {
   [key: string]: any
 }
 
-export type ColumnGetValueHandler = (
+export type ColumnGetValueHandler<TContext> = (
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
-  context: any
+  context: TContext
 ) => any
 
-export type ColumnFormatValueHandler = (
+export type ColumnFormatValueHandler<TContext> = (
   value: any,
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
-  context: any
+  context: TContext
 ) => string
 
-export type ColumnRenderValueHandler = (
+export type ColumnRenderValueHandler<TContext> = (
   value: any,
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
-  context: any
+  context: TContext
 ) => React.ReactNode | string
 
-export type ColumnSearchHandler = (
+export type ColumnSearchHandler<TContext> = (
   text: string,
   row: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
   context: any
 ) => boolean
 
-export type ColumnCompareHandler = (
+export type ColumnCompareHandler<TContext> = (
   lhs: Row,
   rhs: Row,
-  column: Column,
-  columns: Column[],
+  column: Column<TContext>,
+  columns: Column<TContext>[],
   rows: Row[],
   context: any
 ) => -1 | 0 | 1
 
-export interface Column {
+export interface Column<TContext> {
   id: string
   title?: string
   hide?: boolean
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify'
-  getValue?: ColumnGetValueHandler
-  formatValue?: ColumnFormatValueHandler
-  renderValue?: ColumnRenderValueHandler
-  search?: ColumnSearchHandler
-  compare?: ColumnCompareHandler
+  getValue?: ColumnGetValueHandler<TContext>
+  formatValue?: ColumnFormatValueHandler<TContext>
+  renderValue?: ColumnRenderValueHandler<TContext>
+  search?: ColumnSearchHandler<TContext>
+  compare?: ColumnCompareHandler<TContext>
   sx?: SxProps<Theme>
 }
 

@@ -6,24 +6,24 @@ import { getRenderedValue } from './utils'
 
 import { Row, Column } from './types'
 
-type DataTableBodyCellProps = {
+type DataTableBodyCellProps<TContext> = {
   row: Row
   rows: Row[]
-  column: Column
-  columns: Column[]
-  context: any
+  column: Column<TContext>
+  columns: Column<TContext>[]
+  context: TContext
 }
 
-const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
+export default function DataTableBodyCell<TContext>({
   row,
   rows,
   column,
   columns,
   context,
-}) => (
-  <TableCell align={column.align} sx={column.sx}>
-    {getRenderedValue(row, column, columns, rows, context)}
-  </TableCell>
-)
-
-export default DataTableBodyCell
+}: DataTableBodyCellProps<TContext>) {
+  return (
+    <TableCell align={column.align} sx={column.sx}>
+      {getRenderedValue(row, column, columns, rows, context)}
+    </TableCell>
+  )
+}

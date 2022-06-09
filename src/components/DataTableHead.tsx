@@ -11,20 +11,20 @@ import DataTableHeadCell from './DataTableHeadCell'
 
 import { Column, ColumnSortMap } from './types'
 
-type DataTableHeadProps = {
-  columns: Column[]
+type DataTableHeadProps<TContext> = {
+  columns: Column<TContext>[]
   isSelectable: boolean
   numSelected: number
   rowCount: number
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
   columnSortMap: ColumnSortMap
-  onSort: (column: Column, isInvert: boolean) => void
+  onSort: (column: Column<TContext>, isInvert: boolean) => void
   hasRowDetail: boolean
   disabled: boolean
   sx?: SxProps<Theme>
 }
 
-const DataTableHead = ({
+export default function DataTableHead<TContext>({
   columns,
   isSelectable,
   numSelected,
@@ -33,31 +33,33 @@ const DataTableHead = ({
   columnSortMap,
   onSort,
   hasRowDetail,
-  disabled
-}: DataTableHeadProps) => (
-  <TableHead>
-    <TableRow key="head">
-      {hasRowDetail ? <TableCell key="head-row-detail" /> : null}
-      {isSelectable ? (
-        <DataTableHeadCheckbox
-          key="head-checkbox"
-          numSelected={numSelected}
-          rowCount={rowCount}
-          onSelectAllClick={onSelectAllClick}
-          disabled={disabled}
-        />
-      ) : null}
+  disabled,
+}: DataTableHeadProps<TContext>) {
+  return (
+    <TableHead>
+      <TableRow key="head">
+        {hasRowDetail ? <TableCell key="head-row-detail" /> : null}
+        {isSelectable ? (
+          <DataTableHeadCheckbox
+            key="head-checkbox"
+            numSelected={numSelected}
+            rowCount={rowCount}
+            onSelectAllClick={onSelectAllClick}
+            disabled={disabled}
+          />
+        ) : null}
 
-      {columns.filter(column => !column.hide).map((column, columnIndex) => (
-        <DataTableHeadCell
-          key={`head-cell-${columnIndex}`}
-          column={column}
-          columnSortMap={columnSortMap}
-          onSort={onSort}
-        />
-      ))}
-    </TableRow>
-  </TableHead>
-)
-
-export default DataTableHead
+        {columns
+          .filter(column => !column.hide)
+          .map((column, columnIndex) => (
+            <DataTableHeadCell
+              key={`head-cell-${columnIndex}`}
+              column={column}
+              columnSortMap={columnSortMap}
+              onSort={onSort}
+            />
+          ))}
+      </TableRow>
+    </TableHead>
+  )
+}

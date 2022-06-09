@@ -9,16 +9,16 @@ import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
 import { Row, Column } from './types'
 
-interface DataTableBodyRowProps {
+interface DataTableBodyRowProps<TContext> {
   row: Row
   rows: Row[]
-  columns: Column[]
+  columns: Column<TContext>[]
   isSelected: boolean
   isSelectable: boolean
   onSelected: (row: Row) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
   disabled: boolean
   context: any
 }
@@ -27,8 +27,8 @@ interface DataTableBodyRowState {
   showRowDetail: boolean
 }
 
-class DataTableBodyRow extends React.Component<
-  DataTableBodyRowProps,
+class DataTableBodyRow<TContext> extends React.Component<
+  DataTableBodyRowProps<TContext>,
   DataTableBodyRowState
 > {
   state: DataTableBodyRowState = {
@@ -47,7 +47,7 @@ class DataTableBodyRow extends React.Component<
       colSpan,
       rowDetail,
       disabled,
-      context
+      context,
     } = this.props
     const { showRowDetail } = this.state
 
@@ -61,7 +61,7 @@ class DataTableBodyRow extends React.Component<
           {rowDetail != null ? (
             <DataTableBodyRowDetailButton
               showRowDetail={showRowDetail}
-              onChange={(showRowDetail) => this.setState({ showRowDetail })}
+              onChange={showRowDetail => this.setState({ showRowDetail })}
             />
           ) : null}
           {isSelectable ? (
@@ -72,16 +72,18 @@ class DataTableBodyRow extends React.Component<
               disabled={disabled}
             />
           ) : null}
-          {columns.filter(column => !column.hide).map((column, columnIndex) => (
-            <DataTableBodyCell
-              key={`body-${rowIndex}-${columnIndex}`}
-              row={row}
-              rows={rows}
-              column={column}
-              columns={columns}
-              context={context}
-            />
-          ))}
+          {columns
+            .filter(column => !column.hide)
+            .map((column, columnIndex) => (
+              <DataTableBodyCell
+                key={`body-${rowIndex}-${columnIndex}`}
+                row={row}
+                rows={rows}
+                column={column}
+                columns={columns}
+                context={context}
+              />
+            ))}
         </TableRow>
         {rowDetail != null && showRowDetail ? (
           <TableRow
