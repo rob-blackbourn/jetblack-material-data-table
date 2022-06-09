@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material/styles'
 import { SxProps } from '@mui/system'
 
-export interface Row<TRow> {
+export interface Row<TRow = {}> {
   [key: string]: TRow
 }
 
@@ -49,7 +49,7 @@ export type ColumnCompareHandler<TRow, TContext> = (
   context: TContext | null
 ) => -1 | 0 | 1
 
-export interface Column<TRow, TContext> {
+export interface Column<TRow = {}, TContext = null> {
   id: string
   title?: string
   hide?: boolean
