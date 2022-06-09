@@ -6,17 +6,17 @@ import Tooltip from '@mui/material/Tooltip'
 
 import { Column, ColumnSortMap } from './types'
 
-interface DataTableHeadCellProps<TContext> {
-  column: Column<TContext>
+interface DataTableHeadCellProps<TRow, TContext> {
+  column: Column<TRow, TContext>
   columnSortMap: ColumnSortMap
-  onSort: (column: Column<TContext>, isInvert: boolean) => void
+  onSort: (column: Column<TRow, TContext>, isInvert: boolean) => void
 }
 
-export default function DataTableHeadCell<TContext>({
+export default function DataTableHeadCell<TRow, TContext>({
   column,
   columnSortMap,
   onSort,
-}: DataTableHeadCellProps<TContext>) {
+}: DataTableHeadCellProps<TRow, TContext>) {
   return (
     <TableCell
       align={column.align}

@@ -1,8 +1,8 @@
 import { Row, Column, ColumnSortMap } from './types'
 
-export function getFieldValue(
-  row: Row,
-  key: string | ((row: Row) => any)
+export function getFieldValue<TRow>(
+  row: Row<TRow>,
+  key: string | ((row: Row<TRow>) => any)
 ): any {
   if (typeof key === 'string') {
     return row[key]
@@ -13,12 +13,12 @@ export function getFieldValue(
   }
 }
 
-export function getColumnValue<TContext>(
-  row: Row,
-  column: Column<TContext>,
-  columns: Column<TContext>[],
-  rows: Row[],
-  context: any
+export function getColumnValue<TRow, TContext>(
+  row: Row<TRow>,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: Row<TRow>[],
+  context: TContext | null
 ): any {
   if (column.getValue) {
     return column.getValue(row, column, columns, rows, context)
@@ -27,12 +27,12 @@ export function getColumnValue<TContext>(
   }
 }
 
-export function getFormattedValue<TContext>(
-  row: Row,
-  column: Column<TContext>,
-  columns: Column<TContext>[],
-  rows: Row[],
-  context: any
+export function getFormattedValue<TRow, TContext>(
+  row: Row<TRow>,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: Row<TRow>[],
+  context: TContext | null
 ): string {
   const value = getColumnValue(row, column, columns, rows, context)
   if (column.formatValue) {
@@ -45,12 +45,12 @@ export function getFormattedValue<TContext>(
   }
 }
 
-export function getRenderedValue<TContext>(
-  row: Row,
-  column: Column<TContext>,
-  columns: Column<TContext>[],
-  rows: Row[],
-  context: any
+export function getRenderedValue<TRow, TContext>(
+  row: Row<TRow>,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: Row<TRow>[],
+  context: TContext | null
 ): React.ReactNode | string {
   if (column.renderValue) {
     return column.renderValue(
@@ -65,13 +65,13 @@ export function getRenderedValue<TContext>(
     return getFormattedValue(row, column, columns, rows, context)
   }
 }
-function compareRows<TContext>(
-  lhs: Row,
-  rhs: Row,
-  columns: Column<TContext>[],
+function compareRows<TRow, TContext>(
+  lhs: Row<TRow>,
+  rhs: Row<TRow>,
+  columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  rows: Row[],
-  context: any
+  rows: Row<TRow>[],
+  context: TContext | null
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
     const column = columns.find(x => x.id === id)
@@ -95,12 +95,12 @@ function compareRows<TContext>(
   return 0
 }
 
-export function stableSort<TContext>(
-  rows: Row[],
-  columns: Column<TContext>[],
+export function stableSort<TRow, TContext>(
+  rows: Row<TRow>[],
+  columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  context: any
-): Row[] {
+  context: TContext | null
+): Row<TRow>[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
     const difference = compareRows(
@@ -116,12 +116,12 @@ export function stableSort<TContext>(
   return data.map(({ row }) => row)
 }
 
-export function filterRows<TContext>(
-  rows: Row[],
-  columns: Column<TContext>[],
+export function filterRows<TRow, TContext>(
+  rows: Row<TRow>[],
+  columns: Column<TRow, TContext>[],
   filterText: string,
-  context: any
-): Row[] {
+  context: TContext | null
+): Row<TRow>[] {
   if (!filterText) {
     return rows
   }
@@ -137,10 +137,10 @@ export function filterRows<TContext>(
   )
 }
 
-export function isRowSelected(
-  row: Row,
-  selected: Row[],
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+export function isRowSelected<TRow>(
+  row: Row<TRow>,
+  selected: Row<TRow>[],
+  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
 ): boolean {
   return compareRow == null
     ? selected.includes(row)

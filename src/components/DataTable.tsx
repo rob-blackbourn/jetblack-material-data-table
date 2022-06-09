@@ -10,23 +10,26 @@ import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
 import { Row, Column, ColumnSortMap } from './types'
 
-interface DataTableProps<TContext> {
+interface DataTableProps<TRow, TContext> {
   className?: string
   style?: React.CSSProperties
-  columns: Column<TContext>[]
-  rows: Row[]
-  selected?: Row[]
+  columns: Column<TRow, TContext>[]
+  rows: Row<TRow>[]
+  selected?: Row<TRow>[]
   isSelectable?: boolean
-  onSelectionChanged?: (rows: Row[]) => void
+  onSelectionChanged?: (rows: Row<TRow>[]) => void
   filterText?: string
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
+  rowDetail?: (
+    row: Row<TRow>,
+    columns: Column<TRow, TContext>[]
+  ) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
   context?: TContext
@@ -39,11 +42,11 @@ interface DataTableState {
   columnSortMap: ColumnSortMap
 }
 
-class DataTable<TContext = any> extends React.Component<
-  DataTableProps<TContext>,
+class DataTable<TRow = {}, TContext = {}> extends React.Component<
+  DataTableProps<TRow, TContext>,
   DataTableState
 > {
-  constructor(props: DataTableProps<TContext>) {
+  constructor(props: DataTableProps<TRow, TContext>) {
     super(props)
     this.state = {
       page: 0,
@@ -60,8 +63,8 @@ class DataTable<TContext = any> extends React.Component<
   handleSelectAllClick = (
     isInvert: boolean,
     isChecked: boolean,
-    filteredRows: Row[],
-    onSelectionChanged?: (rows: Row[]) => void
+    filteredRows: Row<TRow>[],
+    onSelectionChanged?: (rows: Row<TRow>[]) => void
   ) => {
     const { rows } = this.props
     const prevSelected = this.props.selected || []
@@ -86,7 +89,10 @@ class DataTable<TContext = any> extends React.Component<
     }
   }
 
-  handleClick = (row: Row, onSelectionChanged?: (rows: Row[]) => void) => {
+  handleClick = (
+    row: Row<TRow>,
+    onSelectionChanged?: (rows: Row<TRow>[]) => void
+  ) => {
     const prevSelected = this.props.selected || []
     const selected = prevSelected.includes(row)
       ? prevSelected.filter(r => r !== row)
@@ -96,7 +102,7 @@ class DataTable<TContext = any> extends React.Component<
     }
   }
 
-  handleSort = (column: Column<TContext>, isAdditive: boolean) => {
+  handleSort = (column: Column<TRow, TContext>, isAdditive: boolean) => {
     const { columnSortMap } = this.state
 
     if (isAdditive) {
@@ -167,7 +173,7 @@ class DataTable<TContext = any> extends React.Component<
         stickyHeader={stickyHeader}
         {...rest}
       >
-        <DataTableHead
+        <DataTableHead<TRow, TContext>
           columns={columns}
           isSelectable={isSelectable}
           numSelected={numSelected}
@@ -185,7 +191,7 @@ class DataTable<TContext = any> extends React.Component<
           hasRowDetail={hasRowDetail}
           disabled={disabled}
         />
-        <DataTableBody
+        <DataTableBody<TRow, TContext>
           rows={filteredRows}
           columns={columns}
           selected={selected}
@@ -203,7 +209,7 @@ class DataTable<TContext = any> extends React.Component<
           context={context}
         />
         {paginate ? (
-          <DataTableFooter
+          <DataTableFooter<TRow>
             colSpan={colSpan}
             rows={filteredRows}
             rowsPerPage={rowsPerPage}

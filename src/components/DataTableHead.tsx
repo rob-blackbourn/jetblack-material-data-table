@@ -11,20 +11,20 @@ import DataTableHeadCell from './DataTableHeadCell'
 
 import { Column, ColumnSortMap } from './types'
 
-type DataTableHeadProps<TContext> = {
-  columns: Column<TContext>[]
+type DataTableHeadProps<TRow, TContext> = {
+  columns: Column<TRow, TContext>[]
   isSelectable: boolean
   numSelected: number
   rowCount: number
   onSelectAllClick: (isInvert: boolean, isChecked: boolean) => void
   columnSortMap: ColumnSortMap
-  onSort: (column: Column<TContext>, isInvert: boolean) => void
+  onSort: (column: Column<TRow, TContext>, isInvert: boolean) => void
   hasRowDetail: boolean
   disabled: boolean
   sx?: SxProps<Theme>
 }
 
-export default function DataTableHead<TContext>({
+export default function DataTableHead<TRow, TContext>({
   columns,
   isSelectable,
   numSelected,
@@ -34,7 +34,7 @@ export default function DataTableHead<TContext>({
   onSort,
   hasRowDetail,
   disabled,
-}: DataTableHeadProps<TContext>) {
+}: DataTableHeadProps<TRow, TContext>) {
   return (
     <TableHead>
       <TableRow key="head">
@@ -52,7 +52,7 @@ export default function DataTableHead<TContext>({
         {columns
           .filter(column => !column.hide)
           .map((column, columnIndex) => (
-            <DataTableHeadCell
+            <DataTableHeadCell<TRow, TContext>
               key={`head-cell-${columnIndex}`}
               column={column}
               columnSortMap={columnSortMap}

@@ -9,25 +9,28 @@ import DataTableBodyRow from './DataTableBodyRow'
 
 import { Row, Column, ColumnSortMap } from './types'
 
-type DataTableBodyProps<TContext> = {
-  rows: Row[]
-  columns: Column<TContext>[]
-  selected: Row[]
+type DataTableBodyProps<TRow, TContext> = {
+  rows: Row<TRow>[]
+  columns: Column<TRow, TContext>[]
+  selected: Row<TRow>[]
   columnSortMap: ColumnSortMap
   paginate: boolean
   page: number
   rowsPerPage: number
   colSpan: number
   isSelectable: boolean
-  onSelected: (row: Row) => void
+  onSelected: (row: Row<TRow>) => void
   emptyRows: number
-  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+  rowDetail?: (
+    row: Row<TRow>,
+    columns: Column<TRow, TContext>[]
+  ) => React.ReactNode
+  compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
   disabled: boolean
-  context: any
+  context: TContext | null
 }
 
-export default function DataTableBody<TContext>({
+export default function DataTableBody<TRow, TContext>({
   rows,
   columns,
   selected,
@@ -43,7 +46,7 @@ export default function DataTableBody<TContext>({
   compareRow,
   disabled,
   context,
-}: DataTableBodyProps<TContext>) {
+}: DataTableBodyProps<TRow, TContext>) {
   return (
     <TableBody>
       {stableSort(rows, columns, columnSortMap, context)
@@ -52,7 +55,7 @@ export default function DataTableBody<TContext>({
           paginate ? page * rowsPerPage + rowsPerPage : rows.length
         )
         .map((row, rowIndex) => (
-          <DataTableBodyRow
+          <DataTableBodyRow<TRow, TContext>
             key={`body-${rowIndex}`}
             row={row}
             rows={rows}

@@ -9,26 +9,29 @@ import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
 import { Row, Column } from './types'
 
-interface DataTableBodyRowProps<TContext> {
-  row: Row
-  rows: Row[]
-  columns: Column<TContext>[]
+interface DataTableBodyRowProps<TRow, TContext> {
+  row: Row<TRow>
+  rows: Row<TRow>[]
+  columns: Column<TRow, TContext>[]
   isSelected: boolean
   isSelectable: boolean
-  onSelected: (row: Row) => void
+  onSelected: (row: Row<TRow>) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (row: Row, columns: Column<TContext>[]) => React.ReactNode
+  rowDetail?: (
+    row: Row<TRow>,
+    columns: Column<TRow, TContext>[]
+  ) => React.ReactNode
   disabled: boolean
-  context: any
+  context: TContext | null
 }
 
 interface DataTableBodyRowState {
   showRowDetail: boolean
 }
 
-class DataTableBodyRow<TContext> extends React.Component<
-  DataTableBodyRowProps<TContext>,
+class DataTableBodyRow<TRow, TContext> extends React.Component<
+  DataTableBodyRowProps<TRow, TContext>,
   DataTableBodyRowState
 > {
   state: DataTableBodyRowState = {
@@ -75,7 +78,7 @@ class DataTableBodyRow<TContext> extends React.Component<
           {columns
             .filter(column => !column.hide)
             .map((column, columnIndex) => (
-              <DataTableBodyCell
+              <DataTableBodyCell<TRow, TContext>
                 key={`body-${rowIndex}-${columnIndex}`}
                 row={row}
                 rows={rows}
@@ -91,7 +94,7 @@ class DataTableBodyRow<TContext> extends React.Component<
             role="checkbox"
             selected={isSelected}
           >
-            <DataTableBodyRowDetailCell
+            <DataTableBodyRowDetailCell<TRow, TContext>
               row={row}
               rows={rows}
               columns={columns}
