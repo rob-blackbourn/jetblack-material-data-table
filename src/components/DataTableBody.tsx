@@ -27,7 +27,7 @@ type DataTableBodyProps<TRow, TContext> = {
   ) => React.ReactNode
   compareRow?: (lhs: Row<TRow>, rhs: Row<TRow>) => boolean
   disabled: boolean
-  context: TContext | null
+  context: TContext
 }
 
 export default function DataTableBody<TRow, TContext>({

@@ -11,7 +11,7 @@ type DataTableBodyCellProps<TRow, TContext> = {
   rows: Row<TRow>[]
   column: Column<TRow, TContext>
   columns: Column<TRow, TContext>[]
-  context: TContext | null
+  context: TContext
 }
 
 export default function DataTableBodyCell<TRow, TContext>({

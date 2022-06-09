@@ -8,12 +8,12 @@ type DataTableBodyRowDetailCellProps<TRow, TContext> = {
   row: Row<TRow>
   rows: Row<TRow>[]
   columns: Column<TRow, TContext>[]
-  context: TContext | null
+  context: TContext
   rowDetail: (
     row: Row<TRow>,
     columns: Column<TRow, TContext>[],
     rows: Row<TRow>[],
-    context: TContext | null
+    context: TContext
   ) => React.ReactNode
   colSpan: number
 }

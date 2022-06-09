@@ -18,7 +18,7 @@ export function getColumnValue<TRow, TContext>(
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ): any {
   if (column.getValue) {
     return column.getValue(row, column, columns, rows, context)
@@ -32,7 +32,7 @@ export function getFormattedValue<TRow, TContext>(
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ): string {
   const value = getColumnValue(row, column, columns, rows, context)
   if (column.formatValue) {
@@ -50,7 +50,7 @@ export function getRenderedValue<TRow, TContext>(
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ): React.ReactNode | string {
   if (column.renderValue) {
     return column.renderValue(
@@ -71,7 +71,7 @@ function compareRows<TRow, TContext>(
   columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
     const column = columns.find(x => x.id === id)
@@ -99,7 +99,7 @@ export function stableSort<TRow, TContext>(
   rows: Row<TRow>[],
   columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  context: TContext | null
+  context: TContext
 ): Row<TRow>[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
@@ -120,7 +120,7 @@ export function filterRows<TRow, TContext>(
   rows: Row<TRow>[],
   columns: Column<TRow, TContext>[],
   filterText: string,
-  context: TContext | null
+  context: TContext
 ): Row<TRow>[] {
   if (!filterText) {
     return rows

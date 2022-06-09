@@ -10,7 +10,7 @@ export type ColumnGetValueHandler<TRow, TContext> = (
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ) => any
 
 export type ColumnFormatValueHandler<TRow, TContext> = (
@@ -19,7 +19,7 @@ export type ColumnFormatValueHandler<TRow, TContext> = (
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ) => string
 
 export type ColumnRenderValueHandler<TRow, TContext> = (
@@ -28,7 +28,7 @@ export type ColumnRenderValueHandler<TRow, TContext> = (
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ) => React.ReactNode | string
 
 export type ColumnSearchHandler<TRow, TContext> = (
@@ -37,7 +37,7 @@ export type ColumnSearchHandler<TRow, TContext> = (
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ) => boolean
 
 export type ColumnCompareHandler<TRow, TContext> = (
@@ -46,7 +46,7 @@ export type ColumnCompareHandler<TRow, TContext> = (
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
   rows: Row<TRow>[],
-  context: TContext | null
+  context: TContext
 ) => -1 | 0 | 1
 
 export interface Column<TRow = {}, TContext = null> {

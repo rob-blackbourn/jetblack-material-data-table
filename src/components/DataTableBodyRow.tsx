@@ -23,7 +23,7 @@ interface DataTableBodyRowProps<TRow, TContext> {
     columns: Column<TRow, TContext>[]
   ) => React.ReactNode
   disabled: boolean
-  context: TContext | null
+  context: TContext
 }
 
 interface DataTableBodyRowState {

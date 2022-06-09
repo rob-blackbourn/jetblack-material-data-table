@@ -42,7 +42,7 @@ interface DataTableState {
   columnSortMap: ColumnSortMap
 }
 
-class DataTable<TRow = {}, TContext = {}> extends React.Component<
+class DataTable<TRow = {}, TContext = null> extends React.Component<
   DataTableProps<TRow, TContext>,
   DataTableState
 > {
@@ -150,7 +150,7 @@ class DataTable<TRow = {}, TContext = {}> extends React.Component<
       compareRow,
       onSelectionChanged,
       disabled = false,
-      context = null,
+      context = null as unknown as TContext,
       columnSortMap: _columnSortMap,
       ...rest
     } = this.props
