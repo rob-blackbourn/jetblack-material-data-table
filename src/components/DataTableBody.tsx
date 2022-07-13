@@ -7,27 +7,27 @@ import TableCell from '@mui/material/TableCell'
 import { stableSort, isRowSelected } from './utils'
 import DataTableBodyRow from './DataTableBodyRow'
 
-import { Row, Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
-type DataTableBodyProps = {
-  rows: Row[]
-  columns: Column[]
-  selected: Row[]
+type DataTableBodyProps<TRow, TContext> = {
+  rows: TRow[]
+  columns: Column<TRow, TContext>[]
+  selected: TRow[]
   columnSortMap: ColumnSortMap
   paginate: boolean
   page: number
   rowsPerPage: number
   colSpan: number
   isSelectable: boolean
-  onSelected: (row: Row) => void
+  onSelected: (row: TRow) => void
   emptyRows: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
   disabled: boolean
-  context: any
+  context: TContext
 }
 
-const DataTableBody = ({
+export default function DataTableBody<TRow extends Row, TContext>({
   rows,
   columns,
   selected,
@@ -42,36 +42,38 @@ const DataTableBody = ({
   rowDetail,
   compareRow,
   disabled,
-  context
-}: DataTableBodyProps) => (
-  <TableBody>
-    {stableSort(rows, columns, columnSortMap, context)
-      .slice(
-        paginate ? page * rowsPerPage : 0,
-        paginate ? page * rowsPerPage + rowsPerPage : rows.length
-      )
-      .map((row, rowIndex) => (
-        <DataTableBodyRow
-          key={`body-${rowIndex}`}
-          row={row}
-          rows={rows}
-          columns={columns}
-          isSelected={isSelectable && isRowSelected(row, selected, compareRow)}
-          isSelectable={isSelectable}
-          onSelected={onSelected}
-          rowIndex={rowIndex}
-          rowDetail={rowDetail}
-          colSpan={colSpan}
-          disabled={disabled}
-          context={context}
-        />
-      ))}
-    {emptyRows > 0 && (
-      <TableRow key="body-empty" style={{ height: 48 * emptyRows }}>
-        <TableCell colSpan={colSpan} />
-      </TableRow>
-    )}
-  </TableBody>
-)
-
-export default DataTableBody
+  context,
+}: DataTableBodyProps<TRow, TContext>) {
+  return (
+    <TableBody>
+      {stableSort(rows, columns, columnSortMap, context)
+        .slice(
+          paginate ? page * rowsPerPage : 0,
+          paginate ? page * rowsPerPage + rowsPerPage : rows.length
+        )
+        .map((row, rowIndex) => (
+          <DataTableBodyRow<TRow, TContext>
+            key={`body-${rowIndex}`}
+            row={row}
+            rows={rows}
+            columns={columns}
+            isSelected={
+              isSelectable && isRowSelected(row, selected, compareRow)
+            }
+            isSelectable={isSelectable}
+            onSelected={onSelected}
+            rowIndex={rowIndex}
+            rowDetail={rowDetail}
+            colSpan={colSpan}
+            disabled={disabled}
+            context={context}
+          />
+        ))}
+      {emptyRows > 0 && (
+        <TableRow key="body-empty" style={{ height: 48 * emptyRows }}>
+          <TableCell colSpan={colSpan} />
+        </TableRow>
+      )}
+    </TableBody>
+  )
+}

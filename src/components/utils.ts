@@ -1,8 +1,8 @@
 import { Row, Column, ColumnSortMap } from './types'
 
-export function getFieldValue(
-  row: Row,
-  key: string | ((row: Row) => any)
+export function getFieldValue<TRow extends Row>(
+  row: TRow,
+  key: string | ((row: TRow) => any)
 ): any {
   if (typeof key === 'string') {
     return row[key]
@@ -13,12 +13,12 @@ export function getFieldValue(
   }
 }
 
-export function getColumnValue(
-  row: Row,
-  column: Column,
-  columns: Column[],
-  rows: Row[],
-  context: any
+export function getColumnValue<TRow extends Row, TContext>(
+  row: TRow,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: TRow[],
+  context: TContext
 ): any {
   if (column.getValue) {
     return column.getValue(row, column, columns, rows, context)
@@ -27,12 +27,12 @@ export function getColumnValue(
   }
 }
 
-export function getFormattedValue(
-  row: Row,
-  column: Column,
-  columns: Column[],
-  rows: Row[],
-  context: any
+export function getFormattedValue<TRow, TContext>(
+  row: TRow,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: TRow[],
+  context: TContext
 ): string {
   const value = getColumnValue(row, column, columns, rows, context)
   if (column.formatValue) {
@@ -45,12 +45,12 @@ export function getFormattedValue(
   }
 }
 
-export function getRenderedValue(
-  row: Row,
-  column: Column,
-  columns: Column[],
-  rows: Row[],
-  context: any
+export function getRenderedValue<TRow, TContext>(
+  row: TRow,
+  column: Column<TRow, TContext>,
+  columns: Column<TRow, TContext>[],
+  rows: TRow[],
+  context: TContext
 ): React.ReactNode | string {
   if (column.renderValue) {
     return column.renderValue(
@@ -65,16 +65,16 @@ export function getRenderedValue(
     return getFormattedValue(row, column, columns, rows, context)
   }
 }
-function compareRows(
-  lhs: Row,
-  rhs: Row,
-  columns: Column[],
+function compareRows<TRow, TContext>(
+  lhs: TRow,
+  rhs: TRow,
+  columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  rows: Row[],
-  context: any
+  rows: TRow[],
+  context: TContext
 ): number {
   for (const [id, sortDirection] of Object.entries(columnSortMap)) {
-    const column = columns.find((x) => x.id === id)
+    const column = columns.find(x => x.id === id)
     if (column) {
       if (column.compare) {
         const result = column.compare(lhs, rhs, column, columns, rows, context)
@@ -95,32 +95,39 @@ function compareRows(
   return 0
 }
 
-export function stableSort(
-  rows: Row[],
-  columns: Column[],
+export function stableSort<TRow, TContext>(
+  rows: TRow[],
+  columns: Column<TRow, TContext>[],
   columnSortMap: ColumnSortMap,
-  context: any
-): Row[] {
+  context: TContext
+): TRow[] {
   const data = rows.map((row, index) => ({ row, index }))
   data.sort((lhs, rhs) => {
-    const difference = compareRows(lhs.row, rhs.row, columns, columnSortMap, rows, context)
+    const difference = compareRows(
+      lhs.row,
+      rhs.row,
+      columns,
+      columnSortMap,
+      rows,
+      context
+    )
     return difference !== 0 ? difference : lhs.index - rhs.index
   })
   return data.map(({ row }) => row)
 }
 
-export function filterRows(
-  rows: Row[],
-  columns: Column[],
+export function filterRows<TRow, TContext>(
+  rows: TRow[],
+  columns: Column<TRow, TContext>[],
   filterText: string,
-  context: any
-): Row[] {
+  context: TContext
+): TRow[] {
   if (!filterText) {
     return rows
   }
   const matchString = filterText.toLowerCase()
-  return rows.filter((row) =>
-    columns.some((column) =>
+  return rows.filter(row =>
+    columns.some(column =>
       column.search
         ? column.search(matchString, row, column, columns, rows, context)
         : getFormattedValue(row, column, columns, rows, context)
@@ -130,12 +137,12 @@ export function filterRows(
   )
 }
 
-export function isRowSelected(
-  row: Row,
-  selected: Row[],
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+export function isRowSelected<TRow>(
+  row: TRow,
+  selected: TRow[],
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
 ): boolean {
   return compareRow == null
     ? selected.includes(row)
-    : selected.find((x) => compareRow(row, x)) !== undefined
+    : selected.find(x => compareRow(row, x)) !== undefined
 }

@@ -9,9 +9,9 @@ import TablePagination from '@mui/material/TablePagination'
 import DataTablePaginationActions from './DataTablePaginationActions'
 import { Row } from './types'
 
-type DataTableFooterProps = {
+type DataTableFooterProps<TRow> = {
   colSpan: number
-  rows: Row[]
+  rows: TRow[]
   page: number
   rowsPerPage: number
   rowsPerPageOptions: number[]
@@ -20,31 +20,31 @@ type DataTableFooterProps = {
   sx?: SxProps<Theme>
 }
 
-const DataTableFooter = ({
+export default function DataTableFooter<TRow extends Row>({
   colSpan,
   rows,
   page,
   rowsPerPage,
   rowsPerPageOptions,
   onPageChange,
-  onRowsPerPageChange
-}: DataTableFooterProps) => (
-  <TableFooter>
-    <TableRow>
-      <TablePagination
-        colSpan={colSpan}
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={rowsPerPageOptions}
-        page={page}
-        onPageChange={(_event, page) => onPageChange(page)}
-        onRowsPerPageChange={(event) =>
-          onRowsPerPageChange(parseInt(event.target.value))
-        }
-        ActionsComponent={DataTablePaginationActions}
-      />
-    </TableRow>
-  </TableFooter>
-)
-
-export default DataTableFooter
+  onRowsPerPageChange,
+}: DataTableFooterProps<TRow>) {
+  return (
+    <TableFooter>
+      <TableRow>
+        <TablePagination
+          colSpan={colSpan}
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          page={page}
+          onPageChange={(_event, page) => onPageChange(page)}
+          onRowsPerPageChange={event =>
+            onRowsPerPageChange(parseInt(event.target.value))
+          }
+          ActionsComponent={DataTablePaginationActions}
+        />
+      </TableRow>
+    </TableFooter>
+  )
+}

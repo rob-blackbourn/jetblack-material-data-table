@@ -4,37 +4,37 @@ import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Tooltip from '@mui/material/Tooltip'
 
-import { Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
-type DataTableHeadCellProps = {
-  column: Column
+interface DataTableHeadCellProps<TRow, TContext> {
+  column: Column<TRow, TContext>
   columnSortMap: ColumnSortMap
-  onSort: (column: Column, isInvert: boolean) => void
+  onSort: (column: Column<TRow, TContext>, isInvert: boolean) => void
 }
 
-const DataTableHeadCell = ({
+export default function DataTableHeadCell<TRow extends Row, TContext>({
   column,
   columnSortMap,
-  onSort
-}: DataTableHeadCellProps) => (
-  <TableCell
-    align={column.align}
-    sortDirection={columnSortMap[column.id] || false}
-  >
-    <Tooltip
-      title='Sort'
-      placement={column.align === 'right' ? 'bottom-end' : 'bottom-start'}
-      enterDelay={300}
+  onSort,
+}: DataTableHeadCellProps<TRow, TContext>) {
+  return (
+    <TableCell
+      align={column.align}
+      sortDirection={columnSortMap[column.id] || false}
     >
-      <TableSortLabel
-        active={column.id in columnSortMap}
-        direction={columnSortMap[column.id] || 'asc'}
-        onClick={(event) => onSort(column, event.nativeEvent.shiftKey)}
+      <Tooltip
+        title="Sort"
+        placement={column.align === 'right' ? 'bottom-end' : 'bottom-start'}
+        enterDelay={300}
       >
-        {column.title}
-      </TableSortLabel>
-    </Tooltip>
-  </TableCell>
-)
-
-export default DataTableHeadCell
+        <TableSortLabel
+          active={column.id in columnSortMap}
+          direction={columnSortMap[column.id] || 'asc'}
+          onClick={event => onSort(column, event.nativeEvent.shiftKey)}
+        >
+          {column.title}
+        </TableSortLabel>
+      </Tooltip>
+    </TableCell>
+  )
+}

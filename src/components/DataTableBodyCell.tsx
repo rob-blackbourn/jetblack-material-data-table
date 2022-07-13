@@ -4,26 +4,26 @@ import TableCell from '@mui/material/TableCell'
 
 import { getRenderedValue } from './utils'
 
-import { Row, Column } from './types'
+import { Column, Row } from './types'
 
-type DataTableBodyCellProps = {
-  row: Row
-  rows: Row[]
-  column: Column
-  columns: Column[]
-  context: any
+type DataTableBodyCellProps<TRow, TContext> = {
+  row: TRow
+  rows: TRow[]
+  column: Column<TRow, TContext>
+  columns: Column<TRow, TContext>[]
+  context: TContext
 }
 
-const DataTableBodyCell: React.FC<DataTableBodyCellProps> = ({
+export default function DataTableBodyCell<TRow extends Row, TContext>({
   row,
   rows,
   column,
   columns,
   context,
-}) => (
-  <TableCell align={column.align} sx={column.sx}>
-    {getRenderedValue(row, column, columns, rows, context)}
-  </TableCell>
-)
-
-export default DataTableBodyCell
+}: DataTableBodyCellProps<TRow, TContext>) {
+  return (
+    <TableCell align={column.align} sx={column.sx}>
+      {getRenderedValue(row, column, columns, rows, context)}
+    </TableCell>
+  )
+}

@@ -7,28 +7,28 @@ import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'
 import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
-import { Row, Column } from './types'
+import { Column, Row } from './types'
 
-interface DataTableBodyRowProps {
-  row: Row
-  rows: Row[]
-  columns: Column[]
+interface DataTableBodyRowProps<TRow, TContext> {
+  row: TRow
+  rows: TRow[]
+  columns: Column<TRow, TContext>[]
   isSelected: boolean
   isSelectable: boolean
-  onSelected: (row: Row) => void
+  onSelected: (row: TRow) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   disabled: boolean
-  context: any
+  context: TContext
 }
 
 interface DataTableBodyRowState {
   showRowDetail: boolean
 }
 
-class DataTableBodyRow extends React.Component<
-  DataTableBodyRowProps,
+class DataTableBodyRow<TRow extends Row, TContext> extends React.Component<
+  DataTableBodyRowProps<TRow, TContext>,
   DataTableBodyRowState
 > {
   state: DataTableBodyRowState = {
@@ -47,7 +47,7 @@ class DataTableBodyRow extends React.Component<
       colSpan,
       rowDetail,
       disabled,
-      context
+      context,
     } = this.props
     const { showRowDetail } = this.state
 
@@ -61,7 +61,7 @@ class DataTableBodyRow extends React.Component<
           {rowDetail != null ? (
             <DataTableBodyRowDetailButton
               showRowDetail={showRowDetail}
-              onChange={(showRowDetail) => this.setState({ showRowDetail })}
+              onChange={showRowDetail => this.setState({ showRowDetail })}
             />
           ) : null}
           {isSelectable ? (
@@ -72,16 +72,18 @@ class DataTableBodyRow extends React.Component<
               disabled={disabled}
             />
           ) : null}
-          {columns.filter(column => !column.hide).map((column, columnIndex) => (
-            <DataTableBodyCell
-              key={`body-${rowIndex}-${columnIndex}`}
-              row={row}
-              rows={rows}
-              column={column}
-              columns={columns}
-              context={context}
-            />
-          ))}
+          {columns
+            .filter(column => !column.hide)
+            .map((column, columnIndex) => (
+              <DataTableBodyCell<TRow, TContext>
+                key={`body-${rowIndex}-${columnIndex}`}
+                row={row}
+                rows={rows}
+                column={column}
+                columns={columns}
+                context={context}
+              />
+            ))}
         </TableRow>
         {rowDetail != null && showRowDetail ? (
           <TableRow
@@ -89,7 +91,7 @@ class DataTableBodyRow extends React.Component<
             role="checkbox"
             selected={isSelected}
           >
-            <DataTableBodyRowDetailCell
+            <DataTableBodyRowDetailCell<TRow, TContext>
               row={row}
               rows={rows}
               columns={columns}

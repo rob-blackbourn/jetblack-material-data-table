@@ -8,28 +8,28 @@ import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
-import { Row, Column, ColumnSortMap } from './types'
+import { Column, ColumnSortMap, Row } from './types'
 
-interface DataTableProps {
+interface DataTableProps<TRow, TContext> {
   className?: string
   style?: React.CSSProperties
-  columns: Column[]
-  rows: Row[]
-  selected?: Row[]
+  columns: Column<TRow, TContext>[]
+  rows: TRow[]
+  selected?: TRow[]
   isSelectable?: boolean
-  onSelectionChanged?: (rows: Row[]) => void
+  onSelectionChanged?: (rows: TRow[]) => void
   filterText?: string
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (row: Row, columns: Column[]) => React.ReactNode
+  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean
-  compareRow?: (lhs: Row, rhs: Row) => boolean
+  compareRow?: (lhs: TRow, rhs: TRow) => boolean
   columnSortMap?: ColumnSortMap
   disabled?: boolean
-  context?: any
+  context?: TContext
   sx?: SxProps<Theme>
 }
 
@@ -39,8 +39,11 @@ interface DataTableState {
   columnSortMap: ColumnSortMap
 }
 
-class DataTable extends React.Component<DataTableProps, DataTableState> {
-  constructor(props: DataTableProps) {
+class DataTable<TRow extends Row = {}, TContext = null> extends React.Component<
+  DataTableProps<TRow, TContext>,
+  DataTableState
+> {
+  constructor(props: DataTableProps<TRow, TContext>) {
     super(props)
     this.state = {
       page: 0,
@@ -57,8 +60,8 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
   handleSelectAllClick = (
     isInvert: boolean,
     isChecked: boolean,
-    filteredRows: Row[],
-    onSelectionChanged?: (rows: Row[]) => void
+    filteredRows: TRow[],
+    onSelectionChanged?: (rows: TRow[]) => void
   ) => {
     const { rows } = this.props
     const prevSelected = this.props.selected || []
@@ -83,7 +86,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     }
   }
 
-  handleClick = (row: Row, onSelectionChanged?: (rows: Row[]) => void) => {
+  handleClick = (row: TRow, onSelectionChanged?: (rows: TRow[]) => void) => {
     const prevSelected = this.props.selected || []
     const selected = prevSelected.includes(row)
       ? prevSelected.filter(r => r !== row)
@@ -93,7 +96,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     }
   }
 
-  handleSort = (column: Column, isAdditive: boolean) => {
+  handleSort = (column: Column<TRow, TContext>, isAdditive: boolean) => {
     const { columnSortMap } = this.state
 
     if (isAdditive) {
@@ -141,7 +144,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
       compareRow,
       onSelectionChanged,
       disabled = false,
-      context = null,
+      context = null as unknown as TContext,
       columnSortMap: _columnSortMap,
       ...rest
     } = this.props
@@ -164,7 +167,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
         stickyHeader={stickyHeader}
         {...rest}
       >
-        <DataTableHead
+        <DataTableHead<TRow, TContext>
           columns={columns}
           isSelectable={isSelectable}
           numSelected={numSelected}
@@ -182,7 +185,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           hasRowDetail={hasRowDetail}
           disabled={disabled}
         />
-        <DataTableBody
+        <DataTableBody<TRow, TContext>
           rows={filteredRows}
           columns={columns}
           selected={selected}
@@ -200,7 +203,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
           context={context}
         />
         {paginate ? (
-          <DataTableFooter
+          <DataTableFooter<TRow>
             colSpan={colSpan}
             rows={filteredRows}
             rowsPerPage={rowsPerPage}

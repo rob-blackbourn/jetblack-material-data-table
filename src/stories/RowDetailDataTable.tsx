@@ -20,7 +20,8 @@ const RowDetailDataTable = () => {
       id: 'founded',
       title: 'Founded',
       align: 'right',
-      formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+      formatValue: (value, row, _column, _columns) =>
+        `${row.band} founded in ${value}`,
     },
   ]
   const rows: Row[] = [
