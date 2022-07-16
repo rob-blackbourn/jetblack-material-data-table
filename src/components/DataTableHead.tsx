@@ -11,7 +11,7 @@ import DataTableHeadCell from './DataTableHeadCell'
 
 import { Column, ColumnSortMap, Row } from './types'
 
-type DataTableHeadProps<TRow, TContext> = {
+export interface DataTableHeadProps<TRow, TContext> {
   columns: Column<TRow, TContext>[]
   isSelectable: boolean
   numSelected: number

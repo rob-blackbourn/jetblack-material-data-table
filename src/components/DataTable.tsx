@@ -117,7 +117,7 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
     } else {
       // Sort to this column.
       setLocalColumnSortMap({
-        [column.id]: columnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
+        [column.id]: localColumnSortMap[column.id] === 'asc' ? 'desc' : 'asc',
       })
     }
   }

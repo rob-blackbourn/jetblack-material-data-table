@@ -6,7 +6,7 @@ import { getRenderedValue } from './utils'
 
 import { Column, Row } from './types'
 
-type DataTableBodyCellProps<TRow, TContext> = {
+export interface DataTableBodyCellProps<TRow, TContext> {
   row: TRow
   rows: TRow[]
   column: Column<TRow, TContext>

@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell'
 import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 
-type DataTableHeadCheckboxProps = {
+export interface DataTableHeadCheckboxProps {
   numSelected: number
   rowCount: number
   disabled: boolean
@@ -14,27 +14,27 @@ type DataTableHeadCheckboxProps = {
   sx?: SxProps<Theme>
 }
 
-const DataTableHeadCheckbox = ({
+export default function DataTableHeadCheckbox({
   numSelected,
   rowCount,
   disabled,
-  onSelectAllClick
-}: DataTableHeadCheckboxProps) => (
-  <TableCell key='head-checkbox' padding='checkbox'>
-    <Tooltip title='To invert press shift and click'>
-      <Checkbox
-        checked={numSelected === rowCount}
-        indeterminate={numSelected > 0 && numSelected < rowCount}
-        onChange={(event) =>
-          onSelectAllClick(
-            (event.nativeEvent as MouseEvent).shiftKey,
-            event.target.checked
-          )
-        }
-        disabled={disabled}
-      />
-    </Tooltip>
-  </TableCell>
-)
-
-export default DataTableHeadCheckbox
+  onSelectAllClick,
+}: DataTableHeadCheckboxProps) {
+  return (
+    <TableCell key="head-checkbox" padding="checkbox">
+      <Tooltip title="To invert press shift and click">
+        <Checkbox
+          checked={numSelected === rowCount}
+          indeterminate={numSelected > 0 && numSelected < rowCount}
+          onChange={event =>
+            onSelectAllClick(
+              (event.nativeEvent as MouseEvent).shiftKey,
+              event.target.checked
+            )
+          }
+          disabled={disabled}
+        />
+      </Tooltip>
+    </TableCell>
+  )
+}
