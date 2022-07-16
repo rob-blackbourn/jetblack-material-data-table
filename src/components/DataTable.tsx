@@ -22,7 +22,7 @@ export interface DataTableProps<TRow, TContext> {
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  onPageChange?: (page: number) => void
+  onPageChange?: (page: number, rowsPerPage: number) => void
   rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
@@ -124,9 +124,14 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
     }
   }
 
+  const handleRowsPerPageChange = (rowsPerPage: number) => {
+    setLocalRowsPerPage(rowsPerPage)
+    onPageChange && onPageChange(page, rowsPerPage)
+  }
+
   const handlePageChange = (page: number) => {
     if (onPageChange) {
-      onPageChange(page)
+      onPageChange(page, localRowsPerPage)
     } else {
       setPage(page)
     }
@@ -188,7 +193,7 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
           rowsPerPageOptions={rowsPerPageOptions}
           page={page}
           onPageChange={handlePageChange}
-          onRowsPerPageChange={setLocalRowsPerPage}
+          onRowsPerPageChange={handleRowsPerPageChange}
         />
       ) : null}
     </Table>
