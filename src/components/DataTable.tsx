@@ -22,7 +22,6 @@ export interface DataTableProps<TRow, TContext> {
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  onPageChange?: (page: number, rowsPerPage: number) => void
   rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
@@ -38,20 +37,19 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
   columns,
   rows,
   paginate = true,
-  rowsPerPageOptions = [6, 10, 20],
-  onPageChange,
-  isSelectable = false,
-  filterText = '',
-  rowDetail,
+  rowsPerPage = 10,
+  rowsPerPageOptions = [10, 20, 100],
   selected = [],
+  isSelectable = false,
+  onSelectionChanged,
+  filterText = '',
+  compareRow,
+  rowDetail,
   size = 'medium',
   padding = 'normal',
   stickyHeader = false,
-  compareRow,
-  onSelectionChanged,
   disabled = false,
   context = null as unknown as TContext,
-  rowsPerPage = 10,
   columnSortMap = {},
   ...rest
 }: DataTableProps<TRow, TContext>) {
@@ -124,19 +122,6 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
     }
   }
 
-  const handleRowsPerPageChange = (rowsPerPage: number) => {
-    setLocalRowsPerPage(rowsPerPage)
-    onPageChange && onPageChange(page, rowsPerPage)
-  }
-
-  const handlePageChange = (page: number) => {
-    if (onPageChange) {
-      onPageChange(page, localRowsPerPage)
-    } else {
-      setPage(page)
-    }
-  }
-
   const filteredRows = filterRows(rows, columns, filterText, context)
   const filteredSelected = filteredRows.filter(row => selected.includes(row))
   const emptyRows = paginate
@@ -192,8 +177,8 @@ export default function DataTable<TRow extends Row = {}, TContext = null>({
           rowsPerPage={localRowsPerPage}
           rowsPerPageOptions={rowsPerPageOptions}
           page={page}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleRowsPerPageChange}
+          onPageChange={setPage}
+          onRowsPerPageChange={setLocalRowsPerPage}
         />
       ) : null}
     </Table>

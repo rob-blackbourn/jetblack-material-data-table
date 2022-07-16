@@ -51,7 +51,6 @@ The `DataTable` has the following props:
 | `paginate`           | `boolean`  | `true`           | Whether to paginate the table                     |
 | `rowsPerPage`        | `number`   | `10`             | The number of rows to display when paginating     |
 | `rowsPerPageOptions` | `array`    | `[ 10, 20, 100]` | The choices of number of rows to display          |
-| `onPageChange`       | `function` | null             | An optional function to control pagination        |
 | `rowDetail`          | `function` | `null`           | A row detail panel                                |
 | `size`               | `string`   | `'medium'`       | The table size                                    |
 | `padding`            | `string`   | `'default'`      | The table padding                                 |
