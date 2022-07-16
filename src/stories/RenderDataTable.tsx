@@ -3,22 +3,18 @@ import * as React from 'react'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 
-import { Column, Row } from '../components/types'
+import { Column } from '../components/types'
 import DataTable from '../components/DataTable'
 
-interface DataTableProps {}
-
-interface DataTableState {
-  columns: Column[]
-  rows: Row[]
-}
-
-interface Classes {
-  [key: string]: any
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+  living: boolean
 }
 
 const RenderDataTable = () => {
-  const columns: Column[] = [
+  const columns: Column<RockStar>[] = [
     {
       id: 'name',
       title: 'Name',
@@ -34,7 +30,8 @@ const RenderDataTable = () => {
       id: 'founded',
       title: 'Founded',
       align: 'right',
-      formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+      formatValue: (value, row, _column, _columns) =>
+        `${row.band} founded in ${value}`,
     },
     {
       id: 'living',
@@ -44,14 +41,14 @@ const RenderDataTable = () => {
         value ? <CheckIcon /> : <ClearIcon />,
     },
   ]
-  const rows: Row[] = [
+  const rows: RockStar[] = [
     { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968, living: true },
     { name: 'Marc Bolan', band: 'T. Rex', founded: 1967, living: false },
   ]
 
   return (
     <div>
-      <DataTable columns={columns} rows={rows} />
+      <DataTable<RockStar> columns={columns} rows={rows} />
     </div>
   )
 }

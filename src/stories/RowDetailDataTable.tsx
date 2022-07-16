@@ -1,10 +1,16 @@
 import * as React from 'react'
 
-import { Column, Row } from '../components/types'
+import { Column } from '../components/types'
 import { DataTable } from '../index'
 
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+}
+
 const RowDetailDataTable = () => {
-  const columns: Column[] = [
+  const columns: Column<RockStar>[] = [
     {
       id: 'name',
       title: 'Name',
@@ -24,14 +30,19 @@ const RowDetailDataTable = () => {
         `${row.band} founded in ${value}`,
     },
   ]
-  const rows: Row[] = [
+  const rows: RockStar[] = [
     { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
     { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },
+    { name: 'Eric Clapton', band: 'Cream', founded: 1966 },
+    { name: 'John Mayall', band: 'Bluesbreakers', founded: 1963 },
+    { name: 'Steve Harris', band: 'Iron Maiden', founded: 1975 },
+    { name: 'Tony Iommi', band: 'Iron Maiden', founded: 1968 },
+    { name: 'Robert Smith', band: 'The Cure', founded: 1978 },
   ]
 
   return (
     <div>
-      <DataTable
+      <DataTable<RockStar>
         columns={columns}
         rows={rows}
         rowDetail={(row, columns) => <div>This is about {row.band}</div>}
