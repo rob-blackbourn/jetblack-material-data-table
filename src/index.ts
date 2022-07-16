@@ -8,6 +8,7 @@ import {
   ColumnSearchHandler,
   ColumnSortMap,
 } from './components/types'
+import { DataTableProps } from './components/DataTable'
 
 export type {
   Row,
@@ -18,6 +19,7 @@ export type {
   ColumnRenderValueHandler,
   ColumnSearchHandler,
   ColumnSortMap,
+  DataTableProps,
 }
 
 export { default as DataTable } from './components/DataTable'

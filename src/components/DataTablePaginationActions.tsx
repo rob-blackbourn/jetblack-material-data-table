@@ -9,25 +9,25 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { TablePaginationActionsProps } from '@mui/material/TablePagination/TablePaginationActions'
 
-const DataTablePaginationActions = ({
+export default function DataTablePaginationActions({
   count,
   onPageChange,
   page,
-  rowsPerPage
-}: TablePaginationActionsProps) => {
+  rowsPerPage,
+}: TablePaginationActionsProps) {
   const theme = useTheme()
 
   return (
-    <Box sx={{ flexShrink: 0, ml: 2.5}}>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
-        onClick={(event) => onPageChange(event, 0)}
+        onClick={event => onPageChange(event, 0)}
         disabled={page === 0}
         aria-label="First Page"
       >
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
-        onClick={(event) => onPageChange(event, page - 1)}
+        onClick={event => onPageChange(event, page - 1)}
         disabled={page === 0}
         aria-label="Previous Page"
       >
@@ -38,7 +38,7 @@ const DataTablePaginationActions = ({
         )}
       </IconButton>
       <IconButton
-        onClick={(event) => onPageChange(event, page + 1)}
+        onClick={event => onPageChange(event, page + 1)}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="Next Page"
       >
@@ -49,7 +49,7 @@ const DataTablePaginationActions = ({
         )}
       </IconButton>
       <IconButton
-        onClick={(event) =>
+        onClick={event =>
           onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
         }
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
@@ -60,5 +60,3 @@ const DataTablePaginationActions = ({
     </Box>
   )
 }
-
-export default DataTablePaginationActions

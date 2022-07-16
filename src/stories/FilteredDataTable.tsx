@@ -1,14 +1,19 @@
 import * as React from 'react'
 
 import { Theme, SxProps } from '@mui/material/styles'
-import IconButton from "@mui/material/IconButton"
-import ClearIcon from "@mui/icons-material/Clear"
-import InputAdornment from "@mui/material/InputAdornment"
-import TextField from "@mui/material/TextField"
+import IconButton from '@mui/material/IconButton'
+import ClearIcon from '@mui/icons-material/Clear'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+}
 
 interface FilterTextFieldProps {
   text: string
@@ -29,21 +34,21 @@ const FilterTextField = ({
     InputProps={{
       endAdornment: (
         <InputAdornment position="end">
-          <IconButton onClick={() => onChange("")}>
+          <IconButton onClick={() => onChange('')}>
             <ClearIcon />
           </IconButton>
         </InputAdornment>
       ),
     }}
-    onChange={(event) => onChange(event.target.value)}
+    onChange={event => onChange(event.target.value)}
   />
 )
 
 interface FilteredDataTableProps {}
 
 interface FilteredDataTableState {
-  columns: Column[]
-  rows: Row[]
+  columns: Column<RockStar>[]
+  rows: RockStar[]
   filterText: string
 }
 
@@ -68,14 +73,15 @@ class FilteredDataTable extends React.Component<
         id: 'founded',
         title: 'Founded',
         align: 'right',
-        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+        formatValue: (value, row, _column, _columns) =>
+          `${row.band} founded in ${value}`,
       },
     ],
     rows: [
       { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
       { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },
     ],
-    filterText: ''
+    filterText: '',
   }
 
   render() {
@@ -87,11 +93,11 @@ class FilteredDataTable extends React.Component<
             sx={{ width: 300 }}
             title="Filter"
             text={filterText}
-            onChange={(filterText) => this.setState({ filterText })}
+            onChange={filterText => this.setState({ filterText })}
           />
         </div>
 
-        <DataTable
+        <DataTable<RockStar>
           columns={columns}
           rows={rows}
           filterText={filterText}

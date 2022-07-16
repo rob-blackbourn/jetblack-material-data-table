@@ -3,8 +3,16 @@ import * as React from 'react'
 import { Column, Row } from '../components/types'
 import { DataTable } from '../index'
 
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+  source: string
+  notes: string
+}
+
 const RenderDataTable = () => {
-  const columns: Column[] = [
+  const columns: Column<RockStar>[] = [
     {
       id: 'name',
       title: 'Name',
@@ -35,7 +43,7 @@ const RenderDataTable = () => {
     },
   ]
 
-  const rows: Row[] = [
+  const rows: RockStar[] = [
     {
       name: 'Jimmy Page',
       band: 'Led Zeppelin',
@@ -55,7 +63,7 @@ const RenderDataTable = () => {
 
   return (
     <div>
-      <DataTable columns={columns} rows={rows} />
+      <DataTable<RockStar> columns={columns} rows={rows} />
     </div>
   )
 }

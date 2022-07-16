@@ -1,10 +1,16 @@
 import * as React from 'react'
 
-import { Column, Row } from '../components/types'
+import { Column } from '../components/types'
 import { DataTable } from '../index'
 
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+}
+
 const NoPaginateDataTable = () => {
-  const columns: Column[] = [
+  const columns: Column<RockStar>[] = [
     {
       id: 'name',
       title: 'Name',
@@ -20,17 +26,18 @@ const NoPaginateDataTable = () => {
       id: 'founded',
       title: 'Founded',
       align: 'right',
-      formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+      formatValue: (value, row, _column, _columns) =>
+        `${row.band} founded in ${value}`,
     },
   ]
-  const rows: Row[] = [
+  const rows: RockStar[] = [
     { name: 'Jimmy Page', band: 'Led Zeppelin', founded: 1968 },
     { name: 'Marc Bolan', band: 'T. Rex', founded: 1967 },
   ]
 
   return (
     <div>
-      <DataTable columns={columns} rows={rows} paginate={false} />
+      <DataTable<RockStar> columns={columns} rows={rows} paginate={false} />
     </div>
   )
 }

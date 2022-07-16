@@ -5,10 +5,16 @@ import { DataTable } from '../index'
 
 interface SelectableDataTableProps {}
 
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+}
+
 interface SelectableDataTableState {
-  columns: Column[]
-  rows: Row[]
-  selected: Row[]
+  columns: Column<RockStar>[]
+  rows: RockStar[]
+  selected: RockStar[]
 }
 
 class SelectableDataTable extends React.Component<
@@ -32,7 +38,8 @@ class SelectableDataTable extends React.Component<
         id: 'founded',
         title: 'Founded',
         align: 'right',
-        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+        formatValue: (value, row, _column, _columns) =>
+          `${row.band} founded in ${value}`,
       },
     ],
     rows: [
@@ -41,13 +48,13 @@ class SelectableDataTable extends React.Component<
       { name: 'Eric Clapton', band: 'Cream', founded: 1966 },
       { name: 'John Mayall', band: 'Bluesbreakers', founded: 1963 },
     ],
-    selected: []
+    selected: [],
   }
 
   render() {
     const { columns, rows, selected } = this.state
     return (
-      <DataTable
+      <DataTable<RockStar>
         columns={columns}
         rows={rows}
         selected={selected}

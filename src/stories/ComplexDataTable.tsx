@@ -3,18 +3,24 @@ import * as React from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 
-import { Column, Row } from '../components/types'
+import { Column } from '../components/types'
 import { DataTable } from '../index'
 import FilterTextField from './FilterTextField'
+
+interface RockStar {
+  name: string
+  band: string
+  founded: number
+}
 
 interface ComplexDataTableProps {}
 
 interface ComplexDataTableState {
-  columns: Column[]
-  rows: Row[]
+  columns: Column<RockStar>[]
+  rows: RockStar[]
   isSelectable: boolean
   filterText: string
-  selected: Row[]
+  selected: RockStar[]
 }
 
 class ComplexDataTable extends React.Component<
@@ -38,7 +44,8 @@ class ComplexDataTable extends React.Component<
         id: 'founded',
         title: 'Founded',
         align: 'right',
-        formatValue: (value, row, _column, _columns) => `${row.band} founded in ${value}`,
+        formatValue: (value, row, _column, _columns) =>
+          `${row.band} founded in ${value}`,
       },
     ],
     rows: [
@@ -47,17 +54,11 @@ class ComplexDataTable extends React.Component<
     ],
     isSelectable: false,
     filterText: '',
-    selected: []
+    selected: [],
   }
 
   render() {
-    const {
-      columns,
-      rows,
-      selected,
-      isSelectable,
-      filterText
-    } = this.state
+    const { columns, rows, selected, isSelectable, filterText } = this.state
 
     return (
       <div>
@@ -67,7 +68,7 @@ class ComplexDataTable extends React.Component<
             control={
               <Switch
                 checked={isSelectable}
-                onChange={(event) =>
+                onChange={event =>
                   this.setState({ isSelectable: event.target.checked })
                 }
               />
@@ -80,13 +81,13 @@ class ComplexDataTable extends React.Component<
             sx={{ width: 300 }}
             title="Filter"
             text={filterText}
-            onChange={(filterText) => this.setState({ filterText })}
+            onChange={filterText => this.setState({ filterText })}
           />
         </div>
 
-        <DataTable
-          size='small'
-          padding='none'
+        <DataTable<RockStar>
+          size="small"
+          padding="none"
           columns={columns}
           rows={rows}
           selected={selected}
