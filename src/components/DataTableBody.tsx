@@ -9,7 +9,7 @@ import DataTableBodyRow from './DataTableBodyRow'
 
 import { Column, ColumnSortMap, Row } from './types'
 
-type DataTableBodyProps<TRow, TContext> = {
+type DataTableBodyProps<TRow extends Row, TContext> = {
   rows: TRow[]
   columns: Column<TRow, TContext>[]
   selected: TRow[]

@@ -10,7 +10,7 @@ import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
 import { Column, ColumnSortMap, Row } from './types'
 
-export interface DataTableProps<TRow, TContext> {
+export interface DataTableProps<TRow extends Row, TContext> {
   className?: string
   style?: React.CSSProperties
   columns: Column<TRow, TContext>[]

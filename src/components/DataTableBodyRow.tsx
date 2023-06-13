@@ -9,7 +9,7 @@ import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
 import { Column, Row } from './types'
 
-interface DataTableBodyRowProps<TRow, TContext> {
+interface DataTableBodyRowProps<TRow extends Row, TContext> {
   row: TRow
   rows: TRow[]
   columns: Column<TRow, TContext>[]

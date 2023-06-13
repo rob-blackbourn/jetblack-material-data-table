@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell'
 
 import { Column, Row } from './types'
 
-export interface DataTableBodyRowDetailCellProps<TRow, TContext> {
+export interface DataTableBodyRowDetailCellProps<TRow extends Row, TContext> {
   row: TRow
   rows: TRow[]
   columns: Column<TRow, TContext>[]
