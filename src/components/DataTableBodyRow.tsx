@@ -7,7 +7,7 @@ import DataTableBodyCell from './DataTableBodyCell'
 import DataTableBodyRowDetailCell from './DataTableBodyRowDetailCell'
 import DataTableBodyRowDetailButton from './DataTableBodyRowDetailButton'
 
-import { Column, Row } from './types'
+import { Column, Row, RowDetailHandler } from './types'
 
 interface DataTableBodyRowProps<TRow extends Row, TContext> {
   row: TRow
@@ -18,7 +18,7 @@ interface DataTableBodyRowProps<TRow extends Row, TContext> {
   onSelected: (row: TRow) => void
   rowIndex: number
   colSpan: number
-  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
+  rowDetail?: RowDetailHandler<TRow, TContext>
   disabled: boolean
   context: TContext
 }
@@ -41,12 +41,12 @@ export default function DataTableBodyRow<TRow extends Row, TContext>({
   return (
     <>
       <TableRow aria-checked={isSelected} role="checkbox" selected={isSelected}>
-        {rowDetail != null ? (
+        {rowDetail && (
           <DataTableBodyRowDetailButton
             showRowDetail={showRowDetail}
             onChange={setShowRowDetail}
           />
-        ) : null}
+        )}
         {isSelectable ? (
           <DataTableBodyCheckbox
             key={`body-checkbox-${rowIndex}`}

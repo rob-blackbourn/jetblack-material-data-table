@@ -8,7 +8,7 @@ import DataTableHead from './DataTableHead'
 import DataTableBody from './DataTableBody'
 import DataTableFooter from './DataTableFooter'
 import { filterRows } from './utils'
-import { Column, ColumnSortMap, Row } from './types'
+import { Column, ColumnSortMap, Row, RowDetailHandler } from './types'
 
 export interface DataTableProps<TRow extends Row, TContext> {
   className?: string
@@ -22,7 +22,7 @@ export interface DataTableProps<TRow extends Row, TContext> {
   paginate?: boolean
   rowsPerPage?: number
   rowsPerPageOptions?: number[]
-  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
+  rowDetail?: RowDetailHandler<TRow, TContext>
   size?: 'small' | 'medium'
   padding?: 'normal' | 'checkbox' | 'none'
   stickyHeader?: boolean

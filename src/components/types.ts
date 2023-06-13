@@ -65,3 +65,10 @@ export interface Column<TRow extends Row = {}, TContext = null> {
 export interface ColumnSortMap {
   [id: string]: 'asc' | 'desc'
 }
+
+export type RowDetailHandler<TRow extends Row, TContext> = (
+  row: TRow,
+  columns: Column<TRow, TContext>[],
+  rows: TRow[],
+  context: TContext
+) => React.ReactNode
