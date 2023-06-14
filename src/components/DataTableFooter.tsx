@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination'
 import DataTablePaginationActions from './DataTablePaginationActions'
 import { Row } from './types'
 
-export interface DataTableFooterProps<TRow> {
+export interface DataTableFooterProps<TRow extends Row> {
   colSpan: number
   rows: TRow[]
   page: number

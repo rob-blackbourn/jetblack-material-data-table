@@ -5,7 +5,7 @@ export interface Row {
   [key: string]: any
 }
 
-export type ColumnGetValueHandler<TRow, TContext> = (
+export type ColumnGetValueHandler<TRow extends Row, TContext> = (
   row: TRow,
   column: Column<TRow, TContext>,
   columns: Column<TRow, TContext>[],
@@ -13,7 +13,7 @@ export type ColumnGetValueHandler<TRow, TContext> = (
   context: TContext
 ) => any
 
-export type ColumnFormatValueHandler<TRow, TContext> = (
+export type ColumnFormatValueHandler<TRow extends Row, TContext> = (
   value: any,
   row: TRow,
   column: Column<TRow, TContext>,
@@ -22,7 +22,7 @@ export type ColumnFormatValueHandler<TRow, TContext> = (
   context: TContext
 ) => string
 
-export type ColumnRenderValueHandler<TRow, TContext> = (
+export type ColumnRenderValueHandler<TRow extends Row, TContext> = (
   value: any,
   row: TRow,
   column: Column<TRow, TContext>,
@@ -31,7 +31,7 @@ export type ColumnRenderValueHandler<TRow, TContext> = (
   context: TContext
 ) => React.ReactNode | string
 
-export type ColumnSearchHandler<TRow, TContext> = (
+export type ColumnSearchHandler<TRow extends Row, TContext> = (
   text: string,
   row: TRow,
   column: Column<TRow, TContext>,
@@ -40,7 +40,7 @@ export type ColumnSearchHandler<TRow, TContext> = (
   context: TContext
 ) => boolean
 
-export type ColumnCompareHandler<TRow, TContext> = (
+export type ColumnCompareHandler<TRow extends Row, TContext> = (
   lhs: TRow,
   rhs: TRow,
   column: Column<TRow, TContext>,
@@ -65,3 +65,10 @@ export interface Column<TRow extends Row = {}, TContext = null> {
 export interface ColumnSortMap {
   [id: string]: 'asc' | 'desc'
 }
+
+export type RowDetailHandler<TRow extends Row, TContext> = (
+  row: TRow,
+  columns: Column<TRow, TContext>[],
+  rows: TRow[],
+  context: TContext
+) => React.ReactNode

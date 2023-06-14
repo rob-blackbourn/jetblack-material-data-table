@@ -45,7 +45,7 @@ const RowDetailDataTable = () => {
       <DataTable<RockStar>
         columns={columns}
         rows={rows}
-        rowDetail={(row, columns) => <div>This is about {row.band}</div>}
+        rowDetail={row => <div>This is about {row.band}</div>}
         rowsPerPage={5}
         rowsPerPageOptions={[5, 10]}
       />

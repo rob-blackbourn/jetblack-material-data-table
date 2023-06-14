@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip'
 
 import { Column, ColumnSortMap, Row } from './types'
 
-export interface DataTableHeadCellProps<TRow, TContext> {
+export interface DataTableHeadCellProps<TRow extends Row, TContext> {
   column: Column<TRow, TContext>
   columnSortMap: ColumnSortMap
   onSort: (column: Column<TRow, TContext>, isInvert: boolean) => void

@@ -7,9 +7,9 @@ import TableCell from '@mui/material/TableCell'
 import { stableSort, isRowSelected } from './utils'
 import DataTableBodyRow from './DataTableBodyRow'
 
-import { Column, ColumnSortMap, Row } from './types'
+import { Column, ColumnSortMap, Row, RowDetailHandler } from './types'
 
-type DataTableBodyProps<TRow, TContext> = {
+type DataTableBodyProps<TRow extends Row, TContext> = {
   rows: TRow[]
   columns: Column<TRow, TContext>[]
   selected: TRow[]
@@ -21,7 +21,7 @@ type DataTableBodyProps<TRow, TContext> = {
   isSelectable: boolean
   onSelected: (row: TRow) => void
   emptyRows: number
-  rowDetail?: (row: TRow, columns: Column<TRow, TContext>[]) => React.ReactNode
+  rowDetail?: RowDetailHandler<TRow, TContext>
   compareRow?: (lhs: TRow, rhs: TRow) => boolean
   disabled: boolean
   context: TContext
